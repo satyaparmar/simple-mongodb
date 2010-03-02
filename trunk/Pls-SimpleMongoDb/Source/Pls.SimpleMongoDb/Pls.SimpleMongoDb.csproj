@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{420920E1-A1C6-49F8-A330-4C988F13D3A5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pls.SimpleMongoDb</RootNamespace>
+    <AssemblyName>Pls.SimpleMongoDb</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Libs\NewtonsoftJson\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\DeleteDocumentsCommand.cs" />
+    <Compile Include="Commands\InferedCommandFactory.cs" />
+    <Compile Include="Commands\InsertDocumentsCommand.cs" />
+    <Compile Include="Commands\SimoCommand.cs" />
+    <Compile Include="Commands\SimoCommandException.cs" />
+    <Compile Include="Commands\OpCodes.cs" />
+    <Compile Include="Commands\QueryDocumentsCommand.cs" />
+    <Compile Include="Commands\QueryOptions.cs" />
+    <Compile Include="Commands\DatabaseCommand.cs" />
+    <Compile Include="Commands\UpdateDocumentsCommand.cs" />
+    <Compile Include="Commands\UpdateModes.cs" />
+    <Compile Include="SimoConnectionInfo.cs" />
+    <Compile Include="ISimoConnectionInfo.cs" />
+    <Compile Include="ISimoCollection.cs" />
+    <Compile Include="ISimoConnection.cs" />
+    <Compile Include="ISimoDatabase.cs" />
+    <Compile Include="ISimoDocument.cs" />
+    <Compile Include="ISimoSession.cs" />
+    <Compile Include="SimoCollection.cs" />
+    <Compile Include="SimoCommunicationException.cs" />
+    <Compile Include="SimoConnection.cs" />
+    <Compile Include="SimoDatabase.cs" />
+    <Compile Include="SimoDocument.cs" />
+    <Compile Include="SimoException.cs" />
+    <Compile Include="SimoId.cs" />
+    <Compile Include="SimoIdTypeConverter.cs" />
+    <Compile Include="SimoJson.cs" />
+    <Compile Include="SimoSession.cs" />
+    <Compile Include="Operators\ISimoOperator.cs" />
+    <Compile Include="Operators\SimoOperator.cs" />
+    <Compile Include="Operators\WhereOperator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Exceptions.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Exceptions.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Serialization\BodyWriter.cs" />
+    <Compile Include="Serialization\DocumentReader.cs" />
+    <Compile Include="Serialization\DocumentWriter.cs" />
+    <Compile Include="Serialization\JsonSerializerFactory.cs" />
+    <Compile Include="Serialization\Request.cs" />
+    <Compile Include="Serialization\RequestWriter.cs" />
+    <Compile Include="Serialization\Response.cs" />
+    <Compile Include="Serialization\ResponseReader.cs" />
+    <Compile Include="Serialization\SerializationConsts.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Exceptions.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Exceptions.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
