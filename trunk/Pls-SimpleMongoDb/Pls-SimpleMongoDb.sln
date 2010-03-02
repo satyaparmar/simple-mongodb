@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pls.SimpleMongoDb", "Source\Pls.SimpleMongoDb\Pls.SimpleMongoDb.csproj", "{420920E1-A1C6-49F8-A330-4C988F13D3A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pls.SimpleMongoDb.Tests", "Tests\Pls.SimpleMongoDb.Tests\Pls.SimpleMongoDb.Tests.csproj", "{8AEF4CE5-2718-45C5-82E5-9FD894343B8D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DF8DD637-59B2-49D2-878B-7FB649F1A67D}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		Pls-SimpleMongoDb.vsmdi = Pls-SimpleMongoDb.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Pls-SimpleMongoDb.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{420920E1-A1C6-49F8-A330-4C988F13D3A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{420920E1-A1C6-49F8-A330-4C988F13D3A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{420920E1-A1C6-49F8-A330-4C988F13D3A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{420920E1-A1C6-49F8-A330-4C988F13D3A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AEF4CE5-2718-45C5-82E5-9FD894343B8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AEF4CE5-2718-45C5-82E5-9FD894343B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AEF4CE5-2718-45C5-82E5-9FD894343B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AEF4CE5-2718-45C5-82E5-9FD894343B8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
