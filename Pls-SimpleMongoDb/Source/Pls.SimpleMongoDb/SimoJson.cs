@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using Newtonsoft.Json2;
 
 namespace Pls.SimpleMongoDb
 {

@@ -4,8 +4,8 @@ namespace Pls.SimpleMongoDb.Tests.TestModel
 {
     [Serializable]
     public class Owner
-        : SimoDocument
     {
+        public virtual SimoObjectId _id { get; set; }
         public virtual string Name { get; set; }
     }
 }

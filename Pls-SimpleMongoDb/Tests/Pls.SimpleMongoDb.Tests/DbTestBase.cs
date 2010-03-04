@@ -49,7 +49,7 @@ namespace Pls.SimpleMongoDb.Tests
             using (var cn = CreateConnection())
             {
 
-                var queryCommand = new InferedCommandFactory().CreateInfered(cn, new {_id = SimoId.Empty});
+                var queryCommand = new InferedCommandFactory().CreateInfered(cn, new {_id = SimoObjectId.Empty});
                 queryCommand.FullCollectionName = fullCollectionName;
                 queryCommand.QuerySelector = selector;
                 queryCommand.Execute();

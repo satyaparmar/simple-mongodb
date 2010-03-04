@@ -49,13 +49,14 @@
   <ItemGroup>
     <Compile Include="Commands\UpdateDocumentsDbTests.cs" />
     <Compile Include="Session\SessionTests.cs" />
+    <Compile Include="SimoObjectIdTests.cs" />
     <Compile Include="TestModel\Car.cs" />
     <Compile Include="DbTestBase.cs" />
     <Compile Include="Commands\DeleteDocumentsDbTests.cs" />
     <Compile Include="Commands\InsertDocumentsDbTests.cs" />
     <Compile Include="TestModel\Owner.cs" />
     <Compile Include="TestModel\Person.cs" />
-    <Compile Include="TestModel\PersonExtendingSimoDocument.cs" />
+    <Compile Include="TestModel\PersonWithAutoId.cs" />
     <Compile Include="TestModel\PersonWithId.cs" />
     <Compile Include="Commands\QueryDocumentsDbTests.cs" />
     <Compile Include="ConnectionInfoTests.cs" />

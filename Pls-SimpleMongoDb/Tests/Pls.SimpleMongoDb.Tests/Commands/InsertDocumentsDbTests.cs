@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pls.SimpleMongoDb.Commands;
 using Pls.SimpleMongoDb.Tests.TestModel;
 
@@ -23,9 +24,9 @@ namespace Pls.SimpleMongoDb.Tests.Commands
                 insertCommand.Execute();
             }
 
-            var inferedTemplate = new { _id = SimoId.Empty };
+            var inferedTemplate = new { _id = SimoObjectId.Empty };
             var refetched = GetDocument(document2Insert, inferedTemplate, Constants.Commands.PersonsFullCollectionName);
-            Assert.AreNotEqual(SimoId.Empty, refetched._id);
+            Assert.AreNotEqual(SimoObjectId.Empty, refetched._id);
         }
 
         [TestMethod]
@@ -43,7 +44,7 @@ namespace Pls.SimpleMongoDb.Tests.Commands
                 insertCommand.Execute();
             }
 
-            var inferedTemplate = new { _id = SimoId.Empty, WorkDays = new int[]{} };
+            var inferedTemplate = new { _id = SimoObjectId.Empty, WorkDays = new int[] { } };
             var refetched = GetDocument(document2Insert, inferedTemplate, Constants.Commands.PersonsFullCollectionName);
             CollectionAssert.AreEqual(document2Insert.WorkDays, refetched.WorkDays);
         }
@@ -63,13 +64,13 @@ namespace Pls.SimpleMongoDb.Tests.Commands
                 insertCommand.Execute();
             }
 
-            var inferedTemplate = new { _id = SimoId.Empty };
+            var inferedTemplate = new { _id = SimoObjectId.Empty };
             var refetched = GetDocument(document2Insert, inferedTemplate, Constants.Commands.PersonsFullCollectionName);
-            Assert.AreNotEqual(SimoId.Empty, refetched._id);
+            Assert.AreNotEqual(SimoObjectId.Empty, refetched._id);
         }
 
         [TestMethod]
-        public void InsertSingle_TypedDocument_IsStoredAndAssignedId()
+        public void InsertSingle_TypedDocumentWithNoIdContainer_IsStoredAndAssignedId()
         {
             var person2Insert = new Person { Name = "Daniel", Age = 29 };
 
@@ -83,15 +84,15 @@ namespace Pls.SimpleMongoDb.Tests.Commands
                 insertCommand.Execute();
             }
 
-            var inferedTemplate = new { _id = SimoId.Empty };
+            var inferedTemplate = new { _id = SimoObjectId.Empty };
             var refetched = GetDocument(person2Insert, inferedTemplate, Constants.Commands.PersonsFullCollectionName);
-            Assert.AreNotEqual(SimoId.Empty, refetched._id);
+            Assert.AreNotEqual(SimoObjectId.Empty, refetched._id);
         }
 
         [TestMethod]
-        public void InsertSingle_TypedDocumentWithId_IsStoredAndAssignedId()
+        public void InsertSingle_TypedDocumentWithAssignedId_IsStored()
         {
-            var person2Insert = new PersonWithId { Name = "Daniel", Age = 29 };
+            var person2Insert = new PersonWithId { _id = SimoObjectId.NewId(), Name = "Daniel", Age = 29 };
 
             using (var cn = CreateConnection())
             {
@@ -104,13 +105,13 @@ namespace Pls.SimpleMongoDb.Tests.Commands
             }
 
             var refetched = GetDocument<PersonWithId>(person2Insert, Constants.Commands.PersonsFullCollectionName);
-            Assert.AreNotEqual(SimoId.Empty, refetched._id);
+            Assert.AreEqual(person2Insert._id, refetched._id);
         }
 
-        [TestMethod]
-        public void InsertSingle_DocumentExtendsMongoDocument_IsStoredAndAssignedId()
+        [TestMethod, ExpectedException(typeof(NullReferenceException))]
+        public void InsertSingle_TypedDocumentWithEmptyAssignedId_ThrowsException()
         {
-            var person2Insert = new PersonExtendingSimoDocument { Name = "Daniel", Age = 29 };
+            var person2Insert = new PersonWithId { _id = SimoObjectId.Empty, Name = "Daniel", Age = 29 };
 
             using (var cn = CreateConnection())
             {
@@ -119,40 +120,30 @@ namespace Pls.SimpleMongoDb.Tests.Commands
                     FullCollectionName = Constants.Commands.PersonsFullCollectionName,
                     Documents = new[] { person2Insert }
                 };
+
                 insertCommand.Execute();
             }
 
-            var refetched = GetDocument<PersonExtendingSimoDocument>(person2Insert, Constants.Commands.PersonsFullCollectionName);
-            Assert.AreNotEqual(SimoId.Empty, refetched._id);
+            Assert.Fail("Should not have been able to insert document with Empty ObjectId.");
         }
 
         [TestMethod]
-        public void InsertMany_DocumentsExtendsMongoDocument_IsStoredAndAssignedId()
+        public void InsertSingle_TypedDocumentWithAutoId_IsStoredAndAssignedId()
         {
-            var persons2Insert = new[]
-            {
-                new PersonExtendingSimoDocument { Name = "Daniel", Age = 29 },
-                new PersonExtendingSimoDocument { Name = "Daniel", Age = 30 }
-            };
+            var person2Insert = new PersonWithAutoId {Name = "Daniel", Age = 29};
 
             using (var cn = CreateConnection())
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                 {
                     FullCollectionName = Constants.Commands.PersonsFullCollectionName,
-                    Documents = persons2Insert
+                    Documents = new [] {person2Insert}
                 };
                 insertCommand.Execute();
             }
 
-            var refetched = GetDocuments<PersonExtendingSimoDocument>(new { Name = "Daniel" }, Constants.Commands.PersonsFullCollectionName);
-            Assert.AreEqual(2, refetched.Count);
-            Assert.AreNotEqual(SimoId.Empty, refetched[0]);
-            Assert.AreNotEqual(SimoId.Empty, refetched[1]);
-            Assert.AreEqual("Daniel", refetched[0].Name);
-            Assert.AreEqual(29, refetched[0].Age);
-            Assert.AreEqual("Daniel", refetched[1].Name);
-            Assert.AreEqual(30, refetched[1].Age);
+            var refetched = GetDocuments<PersonWithId>(new { person2Insert._id }, Constants.Commands.PersonsFullCollectionName);
+            Assert.AreEqual(1, refetched.Count);
         }
 
         [TestMethod]
