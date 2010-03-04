@@ -115,7 +115,7 @@ namespace Pls.SimpleMongoDb.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SimoId-string should be 24chars without dashes..
+        ///   Looks up a localized string similar to MongoId-string should be 24chars without dashes..
         /// </summary>
         public static string MongoId_FromStringInvalidLen {
             get {
@@ -138,6 +138,60 @@ namespace Pls.SimpleMongoDb.Resources {
         public static string ResponseReader_WrongOpCodeInResponse {
             get {
                 return ResourceManager.GetString("ResponseReader_WrongOpCodeInResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The bytes representing the ObjectId must be 12-bytes long and can not be all empty..
+        /// </summary>
+        public static string SimoObjectId_InvalidBytes {
+            get {
+                return ResourceManager.GetString("SimoObjectId_InvalidBytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The byte-array representing the counterpart of the ObjectId has an invalid length. The length should be {0} bytes..
+        /// </summary>
+        public static string SimoObjectIdCounterPart_InvalidBytesLen {
+            get {
+                return ResourceManager.GetString("SimoObjectIdCounterPart_InvalidBytesLen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An ObjectId that has empty bytes can not be serialized. The ObjectId must have an unique content..
+        /// </summary>
+        public static string SimoObjectIdJsonConverter_InvalidId {
+            get {
+                return ResourceManager.GetString("SimoObjectIdJsonConverter_InvalidId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The byte-array representing the machinepart of the ObjectId has an invalid length. The length should be {0} bytes..
+        /// </summary>
+        public static string SimoObjectIdMachinePart_InvalidBytesLen {
+            get {
+                return ResourceManager.GetString("SimoObjectIdMachinePart_InvalidBytesLen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The byte-array representing the processpart of the ObjectId has an invalid length. The length should be {0} bytes..
+        /// </summary>
+        public static string SimoObjectIdProcessPart_InvalidBytesLen {
+            get {
+                return ResourceManager.GetString("SimoObjectIdProcessPart_InvalidBytesLen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The byte-array representing the timepart of the ObjectId has an invalid length. The length should be 4 bytes..
+        /// </summary>
+        public static string SimoObjectIdTimePart_InvalidBytesLen {
+            get {
+                return ResourceManager.GetString("SimoObjectIdTimePart_InvalidBytesLen", resourceCulture);
             }
         }
         

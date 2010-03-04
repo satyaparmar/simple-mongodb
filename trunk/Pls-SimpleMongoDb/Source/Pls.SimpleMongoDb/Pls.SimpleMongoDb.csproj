@@ -33,8 +33,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\Libs\NewtonsoftJson\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json2">
+      <HintPath>..\..\Libs\NewtonsoftJson\Newtonsoft.Json2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SimoAutoObjectId.cs" />
     <Compile Include="Commands\DeleteDocumentsCommand.cs" />
     <Compile Include="Commands\InferedCommandFactory.cs" />
     <Compile Include="Commands\InsertDocumentsCommand.cs" />
@@ -62,17 +63,21 @@
     <Compile Include="ISimoCollection.cs" />
     <Compile Include="ISimoConnection.cs" />
     <Compile Include="ISimoDatabase.cs" />
-    <Compile Include="ISimoDocument.cs" />
     <Compile Include="ISimoSession.cs" />
     <Compile Include="SimoCollection.cs" />
     <Compile Include="SimoCommunicationException.cs" />
     <Compile Include="SimoConnection.cs" />
     <Compile Include="SimoDatabase.cs" />
-    <Compile Include="SimoDocument.cs" />
     <Compile Include="SimoException.cs" />
-    <Compile Include="SimoId.cs" />
-    <Compile Include="SimoIdTypeConverter.cs" />
+    <Compile Include="SimoObjectId.cs" />
+    <Compile Include="SimoObjectIdBytesGenerator.cs" />
+    <Compile Include="SimoObjectIdCounterPart.cs" />
+    <Compile Include="SimoObjectIdJsonConverter.cs" />
+    <Compile Include="SimoObjectIdTypeConverter.cs" />
     <Compile Include="SimoJson.cs" />
+    <Compile Include="SimoObjectIdMachinePart.cs" />
+    <Compile Include="SimoObjectIdProcessPart.cs" />
+    <Compile Include="SimoObjectIdTimePart.cs" />
     <Compile Include="SimoSession.cs" />
     <Compile Include="Operators\ISimoOperator.cs" />
     <Compile Include="Operators\SimoOperator.cs" />
