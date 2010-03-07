@@ -8,7 +8,7 @@ namespace Pls.SimpleMongoDb.Tests.TestModel
     {
         private SimoAutoObjectId _simoAutoObjectId = new SimoAutoObjectId();
 
-        public virtual SimoObjectId _id
+        public SimoObjectId _id
         {
             get { return _simoAutoObjectId; }
             set { _simoAutoObjectId = value; }

@@ -21,7 +21,7 @@ namespace Pls.SimpleMongoDb.Serialization
         /// <summary>
         /// The Total length of the Request-bytes.
         /// </summary>
-        public virtual int TotalLength
+        public int TotalLength
         {
             get { return InitialSerializationHeaderLength + BodyBuffer.Length; }
         }
@@ -29,7 +29,7 @@ namespace Pls.SimpleMongoDb.Serialization
         /// <summary>
         /// Client or database-generated identifier for this Request.
         /// </summary>
-        public virtual int RequestId
+        public int RequestId
         {
             get { return 0; }
         }
@@ -37,7 +37,7 @@ namespace Pls.SimpleMongoDb.Serialization
         /// <summary>
         /// RequestID from the original request (used in reponses from db)
         /// </summary>
-        public virtual int ResponseTo
+        public int ResponseTo
         {
             get { return 0; }
         }
@@ -45,12 +45,12 @@ namespace Pls.SimpleMongoDb.Serialization
         /// <summary>
         /// Request type. <see cref="OpCodes"/> for possible codes.
         /// </summary>
-        public virtual OpCodes OpCode { get; private set; }
+        public OpCodes OpCode { get; private set; }
 
         /// <summary>
         /// The body bytes containing e.g serialized data for <see cref="OpCodes.Insert"/>.
         /// </summary>
-        public virtual byte[] BodyBuffer { get; private set;}
+        public byte[] BodyBuffer { get; private set;}
 
         public Request(OpCodes opCode, byte[] bodyBuffer)
         {

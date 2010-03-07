@@ -26,9 +26,9 @@ namespace Pls.SimpleMongoDb
             }
         }
 
-        public virtual DateTime TimeStamp { get; private set; }
+        public DateTime TimeStamp { get; private set; }
 
-        public virtual byte[] Value
+        public byte[] Value
         {
             get
             {
@@ -103,7 +103,7 @@ namespace Pls.SimpleMongoDb
             return Equals(obj as SimoObjectId);
         }
 
-        public virtual bool Equals(SimoObjectId other)
+        public bool Equals(SimoObjectId other)
         {
             if (other == null)
                 return false;

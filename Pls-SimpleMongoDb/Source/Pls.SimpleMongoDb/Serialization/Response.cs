@@ -16,22 +16,22 @@ namespace Pls.SimpleMongoDb.Serialization
         /// <summary>
         /// The Total length of the Response-bytes.
         /// </summary>
-        public virtual int? TotalLength { get; set; }
+        public int? TotalLength { get; set; }
 
         /// <summary>
         /// Client or database-generated identifier for this Response.
         /// </summary>
-        public virtual int? RequestId { get; set; }
+        public int? RequestId { get; set; }
 
         /// <summary>
         /// RequestID from the original request (used in reponses from db)
         /// </summary>
-        public virtual int? ResponseTo { get; set; }
+        public int? ResponseTo { get; set; }
 
         /// <summary>
         /// Request type. <see cref="OpCodes"/> for possible codes.
         /// </summary>
-        public virtual OpCodes? OpCode { get; set; }
+        public OpCodes? OpCode { get; set; }
 
         public int? ResponseFlag { get; set; }
 
@@ -44,7 +44,7 @@ namespace Pls.SimpleMongoDb.Serialization
         /// <summary>
         /// Returned documents.
         /// </summary>
-        public virtual IList<TDocument> ReturnedDocuments { get; set; }
+        public IList<TDocument> ReturnedDocuments { get; set; }
 
         public Response()
         {

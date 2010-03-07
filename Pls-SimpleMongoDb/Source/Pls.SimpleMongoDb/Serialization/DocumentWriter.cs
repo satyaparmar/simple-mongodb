@@ -5,21 +5,43 @@ using Newtonsoft.Json2.Bson;
 
 namespace Pls.SimpleMongoDb.Serialization
 {
-    public class DocumentWriter 
+    public class DocumentWriter
         : IDisposable
     {
-        private readonly Stream _documentStream;
         private readonly JsonSerializer _jsonSerializer;
         private BsonWriter _bsonWriter;
 
         public DocumentWriter(Stream documentStream)
         {
-            _documentStream = documentStream;
             _jsonSerializer = _jsonSerializer = new JsonSerializerFactory().Create();
-            _bsonWriter = new BsonWriter(_documentStream) { Formatting = Formatting.None };
+            _bsonWriter = new BsonWriter(documentStream) { Formatting = Formatting.None };
         }
 
-        public virtual void Dispose()
+        #region Object lifetime, Disposing
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// A call to Dispose(false) should only clean up native resources.
+        /// A call to Dispose(true) should clean up both managed and native resources.
+        /// </summary>
+        /// <param name="disposeManagedResources"></param>
+        protected virtual void Dispose(bool disposeManagedResources)
+        {
+            if (disposeManagedResources)
+                DisposeManagedResources();
+        }
+
+        ~DocumentWriter()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void DisposeManagedResources()
         {
             if (_bsonWriter != null)
             {
@@ -30,14 +52,12 @@ namespace Pls.SimpleMongoDb.Serialization
             }
         }
 
-        public virtual void WriteDocument(object document)
+        #endregion
+
+        public void WriteDocument(object document)
         {
-            ////TODO: Ensure that BSON-writer doesn't have to be recreated as the reader.
-            //using (var writer = new BsonWriter(_documentStream) { Formatting = Formatting.None })
-            //{
-                _jsonSerializer.Serialize(_bsonWriter, document);
+            _jsonSerializer.Serialize(_bsonWriter, document);
             _bsonWriter.Flush();
-            //}
         }
     }
 }

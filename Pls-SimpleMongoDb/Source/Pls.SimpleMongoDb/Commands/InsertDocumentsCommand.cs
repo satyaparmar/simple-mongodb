@@ -11,17 +11,25 @@ namespace Pls.SimpleMongoDb.Commands
     public class InsertDocumentsCommand
         : SimoCommand
     {
+        public override bool CanHandleResponses
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Defines which DB and Collection the command should be executed against.
         /// E.g <![CDATA["dbname.collectionname"]]>.
         /// </summary>
-        public virtual string FullCollectionName { get; set; }
+        public string FullCollectionName { get; set; }
 
         /// <summary>
         /// The documents that will be inserted.
         /// </summary>
         /// <remarks>Needs to be convertible to BSON.</remarks>
-        public virtual IList<object> Documents { get; set; }
+        public IList<object> Documents { get; set; }
 
         public InsertDocumentsCommand(ISimoConnection connection)
             : base(connection)
@@ -46,8 +54,6 @@ namespace Pls.SimpleMongoDb.Commands
             //cstring   fullCollectionName; // "dbname.collectionname"
             //BSON[] documents;          // one or more documents to insert into the collection
             
-            byte[] result;
-
             using(var stream = new MemoryStream())
             {
                 using (var writer = new BodyWriter(stream))
@@ -60,10 +66,8 @@ namespace Pls.SimpleMongoDb.Commands
                         writer.WriteDocument(document);
                 }
 
-                result = stream.ToArray();
+                return stream.ToArray();
             }
-
-            return result;
         }
     }
 }

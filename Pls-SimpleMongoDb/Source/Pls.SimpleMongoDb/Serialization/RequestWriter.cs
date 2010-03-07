@@ -13,7 +13,7 @@ namespace Pls.SimpleMongoDb.Serialization
     {
         private BinaryWriter _writer;
 
-        public virtual Encoding Encoding
+        public Encoding Encoding
         {
             get { return SerializationConsts.DefaultEncoding; }
         }
@@ -23,7 +23,31 @@ namespace Pls.SimpleMongoDb.Serialization
             _writer = new BinaryWriter(targetStream, Encoding);
         }
 
-        public virtual void Dispose()
+        #region Object lifetime, Disposing
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// A call to Dispose(false) should only clean up native resources.
+        /// A call to Dispose(true) should clean up both managed and native resources.
+        /// </summary>
+        /// <param name="disposeManagedResources"></param>
+        protected virtual void Dispose(bool disposeManagedResources)
+        {
+            if (disposeManagedResources)
+                DisposeManagedResources();
+        }
+
+        ~RequestWriter()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void DisposeManagedResources()
         {
             if (_writer != null)
             {
@@ -32,7 +56,9 @@ namespace Pls.SimpleMongoDb.Serialization
             }
         }
 
-        public virtual void Write(Request request)
+        #endregion
+
+        public void Write(Request request)
         {
             OnWriteHeader(request);
             OnWriteBody(request.BodyBuffer);

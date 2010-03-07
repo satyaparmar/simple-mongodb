@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Commands\UpdateDocumentsDbTests.cs" />
     <Compile Include="Session\SessionTests.cs" />
+    <Compile Include="SimoJsonTests.cs" />
     <Compile Include="SimoObjectIdTests.cs" />
     <Compile Include="TestModel\Car.cs" />
     <Compile Include="DbTestBase.cs" />

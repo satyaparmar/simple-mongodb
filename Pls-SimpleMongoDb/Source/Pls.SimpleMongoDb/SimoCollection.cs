@@ -8,11 +8,11 @@ namespace Pls.SimpleMongoDb
     public class SimoCollection
         : ISimoCollection
     {
-        public virtual ISimoDatabase Database { get; private set; }
+        public ISimoDatabase Database { get; private set; }
 
-        public virtual string Name { get; private set; }
+        public string Name { get; private set; }
 
-        public virtual string FullCollectionName
+        public string FullCollectionName
         {
             get { return string.Format("{0}.{1}", Database.Name, Name); }
         }
@@ -22,12 +22,12 @@ namespace Pls.SimpleMongoDb
             Database = database;
             Name = name;
         }
-        public virtual void Insert(object document)
+        public void Insert(object document)
         {
             Insert(new[] { document });
         }
 
-        public virtual void Insert(IEnumerable<object> documents)
+        public void Insert(IEnumerable<object> documents)
         {
             var cmd = new InsertDocumentsCommand(Database.Connection)
                           {
@@ -61,7 +61,7 @@ namespace Pls.SimpleMongoDb
             cmd.Execute();
         }
 
-        public virtual void Delete(object selector)
+        public void Delete(object selector)
         {
             var cmd = new DeleteDocumentsCommand(Database.Connection)
                           {

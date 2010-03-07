@@ -26,19 +26,19 @@ namespace Pls.SimpleMongoDb.Commands
         /// Defines which DB and Collection the command should be executed against.
         /// E.g <![CDATA["dbname.collectionname"]]>.
         /// </summary>
-        public virtual string FullCollectionName { get; set; }
+        public string FullCollectionName { get; set; }
 
         /// <summary>
         /// Defines how the result will be returned.
         /// </summary>
-        public virtual QueryOptions QueryOption { get; set; }
+        public QueryOptions QueryOption { get; set; }
 
         /// <summary>
         /// Sets the number of documents to omit - starting from
         /// the first document in the resulting dataset - when
         /// returning the result of the query.
         /// </summary>
-        public virtual int NumberOfDocumentsToSkip { get; set; }
+        public int NumberOfDocumentsToSkip { get; set; }
 
         /// <summary>
         /// Number of documents to return in the first reply.
@@ -47,22 +47,22 @@ namespace Pls.SimpleMongoDb.Commands
         /// database will return that number and close the cursor.
         /// No futher results for that query can be fetched.
         /// </summary>
-        public virtual int NumberOfDocumentsToReturn { get; set; }
+        public int NumberOfDocumentsToReturn { get; set; }
 
         /// <summary>
         /// QuerySelector - defines the query criterias.
         /// </summary>
-        public virtual object QuerySelector { get; set; }
+        public object QuerySelector { get; set; }
 
         /// <summary>
         /// Optional. Lets you control the fields to return.
         /// </summary>
-        public virtual object DocumentSchema { get; set; }
+        public object DocumentSchema { get; set; }
 
         /// <summary>
         /// Contains the returned documents.
         /// </summary>
-        public virtual IList<TDocument> Response
+        public IList<TDocument> Response
         {
             get
             {
@@ -99,8 +99,6 @@ namespace Pls.SimpleMongoDb.Commands
             //BSON      query ;                 // query object.  See below for details.
             //BSON      returnFieldSelector;    // OPTIONAL : selector indicating the fields to return.  See below for details.
 
-            byte[] result;
-
             using (var stream = new MemoryStream())
             {
                 using (var writer = new BodyWriter(stream))
@@ -117,10 +115,8 @@ namespace Pls.SimpleMongoDb.Commands
                         writer.WriteDocument(DocumentSchema);
                 }
 
-                result = stream.ToArray();
+                return stream.ToArray();
             }
-
-            return result;
         }
 
         protected override void OnReadResponse(ResponseReader responseReader)

@@ -17,7 +17,7 @@ namespace Pls.SimpleMongoDb.Serialization
         private BinaryReader _reader;
         private readonly DocumentReader _documentReader;
 
-        public virtual Encoding Encoding
+        public Encoding Encoding
         {
             get { return SerializationConsts.DefaultEncoding; }
         }
@@ -28,9 +28,33 @@ namespace Pls.SimpleMongoDb.Serialization
             _documentReader = new DocumentReader(responseStream);
         }
 
-        public virtual void Dispose()
+        #region Object lifetime, Disposing
+
+        public void Dispose()
         {
-            if(_reader != null)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// A call to Dispose(false) should only clean up native resources.
+        /// A call to Dispose(true) should clean up both managed and native resources.
+        /// </summary>
+        /// <param name="disposeManagedResources"></param>
+        protected virtual void Dispose(bool disposeManagedResources)
+        {
+            if (disposeManagedResources)
+                DisposeManagedResources();
+        }
+
+        ~ResponseReader()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void DisposeManagedResources()
+        {
+            if (_reader != null)
             {
                 _reader.Close();
                 _reader.Dispose();
@@ -38,7 +62,9 @@ namespace Pls.SimpleMongoDb.Serialization
             }
         }
 
-        public virtual Response<TDocument> Read<TDocument>()
+        #endregion
+
+        public Response<TDocument> Read<TDocument>()
             where TDocument : class 
         {
             var response = new Response<TDocument>();

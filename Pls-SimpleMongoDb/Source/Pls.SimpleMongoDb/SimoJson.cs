@@ -6,36 +6,37 @@ namespace Pls.SimpleMongoDb
 {
     [Serializable]
     public class SimoJson
-        : Dictionary<string, object>
     {
+        public string Json { get; set; }
+        
         public SimoJson(string json)
         {
-            var keyValues = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-          
-            foreach (var keyValue in keyValues)
-            {
-                Add(keyValue.Key, keyValue.Value);
-            }
+            Json = json;
         }
 
-        public virtual string ToJson()
+        public IDictionary<string, object> ToKeyValue()
         {
-            return JsonConvert.SerializeObject(this, Formatting.None);
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(Json);
         }
 
         public override string ToString()
         {
-            return ToJson();
+            return Json;
         }
-        
+
         public static implicit operator string(SimoJson simoJson)
         {
-            return simoJson.ToJson();
+            return simoJson.Json;
         }
 
         public static implicit operator SimoJson(string json)
         {
             return new SimoJson(json);
+        }
+
+        public static implicit operator SimoJson(Dictionary<string, object> keyValueJson)
+        {
+            return JsonConvert.SerializeObject(keyValueJson, Formatting.None);
         }
     }
 }
