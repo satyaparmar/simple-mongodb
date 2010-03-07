@@ -10,18 +10,26 @@ namespace Pls.SimpleMongoDb.Commands
     public class DeleteDocumentsCommand
         : SimoCommand
     {
+        public override bool CanHandleResponses
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Defines which DB and Collection the command should be executed against.
         /// E.g <![CDATA["dbname.collectionname"]]>.
         /// </summary>
-        public virtual string FullCollectionName { get; set; }
+        public string FullCollectionName { get; set; }
 
         /// <summary>
         /// Defines the query object that is used to
         /// identify documents to delete.
         /// </summary>
         /// <remarks>Needs to be convertible to BSON.</remarks>
-        public virtual object Selector { get; set; }
+        public object Selector { get; set; }
 
         public DeleteDocumentsCommand(ISimoConnection connection)
             : base(connection)
@@ -50,9 +58,6 @@ namespace Pls.SimpleMongoDb.Commands
                                                 // selector will contain one or more elements,
                                                 // all of which must match for a document to be
                                                 //removed from the collection
-
-            byte[] result;
-
             using (var stream = new MemoryStream())
             {
                 using (var writer = new BodyWriter(stream))
@@ -64,10 +69,8 @@ namespace Pls.SimpleMongoDb.Commands
                     writer.WriteSelector(Selector ?? new object());
                 }
 
-                result = stream.ToArray();
+                return stream.ToArray();
             }
-
-            return result;
         }
     }
 }

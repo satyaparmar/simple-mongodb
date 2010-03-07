@@ -15,7 +15,7 @@ namespace Pls.SimpleMongoDb.Serialization
         private BinaryWriter _writer;
         private DocumentWriter _documentWriter;
 
-        public virtual Encoding Encoding
+        public Encoding Encoding
         {
             get { return SerializationConsts.DefaultEncoding; }
         }
@@ -26,7 +26,31 @@ namespace Pls.SimpleMongoDb.Serialization
             _documentWriter = new DocumentWriter(bodyStream);
         }
 
-        public virtual void Dispose()
+        #region Object lifetime, Disposing
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// A call to Dispose(false) should only clean up native resources.
+        /// A call to Dispose(true) should clean up both managed and native resources.
+        /// </summary>
+        /// <param name="disposeManagedResources"></param>
+        protected virtual void Dispose(bool disposeManagedResources)
+        {
+            if (disposeManagedResources)
+                DisposeManagedResources();
+        }
+
+        ~BodyWriter()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void DisposeManagedResources()
         {
             if (_writer != null)
             {
@@ -34,40 +58,46 @@ namespace Pls.SimpleMongoDb.Serialization
                 _writer = null;
             }
 
-            if(_documentWriter != null)
+            if (_documentWriter != null)
             {
                 _documentWriter.Dispose();
                 _documentWriter = null;
             }
         }
 
-        public virtual void Write(int value)
+        #endregion
+
+        public void Write(int value)
         {
             _writer.Write(value);
         }
 
-        public virtual void Write(string value)
+        public void Write(string value)
         {
             _writer.Write(Encoding.GetBytes(value));
         }
 
-        public virtual void WriteTerminator()
+        public void WriteTerminator()
         {
             _writer.Write((byte)0);
         }
 
-        public virtual void WriteDocument(object value)
+        public void WriteDocument(object value)
         {
             if (value is string)
-                WriteJson(value as string);
+                WriteJson(value.ToString());
+            else if (value is SimoJson)
+                WriteJson(value as SimoJson);
             else
                 WriteAsBson(value);
         }
 
-        public virtual void WriteSelector(object value)
+        public void WriteSelector(object value)
         {
-            if(value is string)
-                WriteJson(value as string);
+            if (value is string)
+                WriteJson(value.ToString());
+            else if(value is SimoJson)
+                WriteJson(value as SimoJson);
             else
             {
                 var @operator = value as ISimoOperator;
@@ -88,12 +118,12 @@ namespace Pls.SimpleMongoDb.Serialization
             WriteAsBson(operatorDictionary);
         }
 
-        public virtual void WriteJson(string json)
+        public void WriteJson(SimoJson json)
         {
-            WriteAsBson(new SimoJson(json));
+            WriteAsBson(json.ToKeyValue());
         }
 
-        public virtual void WriteAsBson(object value)
+        public void WriteAsBson(object value)
         {
             _documentWriter.WriteDocument(value);
         }

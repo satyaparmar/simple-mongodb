@@ -6,6 +6,6 @@ namespace Pls.SimpleMongoDb.Tests.TestModel
     public class PersonWithId
         : Person
     {
-        public virtual SimoObjectId _id { get; set; }
+        public SimoObjectId _id { get; set; }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using Pls.SimpleMongoDb.Resources;
 using Pls.SimpleMongoDb.Serialization;
@@ -11,32 +10,40 @@ namespace Pls.SimpleMongoDb.Commands
     public class UpdateDocumentsCommand
         : SimoCommand
     {
+        public override bool CanHandleResponses
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Defines which DB and Collection the command should be executed against.
         /// E.g <![CDATA["dbname.collectionname"]]>.
         /// </summary>
-        public virtual string FullCollectionName { get; set; }
+        public string FullCollectionName { get; set; }
 
         /// <summary>
         /// Determines how the MongoDb-database will handle
         /// missing document and/or multiple matches. See
         /// <see cref="UpdateModes"/> for more info.
         /// </summary>
-        public virtual UpdateModes Mode { get; set; }
+        public UpdateModes Mode { get; set; }
 
         /// <summary>
         /// Defines the query object that is used to
         /// identify the document(s) to update.
         /// </summary>
         /// <remarks>Needs to be convertible to BSON.</remarks>
-        public virtual object QuerySelector { get; set; }
+        public object QuerySelector { get; set; }
 
         /// <summary>
         /// The document that will be updated or inserted depending on
         /// the <see cref="Mode"/>.
         /// </summary>
         /// <remarks>Needs to be convertible to BSON.</remarks>
-        public virtual object Document { get; set; }
+        public object Document { get; set; }
 
         public UpdateDocumentsCommand(ISimoConnection connection)
             : base(connection)

@@ -5,11 +5,11 @@ namespace Pls.SimpleMongoDb
     public class SimoDatabase
         : ISimoDatabase
     {
-        public virtual ISimoConnection Connection { get; private set; }
+        public ISimoConnection Connection { get; private set; }
         
-        public virtual string Name { get; private set; }
+        public string Name { get; private set; }
 
-        public virtual ISimoCollection this[string name]
+        public ISimoCollection this[string name]
         {
             get { return GetCollection(name); }
         }

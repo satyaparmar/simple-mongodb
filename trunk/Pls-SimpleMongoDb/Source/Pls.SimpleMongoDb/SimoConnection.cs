@@ -15,8 +15,8 @@ namespace Pls.SimpleMongoDb
         protected readonly object LockSocket = new object();
 
         protected virtual TcpClient Socket { get; set; }
-        public virtual ISimoConnectionInfo SimoConnectionInfo { get; private set; }
-        public virtual bool IsConnected { get { return Socket != null && Socket.Connected; } }
+        public ISimoConnectionInfo SimoConnectionInfo { get; private set; }
+        public bool IsConnected { get { return Socket != null && Socket.Connected; } }
 
         public SimoConnection(ISimoConnectionInfo simoConnectionInfo)
         {
@@ -26,12 +26,38 @@ namespace Pls.SimpleMongoDb
             SimoConnectionInfo = simoConnectionInfo;
         }
 
-        public virtual void Dispose()
+        #region Object lifetime, Disposing
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// A call to Dispose(false) should only clean up native resources.
+        /// A call to Dispose(true) should clean up both managed and native resources.
+        /// </summary>
+        /// <param name="disposeManagedResources"></param>
+        protected virtual void Dispose(bool disposeManagedResources)
+        {
+            if (disposeManagedResources)
+                DisposeManagedResources();
+        }
+
+        ~SimoConnection()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void DisposeManagedResources()
         {
             Disconnect();
         }
 
-        public virtual void Connect()
+        #endregion
+
+        public void Connect()
         {
             lock (LockSocket)
             {
@@ -43,7 +69,7 @@ namespace Pls.SimpleMongoDb
             }
         }
 
-        public virtual void Disconnect()
+        public void Disconnect()
         {
             lock (LockSocket)
             {
@@ -57,7 +83,7 @@ namespace Pls.SimpleMongoDb
             }
         }
 
-        public virtual Stream GetPipeStream()
+        public Stream GetPipeStream()
         {
             if (!IsConnected)
                 throw new SimoCommunicationException(Exceptions.MongoConnection_NoPipestreamWhileDisconnected);

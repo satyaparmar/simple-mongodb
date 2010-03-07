@@ -9,19 +9,16 @@ namespace Pls.SimpleMongoDb.Commands
     /// </summary>
     public abstract class SimoCommand
     {
-        public virtual ISimoConnection Connection { get; set; }
+        public ISimoConnection Connection { get; set; }
 
-        public virtual bool CanHandleResponses
-        {
-            get { return false; }
-        }
+        public abstract bool CanHandleResponses { get;}
 
         protected SimoCommand(ISimoConnection connection)
         {
             Connection = connection;
         }
 
-        public virtual void Execute()
+        public void Execute()
         {
             EnsureOpenConnection();
             OnEnsureValidForExecution();
@@ -39,20 +36,20 @@ namespace Pls.SimpleMongoDb.Commands
         protected virtual void OnExecute(ISimoConnection connection)
         {
             var request = GenerateRequest();
+
             using (var requestStream = connection.GetPipeStream())
             {
                 using (var requestWriter = new RequestWriter(requestStream))
                 {
                     requestWriter.Write(request);
 
-                    if (CanHandleResponses)
+                    if (!CanHandleResponses) return;
+
+                    using (var responseStream = Connection.GetPipeStream())
                     {
-                        using (var responseStream = Connection.GetPipeStream())
+                        using (var responseReader = new ResponseReader(responseStream))
                         {
-                            using (var responseReader = new ResponseReader(responseStream))
-                            {
-                                OnReadResponse(responseReader);
-                            }
+                            OnReadResponse(responseReader);
                         }
                     }
                 }

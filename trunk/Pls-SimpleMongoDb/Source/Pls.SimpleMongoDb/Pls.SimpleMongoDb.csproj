@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -78,6 +79,7 @@
     <Compile Include="SimoObjectIdMachinePart.cs" />
     <Compile Include="SimoObjectIdProcessPart.cs" />
     <Compile Include="SimoObjectIdTimePart.cs" />
+    <Compile Include="SimoReference.cs" />
     <Compile Include="SimoSession.cs" />
     <Compile Include="Operators\ISimoOperator.cs" />
     <Compile Include="Operators\SimoOperator.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Serialization\Response.cs" />
     <Compile Include="Serialization\ResponseReader.cs" />
     <Compile Include="Serialization\SerializationConsts.cs" />
+    <Compile Include="Utils\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Exceptions.resx">

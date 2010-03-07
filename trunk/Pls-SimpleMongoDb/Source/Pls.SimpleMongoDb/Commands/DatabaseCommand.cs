@@ -8,16 +8,24 @@ namespace Pls.SimpleMongoDb.Commands
     public class DatabaseCommand
         : SimoCommand
     {
+        public override bool CanHandleResponses
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         /// <summary>
         /// Defines which DB the command should be executed against.
         /// </summary>
-        public virtual string DatabaseName { get; set; }
+        public string DatabaseName { get; set; }
 
         /// <summary>
         /// Defines the command to execute.
         /// <![CDATA[E.g. dropDatabase : 1]]>
         /// </summary>
-        public virtual object Command { get; set; }
+        public object Command { get; set; }
 
         public DatabaseCommand(ISimoConnection connection)
             : base(connection)
@@ -45,8 +53,6 @@ namespace Pls.SimpleMongoDb.Commands
             //BSON      query ;                 // query object.  See below for details.
             //BSON      returnFieldSelector;    // OPTIONAL : selector indicating the fields to return.  See below for details.
 
-            byte[] result;
-            
             using (var stream = new MemoryStream())
             {
                 using (var writer = new BodyWriter(stream))
@@ -58,12 +64,10 @@ namespace Pls.SimpleMongoDb.Commands
                     writer.Write(-1);
 
                     writer.WriteSelector(Command);
+
+                    return stream.ToArray();
                 }
-
-                result = stream.ToArray();
             }
-
-            return result;
         }
 
         protected override void OnReadResponse(ResponseReader responseReader)
@@ -72,7 +76,7 @@ namespace Pls.SimpleMongoDb.Commands
             var document = response.ReturnedDocuments[0];
             var commandWasOk = document.Value<double>("ok") == 1.0;
 
-            if(!commandWasOk)
+            if (!commandWasOk)
                 throw new SimoCommandException(Exceptions.DatabaseCommand_CommandWasNotOk);
         }
     }

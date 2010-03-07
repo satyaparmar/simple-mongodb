@@ -145,5 +145,33 @@ namespace Pls.SimpleMongoDb.Tests.Session
             Assert.AreEqual(31, refetched[2].Age);
             Assert.AreEqual(32, refetched[3].Age);
         }
+
+        [TestMethod]
+        public void Insert_TypedDocumentWithAssignedId_IsStored()
+        {
+            var document = new PersonWithId { _id = SimoObjectId.NewId(), Name = "Daniel" };
+
+            using (var session = new SimoSession(CreateConnection()))
+            {
+                session[DbName][PersonsCollectionName].Insert(document);
+            }
+
+            var numOfDocs = GetDocumentCount(new { _id = document._id }, Constants.Commands.PersonsFullCollectionName);
+            Assert.AreEqual(1, numOfDocs);
+        }
+
+        [TestMethod]
+        public void Insert_TypedDocumentWithAutoAssignedId_IsStored()
+        {
+            var document = new PersonWithAutoId { Name = "Daniel" };
+
+            using (var session = new SimoSession(CreateConnection()))
+            {
+                session[DbName][PersonsCollectionName].Insert(document);
+            }
+
+            var numOfDocs = GetDocumentCount(new { _id = document._id }, Constants.Commands.PersonsFullCollectionName);
+            Assert.AreEqual(1, numOfDocs);
+        }
     }
 }

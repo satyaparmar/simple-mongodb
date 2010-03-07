@@ -15,7 +15,7 @@ namespace Pls.SimpleMongoDb.Serialization
             _jsonSerializer = new JsonSerializerFactory().Create();
         }
 
-        public virtual T ReadDocument<T>()
+        public T ReadDocument<T>()
             where T : class
         {
             T document;

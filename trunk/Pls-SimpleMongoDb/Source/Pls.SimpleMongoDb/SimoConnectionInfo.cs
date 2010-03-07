@@ -23,8 +23,8 @@ namespace Pls.SimpleMongoDb
         public const string DefaultHost = "localhost";
         public const int DefaultPort = 27017;
 
-        public virtual string Host { get; private set; }
-        public virtual int Port { get; private set; }
+        public string Host { get; private set; }
+        public int Port { get; private set; }
 
         public static SimoConnectionInfo Default
         {
