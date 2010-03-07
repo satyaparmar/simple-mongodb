@@ -14,12 +14,12 @@ namespace Pls.SimpleMongoDb.Tests
 
         protected virtual void DropDatabase()
         {
-            using(var cn = CreateConnection())
+            using (var cn = CreateConnection())
             {
                 var cmd = new DatabaseCommand(cn)
                               {
                                   DatabaseName = Constants.TestDbName,
-                                  Command = new {dropDatabase = 1}
+                                  Command = new { dropDatabase = 1 }
                               };
                 cmd.Execute();
             }
@@ -49,7 +49,7 @@ namespace Pls.SimpleMongoDb.Tests
             using (var cn = CreateConnection())
             {
 
-                var queryCommand = new InferedCommandFactory().CreateInfered(cn, new {_id = SimoObjectId.Empty});
+                var queryCommand = new InferedCommandFactory().CreateInfered(cn, new { _id = SimoObjectId.Empty });
                 queryCommand.FullCollectionName = fullCollectionName;
                 queryCommand.QuerySelector = selector;
                 queryCommand.Execute();
