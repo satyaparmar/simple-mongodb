@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using Pls.SimpleMongoDb.Exceptions;
 using Pls.SimpleMongoDb.Resources;
 
 namespace Pls.SimpleMongoDb
@@ -35,7 +36,7 @@ namespace Pls.SimpleMongoDb
         {
             var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName];
             if(connectionString == null)
-                throw new SimoCommunicationException(Exceptions.ConnectionInfo_MissingConnectionStringEntry);
+                throw new SimoCommunicationException(ExceptionMessages.ConnectionInfo_MissingConnectionStringEntry);
 
             var parts = GetConnectionStringParts(connectionString.ConnectionString);
 

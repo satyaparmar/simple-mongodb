@@ -64,7 +64,7 @@ namespace Pls.SimpleMongoDb.Serialization
             OnWriteBody(request.BodyBuffer);
         }
 
-        protected virtual void OnWriteHeader(Request request)
+        private void OnWriteHeader(Request request)
         {
             _writer.Write(request.TotalLength);
             _writer.Write(request.RequestId);
@@ -73,7 +73,7 @@ namespace Pls.SimpleMongoDb.Serialization
             _writer.Flush();
         }
 
-        protected virtual void OnWriteBody(byte[] bodyBuff)
+        private void OnWriteBody(byte[] bodyBuff)
         {
             _writer.Write(bodyBuff);
             _writer.Flush();

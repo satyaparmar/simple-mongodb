@@ -1,11 +1,14 @@
 using System;
+using Pls.SimpleMongoDb.Utils;
 
 namespace Pls.SimpleMongoDb
 {
     public class SimoSession
         : ISimoSession
     {
-        protected virtual ISimoConnection Connection { get; private set; }
+        public ISimoConnection Connection { get; private set; }
+
+        public ISimoPluralizer Pluralizer { get; set; }
 
         public ISimoDatabase this[string name]
         {
@@ -15,6 +18,7 @@ namespace Pls.SimpleMongoDb
         public SimoSession(ISimoConnection connection)
         {
             Connection = connection;
+            Pluralizer = SimoEngine.Instance.IoC.GetPluralizer();
         }
 
         #region Object lifetime, Disposing
@@ -52,9 +56,9 @@ namespace Pls.SimpleMongoDb
 
         #endregion
 
-        protected virtual ISimoDatabase GetDatabase(string name)
+        private ISimoDatabase GetDatabase(string name)
         {
-            var db = new SimoDatabase(Connection, name);
+            var db = new SimoDatabase(this, name);
 
             return db;
         }

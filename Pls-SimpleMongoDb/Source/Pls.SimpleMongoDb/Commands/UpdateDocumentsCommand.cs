@@ -54,7 +54,7 @@ namespace Pls.SimpleMongoDb.Commands
         protected override void OnEnsureValidForExecution()
         {
             if (string.IsNullOrEmpty(FullCollectionName))
-                throw new SimoCommandException(Exceptions.Command_MissingFullCollectionName);
+                throw new SimoCommandException(ExceptionMessages.Command_MissingFullCollectionName);
         }
 
         protected override Request GenerateRequest()

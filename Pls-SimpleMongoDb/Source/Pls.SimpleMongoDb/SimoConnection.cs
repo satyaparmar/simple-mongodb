@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Sockets;
+using Pls.SimpleMongoDb.Exceptions;
 using Pls.SimpleMongoDb.Resources;
 
 namespace Pls.SimpleMongoDb
@@ -12,9 +13,9 @@ namespace Pls.SimpleMongoDb
     public class SimoConnection
         : ISimoConnection
     {
-        protected readonly object LockSocket = new object();
+        private readonly object _lockSocket = new object();
 
-        protected virtual TcpClient Socket { get; set; }
+        private TcpClient Socket { get; set; }
         public ISimoConnectionInfo SimoConnectionInfo { get; private set; }
         public bool IsConnected { get { return Socket != null && Socket.Connected; } }
 
@@ -59,10 +60,10 @@ namespace Pls.SimpleMongoDb
 
         public void Connect()
         {
-            lock (LockSocket)
+            lock (_lockSocket)
             {
                 if (IsConnected)
-                    throw new SimoCommunicationException(Exceptions.MongoConnection_AllreadyEstablished);
+                    throw new SimoCommunicationException(ExceptionMessages.MongoConnection_AllreadyEstablished);
 
                 Socket = new TcpClient();
                 Socket.Connect(SimoConnectionInfo.Host, SimoConnectionInfo.Port);
@@ -71,7 +72,7 @@ namespace Pls.SimpleMongoDb
 
         public void Disconnect()
         {
-            lock (LockSocket)
+            lock (_lockSocket)
             {
                 if (Socket != null)
                 {
@@ -86,7 +87,7 @@ namespace Pls.SimpleMongoDb
         public Stream GetPipeStream()
         {
             if (!IsConnected)
-                throw new SimoCommunicationException(Exceptions.MongoConnection_NoPipestreamWhileDisconnected);
+                throw new SimoCommunicationException(ExceptionMessages.MongoConnection_NoPipestreamWhileDisconnected);
 
             return Socket.GetStream();
         }

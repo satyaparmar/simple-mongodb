@@ -1,30 +1,46 @@
-using System;
+using Pls.SimpleMongoDb.Commands;
 
 namespace Pls.SimpleMongoDb
 {
     public class SimoDatabase
         : ISimoDatabase
     {
-        public ISimoConnection Connection { get; private set; }
+        public ISimoSession Session { get; private set; }
         
         public string Name { get; private set; }
 
-        public ISimoCollection this[string name]
+        public ISimoCollection this[string name] 
         {
             get { return GetCollection(name); }
         }
 
-        public SimoDatabase(ISimoConnection connection, string name)
+        public SimoDatabase(ISimoSession session, string name)
         {
-            Connection = connection;
+            Session = session;
             Name = name;
         }
 
-        protected virtual ISimoCollection GetCollection(string name)
+        public void DropDatabase()
         {
-            var collection = new SimoCollection(this, name);
+            var cmd = new DatabaseCommand(Session.Connection)
+            {
+                DatabaseName = Name,
+                Command = new { dropDatabase = 1 }
+            };
+            cmd.Execute();
+        }
 
-            return collection;
+        public ISimoCollection GetCollection<T>()
+            where T : class
+        {
+            var entityName = EntityMetadata<T>.EntityName;
+
+            return GetCollection(entityName);
+        }
+
+        private ISimoCollection GetCollection(string name)
+        {
+            return new SimoCollection(this, name);
         }
     }
 }

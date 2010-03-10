@@ -27,7 +27,7 @@ namespace Pls.SimpleMongoDb.Commands
 
         protected abstract void OnEnsureValidForExecution();
 
-        protected virtual void EnsureOpenConnection()
+        private void EnsureOpenConnection()
         {
             if (!Connection.IsConnected)
                 Connection.Connect();
@@ -62,7 +62,7 @@ namespace Pls.SimpleMongoDb.Commands
         /// <param name="responseReader"></param>
         protected virtual void OnReadResponse(ResponseReader responseReader)
         {
-            throw new NotImplementedException(Exceptions.MongoCommand_OnReadResponseNotImplemented);
+            throw new NotImplementedException(ExceptionMessages.MongoCommand_OnReadResponseNotImplemented);
         }
 
         /// <summary>
