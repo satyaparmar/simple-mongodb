@@ -35,7 +35,7 @@ namespace Pls.SimpleMongoDb.Commands
         protected override void OnEnsureValidForExecution()
         {
             if (string.IsNullOrEmpty(DatabaseName))
-                throw new SimoCommandException(Exceptions.Command_MissingFullCollectionName);
+                throw new SimoCommandException(ExceptionMessages.Command_MissingFullCollectionName);
         }
 
         protected override Request GenerateRequest()
@@ -77,7 +77,7 @@ namespace Pls.SimpleMongoDb.Commands
             var commandWasOk = document.Value<double>("ok") == 1.0;
 
             if (!commandWasOk)
-                throw new SimoCommandException(Exceptions.DatabaseCommand_CommandWasNotOk);
+                throw new SimoCommandException(ExceptionMessages.DatabaseCommand_CommandWasNotOk);
         }
     }
 }

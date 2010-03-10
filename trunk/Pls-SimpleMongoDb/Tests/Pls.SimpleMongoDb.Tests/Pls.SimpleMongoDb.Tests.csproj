@@ -47,31 +47,33 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\UpdateDocumentsDbTests.cs" />
-    <Compile Include="Session\SessionFindTests.cs" />
-    <Compile Include="Session\SessionInsertTests.cs" />
-    <Compile Include="Session\SessionDeleteTests.cs" />
-    <Compile Include="Session\SessionUpdateTests.cs" />
-    <Compile Include="SimoJsonTests.cs" />
-    <Compile Include="SimoObjectIdTests.cs" />
-    <Compile Include="TestModel\Car.cs" />
-    <Compile Include="DbTestBase.cs" />
-    <Compile Include="Commands\DeleteDocumentsDbTests.cs" />
-    <Compile Include="Commands\InsertDocumentsDbTests.cs" />
-    <Compile Include="TestModel\Owner.cs" />
-    <Compile Include="TestModel\Person.cs" />
-    <Compile Include="TestModel\PersonWithAutoId.cs" />
-    <Compile Include="TestModel\PersonWithId.cs" />
-    <Compile Include="Commands\QueryDocumentsDbTests.cs" />
-    <Compile Include="ConnectionInfoTests.cs" />
-    <Compile Include="MongoConnectionTests.cs" />
-    <Compile Include="ObjectFactoryForTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="TestBase.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <Compile Include="IntegrationTests\ApiExamples.cs" />
+    <Compile Include="IntegrationTests\TestModel\Child.cs" />
+    <Compile Include="IntegrationTests\Commands\DeleteDocumentsDbTests.cs" />
+    <Compile Include="IntegrationTests\Commands\InsertDocumentsDbTests.cs" />
+    <Compile Include="IntegrationTests\Commands\QueryDocumentsDbTests.cs" />
+    <Compile Include="IntegrationTests\Commands\UpdateDocumentsDbTests.cs" />
+    <Compile Include="IntegrationTests\DbTestBase.cs" />
+    <Compile Include="IntegrationTests\SimoConnectionTests.cs" />
+    <Compile Include="IntegrationTests\ObjectFactoryForTests.cs" />
+    <Compile Include="IntegrationTests\TestModel\Parent.cs" />
+    <Compile Include="IntegrationTests\ParentChildTests.cs" />
+    <Compile Include="IntegrationTests\Session\SessionDeleteTests.cs" />
+    <Compile Include="IntegrationTests\Session\SessionFindTests.cs" />
+    <Compile Include="IntegrationTests\Session\SessionInsertTests.cs" />
+    <Compile Include="IntegrationTests\Session\SessionUpdateTests.cs" />
+    <Compile Include="IntegrationTests\TestModel\Car.cs" />
+    <Compile Include="IntegrationTests\TestModel\Owner.cs" />
+    <Compile Include="IntegrationTests\TestModel\Person.cs" />
+    <Compile Include="IntegrationTests\TestModel\PersonWithAutoId.cs" />
+    <Compile Include="IntegrationTests\TestModel\PersonWithId.cs" />
+    <Compile Include="UnitTests\SimoIoCTests.cs" />
+    <Compile Include="UnitTests\SimoJsonTests.cs" />
+    <Compile Include="UnitTests\SimoObjectIdTests.cs" />
+    <Compile Include="UnitTests\SimoConnectionInfoTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\SimoPluralizerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Pls.SimpleMongoDb\Pls.SimpleMongoDb.csproj">
@@ -79,7 +81,9 @@
       <Name>Pls.SimpleMongoDb</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

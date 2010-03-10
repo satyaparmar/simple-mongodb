@@ -1,4 +1,5 @@
 ﻿using System;
+using Pls.SimpleMongoDb.Exceptions;
 
 namespace Pls.SimpleMongoDb.Commands
 {

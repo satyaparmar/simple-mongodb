@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Pls.SimpleMongoDb.Commands;
@@ -20,7 +19,7 @@ namespace Pls.SimpleMongoDb
         public SimoCollection(ISimoDatabase database, string name)
         {
             Database = database;
-            Name = name;
+            Name = Database.Session.Pluralizer.Pluralize(name);
         }
         public void Insert(object document)
         {
@@ -29,7 +28,7 @@ namespace Pls.SimpleMongoDb
 
         public void Insert(IEnumerable<object> documents)
         {
-            var cmd = new InsertDocumentsCommand(Database.Connection)
+            var cmd = new InsertDocumentsCommand(Database.Session.Connection)
                           {
                               Documents = documents.ToList(),
                               FullCollectionName = FullCollectionName
@@ -39,7 +38,7 @@ namespace Pls.SimpleMongoDb
 
         public void Update(object selector, object document)
         {
-            var cmd = new UpdateDocumentsCommand(Database.Connection)
+            var cmd = new UpdateDocumentsCommand(Database.Session.Connection)
                       {
                           Mode = UpdateModes.Upsert,
                           FullCollectionName = FullCollectionName,
@@ -51,7 +50,7 @@ namespace Pls.SimpleMongoDb
 
         public void UpdateMany(object selector, object document)
         {
-            var cmd = new UpdateDocumentsCommand(Database.Connection)
+            var cmd = new UpdateDocumentsCommand(Database.Session.Connection)
             {
                 Mode = UpdateModes.MultiUpdate,
                 FullCollectionName = FullCollectionName,
@@ -63,7 +62,7 @@ namespace Pls.SimpleMongoDb
 
         public void Delete(object selector)
         {
-            var cmd = new DeleteDocumentsCommand(Database.Connection)
+            var cmd = new DeleteDocumentsCommand(Database.Session.Connection)
                           {
                               Selector = selector,
                               FullCollectionName = FullCollectionName
@@ -74,7 +73,7 @@ namespace Pls.SimpleMongoDb
         public IList<T> Find<T>(object selector, object documentSchema = null)
             where T : class
         {
-            var cmd = new QueryDocumentsCommand<T>(Database.Connection)
+            var cmd = new QueryDocumentsCommand<T>(Database.Session.Connection)
                           {
                               FullCollectionName = FullCollectionName,
                               QuerySelector = selector,
@@ -83,6 +82,24 @@ namespace Pls.SimpleMongoDb
             cmd.Execute();
 
             return cmd.Response;
+        }
+
+        public T FindOne<T>(object selector, object documentSchema)
+            where T : class
+        {
+            var result = Find<T>(selector, documentSchema);
+
+            return result.Single();
+        }
+
+        public int Count(object selector = null)
+        {
+            var queryCommand = new InferedCommandFactory().CreateInfered(Database.Session.Connection, new { _id = "" });
+            queryCommand.FullCollectionName = FullCollectionName;
+            queryCommand.QuerySelector = selector;
+            queryCommand.Execute();
+
+            return queryCommand.Response.Count();
         }
     }
 }

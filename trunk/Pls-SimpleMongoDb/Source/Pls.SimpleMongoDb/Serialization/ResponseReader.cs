@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Pls.SimpleMongoDb.Commands;
+using Pls.SimpleMongoDb.Exceptions;
 using Pls.SimpleMongoDb.Resources;
 
 namespace Pls.SimpleMongoDb.Serialization
@@ -75,7 +76,7 @@ namespace Pls.SimpleMongoDb.Serialization
             return response;
         }
 
-        protected virtual void OnReadHeader<TDocument>(Response<TDocument> response)
+        private void OnReadHeader<TDocument>(Response<TDocument> response)
         {
             response.TotalLength = _reader.ReadInt32();
             response.RequestId = _reader.ReadInt32();
@@ -85,16 +86,16 @@ namespace Pls.SimpleMongoDb.Serialization
             //TODO: Verify response.ResponseTo against request.RequestID
 
             if(!response.OpCode.HasValue)
-                throw new SimoCommunicationException(Exceptions.ResponseReader_MissingOpCodeInResponse);
+                throw new SimoCommunicationException(ExceptionMessages.ResponseReader_MissingOpCodeInResponse);
 
             if(response.OpCode.Value != OpCodes.Reply)
                 throw new SimoCommunicationException(string.Format(
-                    Exceptions.ResponseReader_WrongOpCodeInResponse, 
+                    ExceptionMessages.ResponseReader_WrongOpCodeInResponse, 
                     OpCodes.Reply,
                     response.OpCode));
         }
 
-        protected virtual void OnReadBody<TDocument>(Response<TDocument> response)
+        private void OnReadBody<TDocument>(Response<TDocument> response)
             where TDocument : class
         {
             response.ResponseFlag = _reader.ReadInt32();
