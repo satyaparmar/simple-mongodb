@@ -1,5 +1,5 @@
 ﻿using System;
-using Newtonsoft.Json2;
+using Newtonsoft.Json;
 using Pls.SimpleMongoDb.Serialization;
 
 namespace Pls.SimpleMongoDb.DataTypes

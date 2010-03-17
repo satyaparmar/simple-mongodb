@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json2;
+using Newtonsoft.Json;
 using Pls.SimpleMongoDb.Exceptions;
 using Pls.SimpleMongoDb.Resources;
 using Pls.SimpleMongoDb.Serialization;
