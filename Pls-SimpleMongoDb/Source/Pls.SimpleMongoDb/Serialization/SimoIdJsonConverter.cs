@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Newtonsoft.Json2;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using Pls.SimpleMongoDb.DataTypes;
 using Pls.SimpleMongoDb.Resources;
 
@@ -10,7 +11,7 @@ namespace Pls.SimpleMongoDb.Serialization
     internal class SimoIdJsonConverter
         : JsonConverter
     {
-        private readonly static Type AcceptedType = typeof (SimoId);
+        private readonly static Type AcceptedType = typeof(SimoId);
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -19,12 +20,10 @@ namespace Pls.SimpleMongoDb.Serialization
             if (SimoId.IsEmpty(oid))
                 throw new SerializationException(ExceptionMessages.SimoObjectIdJsonConverter_InvalidId);
 
-// ReSharper disable PossibleNullReferenceException
-            writer.WriteOidValue(oid.Value);
-// ReSharper restore PossibleNullReferenceException
+            ((BsonWriter)writer).WriteObjectId(oid);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var idBytes = serializer.Deserialize<byte[]>(reader);
 

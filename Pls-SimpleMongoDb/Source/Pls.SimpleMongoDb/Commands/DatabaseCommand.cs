@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Newtonsoft.Json2.Linq;
+using Newtonsoft.Json.Linq;
 using Pls.SimpleMongoDb.Resources;
 using Pls.SimpleMongoDb.Serialization;
 

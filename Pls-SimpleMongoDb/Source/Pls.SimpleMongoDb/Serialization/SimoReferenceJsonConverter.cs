@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json2;
+using Newtonsoft.Json;
 using Pls.SimpleMongoDb.DataTypes;
 
 namespace Pls.SimpleMongoDb.Serialization
@@ -9,6 +9,8 @@ namespace Pls.SimpleMongoDb.Serialization
     internal class SimoReferenceJsonConverter
         : JsonConverter
     {
+        private static readonly Type SupportedType = typeof (SimoReference);
+
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var r = (SimoReference)value;
@@ -21,18 +23,18 @@ namespace Pls.SimpleMongoDb.Serialization
             serializer.Serialize(writer, dic);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var r = new SimoReference();
 
             serializer.Populate(reader, r);
-            
+
             return r;
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return true;
+            return objectType.Equals(SupportedType);
         }
     }
 }
