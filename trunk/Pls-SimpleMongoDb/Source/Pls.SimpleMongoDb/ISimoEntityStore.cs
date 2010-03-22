@@ -26,12 +26,16 @@ namespace Pls.SimpleMongoDb
         void Delete(string entityName, object selector);
 
         IList<T> Find<T>(object selector, object entitySchema = null) where T : class;
+        IList<T> Find<T>(T infered, string entityName, object selector, object entitySchema = null) where T : class;
 
         T FindOne<T>(object selector, object entitySchema = null) where T : class;
+        T FindOne<T>(T infered, string entityName, object selector, object entitySchema = null) where T : class;
 
         int Count<T>(object selector = null) where T : class;
 
         SimoReference Reference<T>(SimoId id) where T : class;
         SimoReference Reference(string entityName, SimoId id);
+        SimoReference<TId> Reference<T, TId>(TId id) where T : class;
+        SimoReference<TId> Reference<TId>(string entityName, TId id);
     }
 }

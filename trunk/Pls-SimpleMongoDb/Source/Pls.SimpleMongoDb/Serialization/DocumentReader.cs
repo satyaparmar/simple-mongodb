@@ -1,6 +1,6 @@
 using System.IO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
+using Newtonsoft.Json2;
+using Newtonsoft.Json2.Bson;
 
 namespace Pls.SimpleMongoDb.Serialization
 {

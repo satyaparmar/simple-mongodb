@@ -142,6 +142,15 @@ namespace Pls.SimpleMongoDb.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The type is not supported. Can not convert from: &quot;{0}&quot;..
+        /// </summary>
+        public static string SimoIdJsonConverter_InvalidType {
+            get {
+                return ResourceManager.GetString("SimoIdJsonConverter_InvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The bytes representing the ObjectId must be 12-bytes long and can not be all empty..
         /// </summary>
         public static string SimoObjectId_InvalidBytes {
@@ -192,6 +201,15 @@ namespace Pls.SimpleMongoDb.Resources {
         public static string SimoObjectIdTimePart_InvalidBytesLen {
             get {
                 return ResourceManager.GetString("SimoObjectIdTimePart_InvalidBytesLen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The use of regular expression are only supported in BsonWriter..
+        /// </summary>
+        public static string SimoRegexJsonConverter_OnlySupportsBsonWriter {
+            get {
+                return ResourceManager.GetString("SimoRegexJsonConverter_OnlySupportsBsonWriter", resourceCulture);
             }
         }
         

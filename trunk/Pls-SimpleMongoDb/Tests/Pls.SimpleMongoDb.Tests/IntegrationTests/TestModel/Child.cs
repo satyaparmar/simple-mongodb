@@ -6,7 +6,7 @@ namespace Pls.SimpleMongoDb.Tests.IntegrationTests.TestModel
     [Serializable]
     public class Child
     {
-        private SimoAutoId _simoAutoId = new SimoAutoId();
+        private readonly SimoAutoId _simoAutoId = new SimoAutoId();
 
         public SimoId _id
         {
@@ -14,6 +14,6 @@ namespace Pls.SimpleMongoDb.Tests.IntegrationTests.TestModel
         }
 
         public virtual string Name { get; set; }
-        public virtual SimoReference Father { get; set; }
+        public virtual SimoReference FatherReference { get; set; }
     }
 }

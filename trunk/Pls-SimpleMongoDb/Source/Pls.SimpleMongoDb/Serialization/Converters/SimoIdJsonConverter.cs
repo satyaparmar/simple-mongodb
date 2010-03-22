@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
+using Newtonsoft.Json2;
+using Newtonsoft.Json2.Bson;
 using Pls.SimpleMongoDb.DataTypes;
 using Pls.SimpleMongoDb.Resources;
 
-namespace Pls.SimpleMongoDb.Serialization
+namespace Pls.SimpleMongoDb.Serialization.Converters
 {
     [Serializable]
     internal class SimoIdJsonConverter
@@ -17,17 +17,29 @@ namespace Pls.SimpleMongoDb.Serialization
         {
             var oid = value as SimoId;
 
-            if (SimoId.IsEmpty(oid))
+            if (SimoId.IsNullOrEmpty(oid))
                 throw new SerializationException(ExceptionMessages.SimoObjectIdJsonConverter_InvalidId);
 
-            ((BsonWriter)writer).WriteObjectId(oid);
+            var bsonWriter = writer as BsonWriter;
+
+            if (bsonWriter != null)
+                bsonWriter.WriteObjectId(oid);
+            else
+                writer.WriteValue(oid.Value);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var idBytes = serializer.Deserialize<byte[]>(reader);
+            if (reader.TokenType != JsonToken.Bytes && !objectType.Equals(AcceptedType))
+                throw new SerializationException(string.Format(ExceptionMessages.SimoIdJsonConverter_InvalidType, reader.TokenType));
+
+            var idBytes = (byte[])reader.Value;
 
             return idBytes == null ? null : new SimoId(idBytes);
+
+            //var idBytes = serializer.Deserialize<byte[]>(reader);
+
+            //return idBytes == null ? null : new SimoId(idBytes);
         }
 
         public override bool CanConvert(Type objectType)

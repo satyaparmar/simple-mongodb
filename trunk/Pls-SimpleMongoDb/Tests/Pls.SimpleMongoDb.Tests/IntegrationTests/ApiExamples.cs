@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Pls.SimpleMongoDb.DataTypes;
 using Pls.SimpleMongoDb.Tests.IntegrationTests.TestModel;
 
 namespace Pls.SimpleMongoDb.Tests.IntegrationTests
@@ -65,6 +67,27 @@ namespace Pls.SimpleMongoDb.Tests.IntegrationTests
         }
 
         [TestMethod]
+        public void Find_UsingRegex()
+        {
+            var cn = CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                entityStore.Insert(new Person { Name = "Daniel", Age = 29 });
+                entityStore.Insert(new Person { Name = "Daniel1", Age = 45 });
+                entityStore.Insert(new Person { Name = "Daniel1", Age = 55 });
+                entityStore.Insert(new Person { Name = "Daniel2", Age = 65 });
+                entityStore.Insert(new Person { Name = "Sue", Age = 20 });
+
+                var refetched = entityStore.FindOne<Person>(new { Age = 45, Name = new SimoRegex("^Dan.*1") });
+
+                Assert.AreEqual(45, refetched.Age);
+                Assert.AreEqual("Daniel1", refetched.Name);
+            }
+        }
+
+        [TestMethod]
         public void ParentChildReference_Example()
         {
             var cn = CreateConnection();
@@ -77,19 +100,46 @@ namespace Pls.SimpleMongoDb.Tests.IntegrationTests
                 //After that, you just store the items.
                 var parent = new Parent { Name = "Daniel" };
                 var fatherReference = entityStore.Reference<Parent>(parent._id);
-                var child = new Child { Name = "Isabell", Father = fatherReference };
+                var child = new Child { Name = "Isabell", FatherReference = fatherReference };
 
                 //You could of course have created the reference manually, but then you loose the
                 //use of the pluralizer, and have to role-this on your own.
-                //new SimoReference { CollectionName = Constants.Collections.ParentsCollectionName, Id = parent._id };
+                //new SimoReference { CollectionName = "Parents", Id = parent._id };
 
                 entityStore.Insert(parent);
                 entityStore.Insert(child);
 
                 var refetchedChild = entityStore.FindOne<Child>(new { child._id });
 
-                Assert.AreEqual(fatherReference.Id, refetchedChild.Father.Id);
-                Assert.AreEqual(fatherReference.CollectionName, refetchedChild.Father.CollectionName);
+                Assert.AreEqual(fatherReference.Id, refetchedChild.FatherReference.Id);
+                Assert.AreEqual(fatherReference.CollectionName, refetchedChild.FatherReference.CollectionName);
+            }
+        }
+
+        [TestMethod]
+        public void ParentChildReference_CustomId_Example()
+        {
+            var cn = CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                //This time we use anonymous type and custom Id's (Guids).
+                var parent = new { _id = Guid.NewGuid(), Name = "Daniel" };
+                var fatherReference = entityStore.Reference("Parent", parent._id);
+                var child = new { _id = Guid.NewGuid(), Name = "Isabell", FatherReference = fatherReference };
+
+                //You could of course have created the reference manually, but then you loose the
+                //use of the pluralizer, and have to role-this on your own.
+                //new SimoReference<Guid> { CollectionName = "Parents", Id = parent._id };
+
+                entityStore.Insert("Parent", parent);
+                entityStore.Insert("Child", child);
+
+                var refetchedChild = entityStore.FindOne(infered: child, entityName: "Child", selector: new { child._id });
+
+                Assert.AreEqual(fatherReference.Id, refetchedChild.FatherReference.Id);
+                Assert.AreEqual(fatherReference.CollectionName, refetchedChild.FatherReference.CollectionName);
             }
         }
 
