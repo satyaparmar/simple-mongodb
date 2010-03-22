@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Pls.SimpleMongoDb.DataTypes;
 
 namespace Pls.SimpleMongoDb
@@ -91,10 +90,22 @@ namespace Pls.SimpleMongoDb
             return GetEntityCollection<T>().Find<T>(selector, entitySchema);
         }
 
+        public IList<T> Find<T>(T infered, string entityName, object selector, object entitySchema = null)
+            where T : class
+        {
+            return GetEntityCollection(entityName).Find<T>(selector, entitySchema);
+        }
+
         public T FindOne<T>(object selector, object entitySchema = null)
             where T : class
         {
             return GetEntityCollection<T>().FindOne<T>(selector, entitySchema);
+        }
+
+        public T FindOne<T>(T infered, string entityName, object selector, object entitySchema = null)
+            where T : class
+        {
+            return GetEntityCollection(entityName).FindOne<T>(selector, entitySchema);
         }
 
         public int Count<T>(object selector = null)
@@ -115,6 +126,20 @@ namespace Pls.SimpleMongoDb
             entityName = Session.Pluralizer.Pluralize(entityName);
             
             return new SimoReference { CollectionName = entityName, Id = id };
+        }
+
+        public SimoReference<TId> Reference<T, TId>(TId id) where T : class
+        {
+            var entityName = EntityMetadata<T>.EntityName;
+
+            return Reference(entityName, id);
+        }
+
+        public SimoReference<TId> Reference<TId>(string entityName, TId id)
+        {
+            entityName = Session.Pluralizer.Pluralize(entityName);
+
+            return new SimoReference<TId> { CollectionName = entityName, Id = id };
         }
 
         private ISimoCollection GetEntityCollection<T>()

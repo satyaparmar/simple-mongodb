@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
+using Newtonsoft.Json2;
 using Pls.SimpleMongoDb.Exceptions;
 using Pls.SimpleMongoDb.Resources;
-using Pls.SimpleMongoDb.Serialization;
+using Pls.SimpleMongoDb.Serialization.Converters;
 
 namespace Pls.SimpleMongoDb.DataTypes
 {

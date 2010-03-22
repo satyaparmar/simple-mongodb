@@ -34,8 +34,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\Libs\NewtonsoftJson\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json2">
+      <HintPath>..\..\Libs\NewtonsoftJson\Newtonsoft.Json2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -53,6 +53,9 @@
     <Compile Include="IoC\SimoIoC.cs" />
     <Compile Include="ISimoSessionFactory.cs" />
     <Compile Include="ISimoEngine.cs" />
+    <Compile Include="DataTypes\SimoRegex.cs" />
+    <Compile Include="Serialization\Converters\SimoRegexJsonConverter.cs" />
+    <Compile Include="Serialization\Converters\WhereOperatorConverter.cs" />
     <Compile Include="SimoEngine.cs" />
     <Compile Include="SimoSessionFactory.cs" />
     <Compile Include="SimoEntityStore.cs" />
@@ -83,13 +86,13 @@
     <Compile Include="DataTypes\SimoId.cs" />
     <Compile Include="DataTypes\SimoIdBytesGenerator.cs" />
     <Compile Include="DataTypes\SimoIdCounterPart.cs" />
-    <Compile Include="Serialization\SimoIdJsonConverter.cs" />
+    <Compile Include="Serialization\Converters\SimoIdJsonConverter.cs" />
     <Compile Include="DataTypes\SimoJson.cs" />
     <Compile Include="DataTypes\SimoIdMachinePart.cs" />
     <Compile Include="DataTypes\SimoIdProcessPart.cs" />
     <Compile Include="DataTypes\SimoIdTimePart.cs" />
     <Compile Include="DataTypes\SimoReference.cs" />
-    <Compile Include="Serialization\SimoReferenceJsonConverter.cs" />
+    <Compile Include="Serialization\Converters\SimoReferenceJsonConverter.cs" />
     <Compile Include="SimoSession.cs" />
     <Compile Include="Operators\ISimoOperator.cs" />
     <Compile Include="Operators\SimoOperator.cs" />

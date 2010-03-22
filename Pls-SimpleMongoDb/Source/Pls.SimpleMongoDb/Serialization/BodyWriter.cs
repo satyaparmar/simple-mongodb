@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Pls.SimpleMongoDb.DataTypes;
-using Pls.SimpleMongoDb.Operators;
 
 namespace Pls.SimpleMongoDb.Serialization
 {
@@ -97,26 +95,10 @@ namespace Pls.SimpleMongoDb.Serialization
         {
             if (value is string)
                 WriteJson(value.ToString());
-            else if(value is SimoJson)
+            else if (value is SimoJson)
                 WriteJson(value as SimoJson);
             else
-            {
-                var @operator = value as ISimoOperator;
-
-                if (@operator != null)
-                    WriteSelector(@operator);
-                else
-                    WriteAsBson(value);    
-            }
-        }
-
-        private void WriteSelector(ISimoOperator @operator)
-        {
-            var operatorDictionary = new Dictionary<string, object>
-                        {
-                            {@operator.Key, @operator.Expression}
-                        };
-            WriteAsBson(operatorDictionary);
+                WriteAsBson(value);
         }
 
         private void WriteJson(SimoJson json)

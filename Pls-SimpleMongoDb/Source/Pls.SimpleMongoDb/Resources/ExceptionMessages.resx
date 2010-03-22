@@ -144,6 +144,9 @@
   <data name="ResponseReader_WrongOpCodeInResponse" xml:space="preserve">
     <value>The OpCode "{0}" was expected, but "{1}" was retrieved.</value>
   </data>
+  <data name="SimoIdJsonConverter_InvalidType" xml:space="preserve">
+    <value>The type is not supported. Can not convert from: "{0}".</value>
+  </data>
   <data name="SimoObjectIdCounterPart_InvalidBytesLen" xml:space="preserve">
     <value>The byte-array representing the counterpart of the ObjectId has an invalid length. The length should be {0} bytes.</value>
   </data>
@@ -161,6 +164,9 @@
   </data>
   <data name="SimoObjectId_InvalidBytes" xml:space="preserve">
     <value>The bytes representing the ObjectId must be 12-bytes long and can not be all empty.</value>
+  </data>
+  <data name="SimoRegexJsonConverter_OnlySupportsBsonWriter" xml:space="preserve">
+    <value>The use of regular expression are only supported in BsonWriter.</value>
   </data>
   <data name="SimpleCommand_MissingDatabaseName" xml:space="preserve">
     <value>The command needs a value for "DatabaseName".</value>

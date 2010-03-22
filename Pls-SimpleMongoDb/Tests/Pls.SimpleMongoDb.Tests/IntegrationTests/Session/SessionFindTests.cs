@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Pls.SimpleMongoDb.DataTypes;
 using Pls.SimpleMongoDb.Operators;
 using Pls.SimpleMongoDb.Tests.IntegrationTests.TestModel;
 
@@ -49,6 +51,29 @@ namespace Pls.SimpleMongoDb.Tests.IntegrationTests.Session
 
                 Assert.AreEqual("Daniel", persons[0].Name);
                 Assert.AreEqual("Lazy John", persons[1].Name);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingRegExOperator_ThreeItemsReturned()
+        {
+            var documents = new[]
+                            {
+                                new Person {Name = "Daniel", Age = 29},
+                                new Person {Name = "Daniel1", Age = 55},
+                                new Person {Name = "Daniel2", Age = 65},
+                                new Person {Name = "Sue", Age = 20}
+                            };
+            InsertDocuments(Constants.Collections.PersonsFullCollectionName, documents);
+
+            using (var session = new SimoSession(CreateConnection()))
+            {
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(new {Name = new SimoRegex("^Dan.*")});
+                
+                Assert.AreEqual(3, persons.Count, "Wrong number of persons returned.");
+                Assert.AreEqual("Daniel", persons[0].Name);
+                Assert.AreEqual("Daniel1", persons[1].Name);
+                Assert.AreEqual("Daniel2", persons[2].Name);
             }
         }
     }
