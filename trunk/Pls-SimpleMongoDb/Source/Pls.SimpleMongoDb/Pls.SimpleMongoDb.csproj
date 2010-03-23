@@ -112,9 +112,8 @@
     <Compile Include="Serialization\Response.cs" />
     <Compile Include="Serialization\ResponseReader.cs" />
     <Compile Include="Serialization\SerializationConsts.cs" />
-    <Compile Include="Utils\ISimoPluralizer.cs" />
-    <Compile Include="Utils\SimoPluralizer.cs" />
-    <Compile Include="Utils\StringExtensions.cs" />
+    <Compile Include="Globalization\ISimoPluralizer.cs" />
+    <Compile Include="Globalization\SimoPluralizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ExceptionMessages.resx">
