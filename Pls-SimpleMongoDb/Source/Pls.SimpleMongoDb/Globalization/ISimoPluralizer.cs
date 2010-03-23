@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Pls.SimpleMongoDb.Utils
+namespace Pls.SimpleMongoDb.Globalization
 {
     public interface ISimoPluralizer
     {

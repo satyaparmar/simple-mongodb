@@ -2,7 +2,7 @@
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 
-namespace Pls.SimpleMongoDb.Utils
+namespace Pls.SimpleMongoDb.Globalization
 {
     public class SimoPluralizer 
         : ISimoPluralizer
@@ -47,7 +47,7 @@ namespace Pls.SimpleMongoDb.Utils
                 return value;
 
             return !_specificPluralizations.ContainsKey(value) ?
-                _service.Pluralize(value) : _specificPluralizations[value];
+                                                                   _service.Pluralize(value) : _specificPluralizations[value];
         }
 
         public void Disable()
@@ -61,3 +61,5 @@ namespace Pls.SimpleMongoDb.Utils
         }
     }
 }
+
+

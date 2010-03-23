@@ -1,5 +1,5 @@
 using System;
-using Pls.SimpleMongoDb.Utils;
+using Pls.SimpleMongoDb.Globalization;
 
 namespace Pls.SimpleMongoDb.IoC
 {
