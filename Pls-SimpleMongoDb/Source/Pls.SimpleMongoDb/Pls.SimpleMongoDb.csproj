@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ISimoResponseCommand.cs" />
+    <Compile Include="Commands\SimoCommandResponse.cs" />
+    <Compile Include="Commands\SimoResponseCommand.cs" />
     <Compile Include="EntityMetadata.cs" />
     <Compile Include="IoC\ISimoIoC.cs" />
     <Compile Include="IoC\SimoIoC.cs" />
@@ -119,6 +122,7 @@
     <EmbeddedResource Include="Resources\ExceptionMessages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

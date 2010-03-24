@@ -22,7 +22,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var updateCommand = new UpdateDocumentsCommand(cn)
                                     {
-                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
+                                        NodeName = Constants.Collections.PersonsFullCollectionName,
                                         QuerySelector = new { Name = "Daniel2" },
                                         Document = new { Name = "Daniel3" }
                                     };
@@ -40,7 +40,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 var updateCommand = new UpdateDocumentsCommand(cn)
                                     {
                                         Mode = UpdateModes.Upsert,
-                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
+                                        NodeName = Constants.Collections.PersonsFullCollectionName,
                                         QuerySelector = new { Name = "Joe"},
                                         Document = new { Name = "Joe" }
                                     };
@@ -65,7 +65,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 var updateCommand = new UpdateDocumentsCommand(cn)
                                     {
                                         Mode = UpdateModes.MultiUpdate,
-                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
+                                        NodeName = Constants.Collections.PersonsFullCollectionName,
                                         QuerySelector = @"{$where : ""this.Name.indexOf('Daniel') > -1""}",
                                         Document = @"{$set:{Name : ""The Daniel""}}"
                                     };
@@ -90,7 +90,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 var updateCommand = new UpdateDocumentsCommand(cn)
                                     {
                                         Mode = UpdateModes.MultiUpdate,
-                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
+                                        NodeName = Constants.Collections.PersonsFullCollectionName,
                                         QuerySelector = @"{$where : ""this.Name.indexOf('Daniel') > -1""}",
                                         Document = new {Name = "The Daniel"}
                                     };

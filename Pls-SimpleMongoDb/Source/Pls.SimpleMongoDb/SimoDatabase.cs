@@ -24,7 +24,7 @@ namespace Pls.SimpleMongoDb
         {
             var cmd = new DatabaseCommand(Session.Connection)
             {
-                DatabaseName = Name,
+                NodeName = Name,
                 Command = new { dropDatabase = 1 }
             };
             cmd.Execute();

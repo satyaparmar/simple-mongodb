@@ -24,7 +24,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
             {
                 var cmd = new DatabaseCommand(cn)
                           {
-                              DatabaseName = Constants.TestDbName,
+                              NodeName = Constants.TestDbName,
                               Command = new { dropDatabase = 1 }
                           };
                 cmd.Execute();
@@ -38,7 +38,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
-                                        FullCollectionName = fullCollectionName,
+                                        NodeName = fullCollectionName,
                                         Documents = documents
                                     };
                 insertCommand.Execute();
@@ -56,11 +56,11 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
             {
 
                 var queryCommand = new InferedCommandFactory().CreateInfered(cn, new { _id = SimoId.Empty });
-                queryCommand.FullCollectionName = fullCollectionName;
+                queryCommand.NodeName = fullCollectionName;
                 queryCommand.QuerySelector = selector;
                 queryCommand.Execute();
 
-                return queryCommand.Response.Count();
+                return queryCommand.Response.NumberOfDocuments;
             }
         }
 
@@ -70,11 +70,11 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
             using (var cn = CreateConnection())
             {
                 var queryCommand = new InferedCommandFactory().CreateInfered(cn, inferedTemplate);
-                queryCommand.FullCollectionName = fullCollectionName;
+                queryCommand.NodeName = fullCollectionName;
                 queryCommand.QuerySelector = selector;
                 queryCommand.Execute();
 
-                return queryCommand.Response.Single();
+                return queryCommand.Response.Documents.Single();
             }
         }
 
@@ -97,12 +97,12 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
             {
                 var queryCommand = new QueryDocumentsCommand<TDocument>(cn)
                                    {
-                                       FullCollectionName = fullCollectionName,
+                                       NodeName = fullCollectionName,
                                        QuerySelector = selector
                                    };
                 queryCommand.Execute();
 
-                return queryCommand.Response.ToList();
+                return queryCommand.Response.Documents;
             }
         }
     }

@@ -10,20 +10,6 @@ namespace Pls.SimpleMongoDb.Commands
     public class DeleteDocumentsCommand
         : SimoCommand
     {
-        public override bool CanHandleResponses
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Defines which DB and Collection the command should be executed against.
-        /// E.g <![CDATA["dbname.collectionname"]]>.
-        /// </summary>
-        public string FullCollectionName { get; set; }
-
         /// <summary>
         /// Defines the query object that is used to
         /// identify documents to delete.
@@ -38,8 +24,8 @@ namespace Pls.SimpleMongoDb.Commands
 
         protected override void OnEnsureValidForExecution()
         {
-            if (string.IsNullOrEmpty(FullCollectionName))
-                throw new SimoCommandException(ExceptionMessages.Command_MissingFullCollectionName);
+            if (string.IsNullOrEmpty(NodeName))
+                throw new SimoCommandException(ExceptionMessages.SimoCommand_IsMissingNodeName);
         }
 
         protected override Request GenerateRequest()
@@ -63,7 +49,7 @@ namespace Pls.SimpleMongoDb.Commands
                 using (var writer = new BodyWriter(stream))
                 {
                     writer.Write(0);
-                    writer.Write(FullCollectionName);
+                    writer.Write(NodeName);
                     writer.Write(0);
                     writer.WriteTerminator();
                     writer.WriteSelector(Selector ?? new object());
