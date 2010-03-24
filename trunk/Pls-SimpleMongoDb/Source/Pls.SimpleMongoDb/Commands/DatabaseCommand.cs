@@ -8,22 +8,13 @@ namespace Pls.SimpleMongoDb.Commands
     public class DatabaseCommand
         : SimoCommand
     {
-        public override bool CanHandleResponses
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Defines which DB the command should be executed against.
-        /// </summary>
-        public string DatabaseName { get; set; }
-
         /// <summary>
         /// Defines the command to execute.
-        /// <![CDATA[E.g. dropDatabase : 1]]>
+        /// <![CDATA[E.g.
+        /// dropDatabase : 1.0
+        /// getlasterror : 1.0
+        /// getpreverror : 1.0
+        /// reseterror : 1.0]]>
         /// </summary>
         public object Command { get; set; }
 
@@ -34,8 +25,8 @@ namespace Pls.SimpleMongoDb.Commands
 
         protected override void OnEnsureValidForExecution()
         {
-            if (string.IsNullOrEmpty(DatabaseName))
-                throw new SimoCommandException(ExceptionMessages.Command_MissingFullCollectionName);
+            if (string.IsNullOrEmpty(NodeName))
+                throw new SimoCommandException(ExceptionMessages.SimoCommand_IsMissingNodeName);
         }
 
         protected override Request GenerateRequest()
@@ -58,7 +49,7 @@ namespace Pls.SimpleMongoDb.Commands
                 using (var writer = new BodyWriter(stream))
                 {
                     writer.Write((int)QueryOptions.None);
-                    writer.Write(DatabaseName + ".$cmd");
+                    writer.Write(NodeName + ".$cmd");
                     writer.WriteTerminator();
                     writer.Write(0);
                     writer.Write(-1);

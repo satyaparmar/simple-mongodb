@@ -22,12 +22,12 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName,
+                                       NodeName = Constants.Collections.PersonsFullCollectionName,
                                        QuerySelector = new { Name = "Daniel" }
                                    };
                 queryCommand.Execute();
 
-                Assert.AreEqual(1, queryCommand.Response.Count());
+                Assert.AreEqual(1, queryCommand.Response.NumberOfDocuments);
             }
         }
 
@@ -42,12 +42,12 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName,
+                                       NodeName = Constants.Collections.PersonsFullCollectionName,
                                        QuerySelector = new { TempDate = tempDate }
                                    };
                 queryCommand.Execute();
 
-                Assert.AreEqual(1, queryCommand.Response.Count());
+                Assert.AreEqual(1, queryCommand.Response.NumberOfDocuments);
             }
         }
 
@@ -66,11 +66,11 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName
+                                       NodeName = Constants.Collections.PersonsFullCollectionName
                                    };
                 queryCommand.Execute();
 
-                Assert.AreEqual(2, queryCommand.Response.Count());
+                Assert.AreEqual(2, queryCommand.Response.NumberOfDocuments);
             }
         }
 
@@ -89,12 +89,12 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName,
+                                       NodeName = Constants.Collections.PersonsFullCollectionName,
                                        QuerySelector = @"{$where : ""this.Name.indexOf('Daniel') > -1 && this.Age < 30""}"
                                    };
                 queryCommand.Execute();
 
-                Assert.AreEqual(2, queryCommand.Response.Count());
+                Assert.AreEqual(2, queryCommand.Response.NumberOfDocuments);
             }
         }
 
@@ -113,12 +113,12 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName,
+                                       NodeName = Constants.Collections.PersonsFullCollectionName,
                                        QuerySelector = new SimoJson(@"{$where : ""this.Name.indexOf('Daniel') > -1 && this.Age < 30""}")
                                    };
                 queryCommand.Execute();
 
-                Assert.AreEqual(2, queryCommand.Response.Count());
+                Assert.AreEqual(2, queryCommand.Response.NumberOfDocuments);
             }
         }
 
@@ -137,12 +137,12 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName,
+                                       NodeName = Constants.Collections.PersonsFullCollectionName,
                                        QuerySelector = new WhereOperator("this.Name.indexOf('Daniel') > -1 && this.Age < 30")
                                    };
                 queryCommand.Execute();
 
-                Assert.AreEqual(2, queryCommand.Response.Count());
+                Assert.AreEqual(2, queryCommand.Response.NumberOfDocuments);
             }
         }
     }

@@ -11,7 +11,12 @@ namespace Pls.SimpleMongoDb.Commands
     {
         public ISimoConnection Connection { get; set; }
 
-        public abstract bool CanHandleResponses { get;}
+        /// <summary>
+        /// Defines which Node in the DB that the command should be executed against.
+        /// Most often this is FullCollectionName, e.g
+        /// <![CDATA["dbname.collectionname"]]>.
+        /// </summary>
+        public string NodeName { get; set; }
 
         protected SimoCommand(ISimoConnection connection)
         {
@@ -43,7 +48,8 @@ namespace Pls.SimpleMongoDb.Commands
                 {
                     requestWriter.Write(request);
 
-                    if (!CanHandleResponses) return;
+                    if (!(this is ISimoResponseCommand))
+                        return;
 
                     using (var responseStream = Connection.GetPipeStream())
                     {

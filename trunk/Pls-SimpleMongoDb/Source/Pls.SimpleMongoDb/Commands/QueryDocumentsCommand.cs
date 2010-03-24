@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using Pls.SimpleMongoDb.Resources;
 using Pls.SimpleMongoDb.Serialization;
@@ -9,45 +8,13 @@ namespace Pls.SimpleMongoDb.Commands
     /// Command used for querying for documents.
     /// </summary>
     public class QueryDocumentsCommand<TDocument>
-        : SimoCommand
+        : SimoResponseCommand<TDocument>
         where TDocument : class
     {
-        private readonly List<TDocument> _response;
-
-        public override bool CanHandleResponses
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Defines which DB and Collection the command should be executed against.
-        /// E.g <![CDATA["dbname.collectionname"]]>.
-        /// </summary>
-        public string FullCollectionName { get; set; }
-
         /// <summary>
         /// Defines how the result will be returned.
         /// </summary>
-        private QueryOptions QueryOption { get; set; }
-
-        /// <summary>
-        /// Sets the number of documents to omit - starting from
-        /// the first document in the resulting dataset - when
-        /// returning the result of the query.
-        /// </summary>
-        private int NumberOfDocumentsToSkip { get; set; }
-
-        /// <summary>
-        /// Number of documents to return in the first reply.
-        /// If numberToReturn is 0, the db will used the default
-        /// return size. If the number is negative, then the
-        /// database will return that number and close the cursor.
-        /// No futher results for that query can be fetched.
-        /// </summary>
-        private int NumberOfDocumentsToReturn { get; set; }
+        public QueryOptions QueryOption { get; set; }
 
         /// <summary>
         /// QuerySelector - defines the query criterias.
@@ -59,30 +26,18 @@ namespace Pls.SimpleMongoDb.Commands
         /// </summary>
         public object DocumentSchema { get; set; }
 
-        /// <summary>
-        /// Contains the returned documents.
-        /// </summary>
-        public IList<TDocument> Response
-        {
-            get
-            {
-                return _response;
-            }
-        }
-
         public QueryDocumentsCommand(ISimoConnection connection)
             : base(connection)
         {
             QueryOption = QueryOptions.None;
             NumberOfDocumentsToSkip = 0;
             NumberOfDocumentsToReturn = 0;
-            _response = new List<TDocument>();
         }
 
         protected override void OnEnsureValidForExecution()
         {
-            if (string.IsNullOrEmpty(FullCollectionName))
-                throw new SimoCommandException(ExceptionMessages.Command_MissingFullCollectionName);
+            if (string.IsNullOrEmpty(NodeName))
+                throw new SimoCommandException(ExceptionMessages.SimoCommand_IsMissingNodeName);
         }
 
         protected override Request GenerateRequest()
@@ -105,7 +60,7 @@ namespace Pls.SimpleMongoDb.Commands
                 using (var writer = new BodyWriter(stream))
                 {
                     writer.Write((int)QueryOption);
-                    writer.Write(FullCollectionName);
+                    writer.Write(NodeName);
                     writer.WriteTerminator();
                     writer.Write(NumberOfDocumentsToSkip);
                     writer.Write(NumberOfDocumentsToReturn);
@@ -118,14 +73,6 @@ namespace Pls.SimpleMongoDb.Commands
 
                 return stream.ToArray();
             }
-        }
-
-        protected override void OnReadResponse(ResponseReader responseReader)
-        {
-            var response = responseReader.Read<TDocument>();
-
-            _response.Clear();
-            _response.AddRange(response.ReturnedDocuments);
         }
     }
 }

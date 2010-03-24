@@ -61,15 +61,6 @@ namespace Pls.SimpleMongoDb.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The command needs a value for &quot;FullCollectionName&quot;..
-        /// </summary>
-        public static string Command_MissingFullCollectionName {
-            get {
-                return ResourceManager.GetString("Command_MissingFullCollectionName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The specified connectionstring name &quot;{0}&quot; could not be found..
         /// </summary>
         public static string ConnectionInfo_MissingConnectionStringEntry {
@@ -138,6 +129,15 @@ namespace Pls.SimpleMongoDb.Resources {
         public static string ResponseReader_WrongOpCodeInResponse {
             get {
                 return ResourceManager.GetString("ResponseReader_WrongOpCodeInResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The command needs a value for &quot;NodeName&quot;..
+        /// </summary>
+        public static string SimoCommand_IsMissingNodeName {
+            get {
+                return ResourceManager.GetString("SimoCommand_IsMissingNodeName", resourceCulture);
             }
         }
         

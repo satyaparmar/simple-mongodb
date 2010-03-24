@@ -11,20 +11,6 @@ namespace Pls.SimpleMongoDb.Commands
     public class InsertDocumentsCommand
         : SimoCommand
     {
-        public override bool CanHandleResponses
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Defines which DB and Collection the command should be executed against.
-        /// E.g <![CDATA["dbname.collectionname"]]>.
-        /// </summary>
-        public string FullCollectionName { get; set; }
-
         /// <summary>
         /// The documents that will be inserted.
         /// </summary>
@@ -38,8 +24,8 @@ namespace Pls.SimpleMongoDb.Commands
 
         protected override void OnEnsureValidForExecution()
         {
-            if (string.IsNullOrEmpty(FullCollectionName))
-                throw new SimoCommandException(ExceptionMessages.Command_MissingFullCollectionName);
+            if (string.IsNullOrEmpty(NodeName))
+                throw new SimoCommandException(ExceptionMessages.SimoCommand_IsMissingNodeName);
         }
 
         protected override Request GenerateRequest()
@@ -59,7 +45,7 @@ namespace Pls.SimpleMongoDb.Commands
                 using (var writer = new BodyWriter(stream))
                 {
                     writer.Write(0);
-                    writer.Write(FullCollectionName);
+                    writer.Write(NodeName);
                     writer.WriteTerminator();
 
                     foreach (var document in Documents)
