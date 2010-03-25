@@ -6,40 +6,55 @@ namespace Pls.SimpleMongoDb.Commands
         : SimoCommand, ISimoResponseCommand
         where TDocument : class
     {
-        private readonly SimoCommandResponse<TDocument> _response;
+        private SimoCommandResponse<TDocument> _response;
 
         public SimoCommandResponse<TDocument> Response
         {
             get { return _response; }
         }
 
-        /// <summary>
-        /// Sets the number of documents to omit - starting from
-        /// the first document in the resulting dataset - when
-        /// returning the result of the query.
-        /// </summary>
-        public int NumberOfDocumentsToSkip { get; set; }
-
-        /// <summary>
-        /// Number of documents to return in the first reply.
-        /// If numberToReturn is 0, the db will used the default
-        /// return size. If the number is negative, then the
-        /// database will return that number and close the cursor.
-        /// No futher results for that query can be fetched.
-        /// </summary>
-        public int NumberOfDocumentsToReturn { get; set; }
-
         protected SimoResponseCommand(ISimoConnection connection)
             : base(connection)
+        {
+            InitializeResponse();
+        }
+
+        protected override void OnExecute(ISimoConnection connection)
+        {
+            InitializeResponse();
+
+            base.OnExecute(connection);
+        }
+
+        private void InitializeResponse()
         {
             _response = new SimoCommandResponse<TDocument>();
         }
 
-        protected override void OnReadResponse(ResponseReader responseReader)
+        protected override void OnReadResponse(ResponseStreamReader responseStreamReader)
         {
-            var response = responseReader.Read<TDocument>();
+            var requestResponse = responseStreamReader.Read<TDocument>();
 
-            Response.Initialize(response);
+            Response.SetDocuments(requestResponse.ReturnedDocuments);
+
+            GetMoreCommand<TDocument> getMoreCommand = null;
+
+            while (requestResponse.HasMoreResponse)
+            {
+                if(getMoreCommand == null)
+                    getMoreCommand = new GetMoreCommand<TDocument>(Connection, requestResponse.CursorId.Value, requestResponse.NumberOfReturnedDocuments.Value) { NodeName = NodeName };
+
+                getMoreCommand.Execute();
+
+                Response.AddDocuments(getMoreCommand.Response.Documents);
+
+                if(getMoreCommand.Response.NumberOfDocuments < 1 || !getMoreCommand.CursorHasMoreResult)
+                    break;
+            }
+
+            //Note that if a cursor is read until exhausted
+            //(read until OP_QUERY or OP_GETMORE returns zero for the cursor id),
+            //there is no need to kill the cursor.
         }
     }
 }

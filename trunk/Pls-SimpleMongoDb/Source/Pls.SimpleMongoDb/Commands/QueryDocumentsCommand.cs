@@ -14,7 +14,23 @@ namespace Pls.SimpleMongoDb.Commands
         /// <summary>
         /// Defines how the result will be returned.
         /// </summary>
-        public QueryOptions QueryOption { get; set; }
+        private QueryOptions QueryOption { get; set; }
+
+        /// <summary>
+        /// Sets the number of documents to omit - starting from
+        /// the first document in the resulting dataset - when
+        /// returning the result of the query.
+        /// </summary>
+        public virtual int NumberOfDocumentsToSkip { get; set; }
+
+        /// <summary>
+        /// Number of documents to return in the first reply.
+        /// If numberToReturn is 0, the db will used the default
+        /// return size. If the number is negative, then the
+        /// database will return that number and close the cursor.
+        /// No futher results for that query can be fetched.
+        /// </summary>
+        public virtual int NumberOfDocumentsToReturn { get; set; }
 
         /// <summary>
         /// QuerySelector - defines the query criterias.
@@ -48,11 +64,11 @@ namespace Pls.SimpleMongoDb.Commands
         protected virtual byte[] GenerateBody()
         {
             //http://www.mongodb.org/display/DOCS/Mongo+Wire+Protocol#MongoWireProtocol-OPQUERY
-            //int32     ZERO;                   // 0 - reserved for future use
+            //int32     opts;                   // query options
             //cstring   fullCollectionName;     // "dbname.collectionname"
             //int32     numberToSkip;           // number of documents to skip when returning results
             //int32     numberToReturn;         // number of documents to return in the first OP_REPLY
-            //BSON      query ;                 // query object.  See below for details.
+            //BSON      query;                  // query object.  See below for details.
             //BSON      returnFieldSelector;    // OPTIONAL : selector indicating the fields to return.  See below for details.
 
             using (var stream = new MemoryStream())
