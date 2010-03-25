@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pls.IntegrationTestsOf.SimpleMongoDb.TestModel;
 using Pls.SimpleMongoDb.Commands;
@@ -123,13 +122,15 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         }
 
         [TestMethod]
-        public void QueryManyPersons_WhereClauseUsingWhereOperator_ReturnsAllExceptOne()
+        public void QueryManyPersons_WhereClauseUsingWhereOperator_ReturnsThreePersons()
         {
             var person = new[]
                          {
-                             new Person { Name = "Daniel1", Age = 29 },
+                             new Person { Name = "Daniel1", Age = 28 },
                              new Person { Name = "Daniel2", Age = 29 },
-                             new Person { Name = "Daniel3", Age = 30 }
+                             new Person { Name = "Daniel3", Age = 30 },
+                             new Person { Name = "Daniel4", Age = 31},
+                             new Person { Name = "Daniel5", Age = 32}
                          };
             InsertDocuments(Constants.Collections.PersonsFullCollectionName, person);
 
@@ -138,11 +139,37 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
                                        NodeName = Constants.Collections.PersonsFullCollectionName,
-                                       QuerySelector = new WhereOperator("this.Name.indexOf('Daniel') > -1 && this.Age < 30")
+                                       QuerySelector = new WhereOperator("this.Name.indexOf('Daniel') > -1 && this.Age <= 30")
                                    };
                 queryCommand.Execute();
 
-                Assert.AreEqual(2, queryCommand.Response.NumberOfDocuments);
+                Assert.AreEqual(3, queryCommand.Response.NumberOfDocuments);
+            }
+        }
+
+        [TestMethod]
+        public void QueryManyPersonsUsingCursor_SpecificNumberOfDocumentsToReturnGivesCursor_AllPersonsAreReturned()
+        {
+            var person = new[]
+                         {
+                             new Person { Name = "Daniel1", Age = 28 },
+                             new Person { Name = "Daniel2", Age = 29 },
+                             new Person { Name = "Daniel3", Age = 30 },
+                             new Person { Name = "Daniel4", Age = 31},
+                             new Person { Name = "Daniel5", Age = 32}
+                         };
+            InsertDocuments(Constants.Collections.PersonsFullCollectionName, person);
+
+            using (var cn = CreateConnection())
+            {
+                var queryCommand = new QueryDocumentsCommand<Person>(cn)
+                {
+                    NodeName = Constants.Collections.PersonsFullCollectionName,
+                    NumberOfDocumentsToReturn = 2
+                };
+                queryCommand.Execute();
+
+                Assert.AreEqual(5, queryCommand.Response.NumberOfDocuments);
             }
         }
     }

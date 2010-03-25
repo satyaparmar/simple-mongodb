@@ -53,7 +53,7 @@ namespace Pls.SimpleMongoDb.Commands
 
                     using (var responseStream = Connection.GetPipeStream())
                     {
-                        using (var responseReader = new ResponseReader(responseStream))
+                        using (var responseReader = new ResponseStreamReader(responseStream))
                         {
                             OnReadResponse(responseReader);
                         }
@@ -65,10 +65,10 @@ namespace Pls.SimpleMongoDb.Commands
         /// <summary>
         /// Implement if the command is supposed to handle responses from MongoDb.
         /// </summary>
-        /// <param name="responseReader"></param>
-        protected virtual void OnReadResponse(ResponseReader responseReader)
+        /// <param name="responseStreamReader"></param>
+        protected virtual void OnReadResponse(ResponseStreamReader responseStreamReader)
         {
-            throw new NotImplementedException(ExceptionMessages.MongoCommand_OnReadResponseNotImplemented);
+            throw new NotSupportedException(ExceptionMessages.MongoCommand_OnReadResponseNotImplemented);
         }
 
         /// <summary>

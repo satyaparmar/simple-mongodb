@@ -45,6 +45,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\SimoKeyValuesAssertExtensions.cs" />
+    <Compile Include="DataTypes\SimoKeyValuesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimoConnectionInfoTests.cs" />
     <Compile Include="IoC\SimoIoCTests.cs" />

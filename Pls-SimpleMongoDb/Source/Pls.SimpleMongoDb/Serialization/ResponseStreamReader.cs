@@ -12,7 +12,7 @@ namespace Pls.SimpleMongoDb.Serialization
     /// Is used to generate a Response from a Response-stream, containing both the
     /// Response-header and the body containing the specific request parameters.
     /// </summary>
-    public class ResponseReader
+    public class ResponseStreamReader
         : IDisposable
     {
         private BinaryReader _reader;
@@ -23,7 +23,7 @@ namespace Pls.SimpleMongoDb.Serialization
             get { return SerializationConsts.DefaultEncoding; }
         }
 
-        public ResponseReader(Stream responseStream)
+        public ResponseStreamReader(Stream responseStream)
         {
             _reader = new BinaryReader(responseStream, Encoding);
             _documentReader = new DocumentReader(responseStream);
@@ -48,7 +48,7 @@ namespace Pls.SimpleMongoDb.Serialization
                 DisposeManagedResources();
         }
 
-        ~ResponseReader()
+        ~ResponseStreamReader()
         {
             Dispose(false);
         }
@@ -70,8 +70,8 @@ namespace Pls.SimpleMongoDb.Serialization
         {
             var response = new Response<TDocument>();
 
-            OnReadHeader<TDocument>(response);
-            OnReadBody<TDocument>(response);
+            OnReadHeader(response);
+            OnReadBody(response);
 
             return response;
         }
@@ -111,7 +111,7 @@ namespace Pls.SimpleMongoDb.Serialization
                 returnedDocuments.Add(document);
             }
 
-            response.ReturnedDocuments = returnedDocuments;
+            response.SetDocuments(returnedDocuments);
         }
     }
 }

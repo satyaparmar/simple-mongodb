@@ -48,8 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\GetMoreCommand.cs" />
     <Compile Include="Commands\ISimoResponseCommand.cs" />
     <Compile Include="Commands\SimoCommandResponse.cs" />
+    <Compile Include="DataTypes\SimoKeyValues.cs" />
     <Compile Include="Commands\SimoResponseCommand.cs" />
     <Compile Include="EntityMetadata.cs" />
     <Compile Include="IoC\ISimoIoC.cs" />
@@ -113,7 +115,7 @@
     <Compile Include="Serialization\Request.cs" />
     <Compile Include="Serialization\RequestWriter.cs" />
     <Compile Include="Serialization\Response.cs" />
-    <Compile Include="Serialization\ResponseReader.cs" />
+    <Compile Include="Serialization\ResponseStreamReader.cs" />
     <Compile Include="Serialization\SerializationConsts.cs" />
     <Compile Include="Globalization\ISimoPluralizer.cs" />
     <Compile Include="Globalization\SimoPluralizer.cs" />

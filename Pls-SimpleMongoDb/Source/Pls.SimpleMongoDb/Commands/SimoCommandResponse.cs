@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Pls.SimpleMongoDb.Serialization;
 
 namespace Pls.SimpleMongoDb.Commands
 {
@@ -25,16 +24,16 @@ namespace Pls.SimpleMongoDb.Commands
             _documents = new List<TDocument>();
         }
         
-        public void Initialize(Response<TDocument> response)
-        {
-            SetDocuments(response.ReturnedDocuments);
-        }
-
-        private void SetDocuments(IList<TDocument> documents)
+        public void SetDocuments(IList<TDocument> documents)
         {
             _documents.Clear();
             
-            if(documents != null && documents.Count > 0)
+            AddDocuments(documents);
+        }
+
+        public void AddDocuments(IList<TDocument> documents)
+        {
+            if (documents != null && documents.Count > 0)
                 _documents.AddRange(documents);
         }
     }

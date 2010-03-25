@@ -13,6 +13,8 @@ namespace Pls.SimpleMongoDb.Serialization
     [Serializable]
     public class Response<TDocument>
     {
+        private readonly List<TDocument> _returnedDocuments;
+
         /// <summary>
         /// The Total length of the Response-bytes.
         /// </summary>
@@ -41,14 +43,28 @@ namespace Pls.SimpleMongoDb.Serialization
 
         public int? NumberOfReturnedDocuments { get; set; }
 
+        public bool HasMoreResponse
+        {
+            get { return CursorId.HasValue && CursorId.Value > 0; }
+        }
+
         /// <summary>
         /// Returned documents.
         /// </summary>
-        public IList<TDocument> ReturnedDocuments { get; set; }
+        public IList<TDocument> ReturnedDocuments
+        {
+            get { return _returnedDocuments; }
+        }
 
         public Response()
         {
-            ReturnedDocuments = new List<TDocument>();
+            _returnedDocuments = new List<TDocument>();
+        }
+
+        public void SetDocuments(IEnumerable<TDocument> documents)
+        {
+            _returnedDocuments.Clear();
+            _returnedDocuments.AddRange(documents);
         }
 
     }

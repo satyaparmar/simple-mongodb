@@ -71,6 +71,11 @@ namespace Pls.SimpleMongoDb.Serialization
             _writer.Write(value);
         }
 
+        public void Write(long value)
+        {
+            _writer.Write(value);
+        }
+
         public void Write(string value)
         {
             _writer.Write(Encoding.GetBytes(value));

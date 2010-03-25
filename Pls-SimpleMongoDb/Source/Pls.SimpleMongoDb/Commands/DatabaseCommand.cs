@@ -1,12 +1,13 @@
-﻿using System.IO;
-using Newtonsoft.Json2.Linq;
+﻿using System;
+using System.IO;
+using Pls.SimpleMongoDb.DataTypes;
 using Pls.SimpleMongoDb.Resources;
 using Pls.SimpleMongoDb.Serialization;
 
 namespace Pls.SimpleMongoDb.Commands
 {
     public class DatabaseCommand
-        : SimoCommand
+        : SimoResponseCommand<SimoKeyValues>
     {
         /// <summary>
         /// Defines the command to execute.
@@ -37,11 +38,11 @@ namespace Pls.SimpleMongoDb.Commands
         protected virtual byte[] GenerateBody()
         {
             //http://www.mongodb.org/display/DOCS/Mongo+Wire+Protocol#MongoWireProtocol-OPQUERY
-            //int32     ZERO;                   // 0 - reserved for future use
+            //int32     opts;                   // query options.
             //cstring   fullCollectionName;     // "dbname.collectionname"
             //int32     numberToSkip;           // number of documents to skip when returning results
             //int32     numberToReturn;         // number of documents to return in the first OP_REPLY
-            //BSON      query ;                 // query object.  See below for details.
+            //BSON      query;                  // query object.  See below for details.
             //BSON      returnFieldSelector;    // OPTIONAL : selector indicating the fields to return.  See below for details.
 
             using (var stream = new MemoryStream())
@@ -61,11 +62,11 @@ namespace Pls.SimpleMongoDb.Commands
             }
         }
 
-        protected override void OnReadResponse(ResponseReader responseReader)
+        protected override void OnReadResponse(ResponseStreamReader responseStreamReader)
         {
-            var response = responseReader.Read<JContainer>();
+            var response = responseStreamReader.Read<SimoKeyValues>();
             var document = response.ReturnedDocuments[0];
-            var commandWasOk = document.Value<double>("ok") == 1.0;
+            var commandWasOk = document.GetDouble("ok") == 1.0;
 
             if (!commandWasOk)
                 throw new SimoCommandException(ExceptionMessages.DatabaseCommand_CommandWasNotOk);
