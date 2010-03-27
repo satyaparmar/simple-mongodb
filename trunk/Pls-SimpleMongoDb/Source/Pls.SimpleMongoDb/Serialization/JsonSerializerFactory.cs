@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json2;
+﻿using Newtonsoft.Json;
 
 namespace Pls.SimpleMongoDb.Serialization
 {

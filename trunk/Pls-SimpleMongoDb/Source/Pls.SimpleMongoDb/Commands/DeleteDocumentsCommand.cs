@@ -53,9 +53,9 @@ namespace Pls.SimpleMongoDb.Commands
                     writer.Write(0);
                     writer.WriteTerminator();
                     writer.WriteSelector(Selector ?? new object());
-                }
 
-                return stream.ToArray();
+                    return stream.ToArray();
+                }
             }
         }
     }

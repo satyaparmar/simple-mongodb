@@ -50,9 +50,9 @@ namespace Pls.SimpleMongoDb.Commands
 
                     foreach (var document in Documents)
                         writer.WriteDocument(document);
-                }
 
-                return stream.ToArray();
+                    return stream.ToArray();
+                }
             }
         }
     }

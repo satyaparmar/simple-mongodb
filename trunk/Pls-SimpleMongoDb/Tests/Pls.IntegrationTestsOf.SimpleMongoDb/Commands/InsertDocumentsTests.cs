@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pls.IntegrationTestsOf.SimpleMongoDb.TestModel;
 using Pls.SimpleMongoDb.Commands;
@@ -109,7 +110,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             Assert.AreEqual(person2Insert._id, refetched._id);
         }
 
-        [TestMethod, ExpectedException(typeof(NullReferenceException))]
+        [TestMethod, ExpectedException(typeof(SerializationException))]
         public void InsertSingle_TypedDocumentWithEmptyAssignedId_ThrowsException()
         {
             var person2Insert = new PersonWithId { _id = SimoId.Empty, Name = "Daniel", Age = 29 };

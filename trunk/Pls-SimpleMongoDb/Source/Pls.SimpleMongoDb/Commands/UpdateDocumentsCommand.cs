@@ -57,8 +57,6 @@ namespace Pls.SimpleMongoDb.Commands
             //BSON selector;                // the query to select the document
             //BSON document;                // the document data to update with or insert
 
-            byte[] result;
-
             using (var stream = new MemoryStream())
             {
                 using (var writer = new BodyWriter(stream))
@@ -69,11 +67,10 @@ namespace Pls.SimpleMongoDb.Commands
                     writer.Write((int)Mode);
                     writer.WriteSelector(QuerySelector ?? new object());
                     writer.WriteDocument(Document);
-                }
-                result = stream.ToArray();
-            }
 
-            return result;
+                    return stream.ToArray();
+                }
+            }
         }
     }
 }

@@ -85,9 +85,9 @@ namespace Pls.SimpleMongoDb.Commands
                     
                     if(DocumentSchema != null)
                         writer.WriteDocument(DocumentSchema);
-                }
 
-                return stream.ToArray();
+                    return stream.ToArray();
+                }
             }
         }
     }

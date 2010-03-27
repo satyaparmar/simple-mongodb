@@ -11,7 +11,7 @@ namespace Pls.SimpleMongoDb.Serialization
     public class BodyWriter
         : IDisposable
     {
-        private BinaryWriter _writer;
+        private BinaryWriter _binaryWriter;
         private DocumentWriter _documentWriter;
 
         public Encoding Encoding
@@ -21,7 +21,7 @@ namespace Pls.SimpleMongoDb.Serialization
 
         public BodyWriter(Stream bodyStream)
         {
-            _writer = new BinaryWriter(bodyStream, Encoding);
+            _binaryWriter = new BinaryWriter(bodyStream, Encoding);
             _documentWriter = new DocumentWriter(bodyStream);
         }
 
@@ -51,16 +51,10 @@ namespace Pls.SimpleMongoDb.Serialization
 
         protected virtual void DisposeManagedResources()
         {
-            if (_writer != null)
+            if (_binaryWriter != null)
             {
-                _writer.Dispose();
-                _writer = null;
-            }
-
-            if (_documentWriter != null)
-            {
-                _documentWriter.Dispose();
-                _documentWriter = null;
+                _binaryWriter.Dispose();
+                _binaryWriter = null;
             }
         }
 
@@ -68,22 +62,22 @@ namespace Pls.SimpleMongoDb.Serialization
 
         public void Write(int value)
         {
-            _writer.Write(value);
+            _binaryWriter.Write(value);
         }
 
         public void Write(long value)
         {
-            _writer.Write(value);
+            _binaryWriter.Write(value);
         }
 
         public void Write(string value)
         {
-            _writer.Write(Encoding.GetBytes(value));
+            _binaryWriter.Write(Encoding.GetBytes(value));
         }
 
         public void WriteTerminator()
         {
-            _writer.Write((byte)0);
+            _binaryWriter.Write((byte)0);
         }
 
         public void WriteDocument(object value)

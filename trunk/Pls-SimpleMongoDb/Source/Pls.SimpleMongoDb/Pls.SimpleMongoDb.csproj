@@ -34,8 +34,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json2">
-      <HintPath>..\..\Libs\NewtonsoftJson\Newtonsoft.Json2.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Libs\NewtonsoftJson\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

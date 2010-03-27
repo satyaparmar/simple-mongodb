@@ -1,6 +1,6 @@
 using System;
-using Newtonsoft.Json2;
-using Newtonsoft.Json2.Bson;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using Pls.SimpleMongoDb.DataTypes;
 using Pls.SimpleMongoDb.Resources;
 
