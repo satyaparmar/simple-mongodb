@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json2;
+using Newtonsoft.Json;
 using Pls.SimpleMongoDb.Operators;
 
 namespace Pls.SimpleMongoDb.Serialization.Converters
