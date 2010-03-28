@@ -21,6 +21,12 @@ namespace Pls.SimpleMongoDb
             Database = database;
             Name = Database.Session.Pluralizer.Pluralize(name);
         }
+
+        public void Drop()
+        {
+            Database.DropCollections(Name);
+        }
+
         public void Insert(object document)
         {
             Insert(new[] { document });
@@ -70,6 +76,14 @@ namespace Pls.SimpleMongoDb
             cmd.Execute();
         }
 
+        public T FindOne<T>(object selector, object documentSchema)
+            where T : class
+        {
+            var result = Find<T>(selector, documentSchema);
+
+            return result.SingleOrDefault();
+        }
+
         public IList<T> Find<T>(object selector, object documentSchema = null)
             where T : class
         {
@@ -84,12 +98,23 @@ namespace Pls.SimpleMongoDb
             return cmd.Response.Documents;
         }
 
-        public T FindOne<T>(object selector, object documentSchema)
+        public T FindOneInfered<T>(T inferedTemplate, object selector)
             where T : class
         {
-            var result = Find<T>(selector, documentSchema);
+            return FindInfered(inferedTemplate, selector).SingleOrDefault();
+        }
 
-            return result.Single();
+        public IList<T> FindInfered<T>(T inferedTemplate, object selector)
+            where T : class
+        {
+            var cmd = new QueryDocumentsCommand<T>(Database.Session.Connection)
+            {
+                NodeName = FullCollectionName,
+                QuerySelector = selector
+            };
+            cmd.Execute();
+
+            return cmd.Response.Documents;
         }
 
         public int Count(object selector = null)

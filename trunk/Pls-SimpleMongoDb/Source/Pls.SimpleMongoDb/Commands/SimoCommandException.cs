@@ -7,8 +7,11 @@ namespace Pls.SimpleMongoDb.Commands
     public class SimoCommandException
         : SimoException
     {
-        public SimoCommandException(string message) : base(message)
+        public string MongoDbMessage { get; private set; }
+
+        public SimoCommandException(string message, string mongoDbMessage = null) : base(message)
         {
+            MongoDbMessage = mongoDbMessage ?? string.Empty;
         }
     }
 }

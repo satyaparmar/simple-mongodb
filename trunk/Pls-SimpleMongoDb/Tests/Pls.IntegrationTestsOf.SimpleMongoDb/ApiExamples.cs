@@ -28,7 +28,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
             //You do need a connection to create a session
             //The creating of Connections and Session is something you most likely
             //will put in a IoC-container or factory or something.
-            var cn = CreateConnection();
+            var cn = TestHelper.CreateConnection();
             using (var session = new SimoSession(cn))
             {
                 var entityStore = new SimoEntityStore(session, DbName);
@@ -70,7 +70,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
         [TestMethod]
         public void Find_UsingRegex()
         {
-            var cn = CreateConnection();
+            var cn = TestHelper.CreateConnection();
             using (var session = new SimoSession(cn))
             {
                 var entityStore = new SimoEntityStore(session, DbName);
@@ -91,7 +91,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
         [TestMethod]
         public void ParentChildReference_Example()
         {
-            var cn = CreateConnection();
+            var cn = TestHelper.CreateConnection();
             using (var session = new SimoSession(cn))
             {
                 var entityStore = new SimoEntityStore(session, DbName);
@@ -120,7 +120,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
         [TestMethod]
         public void ParentChildReference_CustomId_Example()
         {
-            var cn = CreateConnection();
+            var cn = TestHelper.CreateConnection();
             using (var session = new SimoSession(cn))
             {
                 var entityStore = new SimoEntityStore(session, DbName);
@@ -147,7 +147,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
         [TestMethod]
         public void DisablePluralizer_Example()
         {
-            var cn = CreateConnection();
+            var cn = TestHelper.CreateConnection();
             using (var session = new SimoSession(cn))
             {
                 //Just call Disable on the Pluralizer

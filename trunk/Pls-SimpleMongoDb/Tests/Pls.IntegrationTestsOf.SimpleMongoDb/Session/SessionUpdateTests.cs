@@ -16,12 +16,12 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
         {
             var document = new { Name = "Daniel" };
 
-            using (var session = new SimoSession(CreateConnection()))
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
                 session[DbName][PersonsCollectionName].Update(document, document);
             }
 
-            var numOfStoredDocuments = GetDocumentCount(Constants.Collections.PersonsFullCollectionName);
+            var numOfStoredDocuments = TestHelper.GetDocumentCount(Constants.Collections.PersonsCollectionName);
             Assert.AreEqual(1, numOfStoredDocuments);
         }
 
@@ -35,14 +35,14 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
                                 new Person {Name = "Daniel3", Age = 31},
                                 new Person {Name = "Daniel4", Age = 32}
                             };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, documents);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
 
-            using (var session = new SimoSession(CreateConnection()))
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
                 session[DbName][PersonsCollectionName].UpdateMany(@"{$where : ""this.Age < 31""}", @"{$inc : {Age : 1}}");
             }
 
-            var refetched = GetDocuments<Person>(Constants.Collections.PersonsFullCollectionName);
+            var refetched = TestHelper.GetDocuments<Person>(Constants.Collections.PersonsCollectionName);
             Assert.AreEqual(30, refetched[0].Age);
             Assert.AreEqual(31, refetched[1].Age);
             Assert.AreEqual(31, refetched[2].Age);

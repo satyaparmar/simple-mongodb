@@ -51,8 +51,8 @@
     <Compile Include="Commands\QueryDocumentsTests.cs" />
     <Compile Include="Commands\UpdateDocumentsTests.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="InitializeAssembly.cs" />
     <Compile Include="TestBase.cs" />
-    <Compile Include="ObjectFactoryForTests.cs" />
     <Compile Include="ParentChildTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\SessionDeleteTests.cs" />
@@ -61,6 +61,7 @@
     <Compile Include="Session\SessionUpdateTests.cs" />
     <Compile Include="SimoConnectionInfoTests.cs" />
     <Compile Include="SimoConnectionTests.cs" />
+    <Compile Include="TestHelper.cs" />
     <Compile Include="TestModel\Car.cs" />
     <Compile Include="TestModel\Child.cs" />
     <Compile Include="TestModel\Owner.cs" />

@@ -8,6 +8,8 @@ namespace Pls.SimpleMongoDb
         string Name { get; }
         string FullCollectionName { get; }
 
+        void Drop();
+
         void Insert(object document);
         void Insert(IEnumerable<object> documents);
         
@@ -20,6 +22,12 @@ namespace Pls.SimpleMongoDb
             where T : class;
 
         T FindOne<T>(object selector, object documentSchema = null)
+            where T : class;
+
+        IList<T> FindInfered<T>(T inferedTemplate, object selector)
+            where T : class;
+
+        T FindOneInfered<T>(T inferedTemplate, object selector)
             where T : class;
 
         int Count(object selector = null);

@@ -15,9 +15,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         public void QuerySinglePerson_AnonymousTypeQueryWithString_ItemReturned()
         {
             var person = new Person { Name = "Daniel", Age = 29 };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, person);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, person);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
@@ -35,9 +35,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         {
             var tempDate = new DateTime(2010, 1, 1, 10, 02, 03, 04);
             var person = new Person { Name = "Daniel", Age = 29, TempDate = tempDate };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, person);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, person);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
@@ -59,9 +59,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                               new Person { Name = "Daniel", Age = 29, TempDate = tempDate },
                               new Person { Name = "Daniel", Age = 30, TempDate = tempDate }
                           };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, persons);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, persons);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
@@ -82,9 +82,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                              new Person { Name = "Daniel2", Age = 29 },
                              new Person { Name = "Daniel3", Age = 30 }
                          };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, person);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, person);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
@@ -106,9 +106,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                              new Person { Name = "Daniel2", Age = 29 },
                              new Person { Name = "Daniel3", Age = 30 }
                          };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, person);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, person);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
@@ -132,9 +132,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                              new Person { Name = "Daniel4", Age = 31},
                              new Person { Name = "Daniel5", Age = 32}
                          };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, person);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, person);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
@@ -158,9 +158,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                              new Person { Name = "Daniel4", Age = 31},
                              new Person { Name = "Daniel5", Age = 32}
                          };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, person);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, person);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                 {

@@ -16,7 +16,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
         [TestMethod]
         public void Insert_SingleDocument_IsStored()
         {
-            using (var session = new SimoSession(CreateConnection()))
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
                 var document = new
                                {
@@ -27,14 +27,14 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
                 session[DbName][PersonsCollectionName].Insert(document);
             }
 
-            var numOfStoredDocuments = GetDocumentCount(Constants.Collections.PersonsFullCollectionName);
+            var numOfStoredDocuments = TestHelper.GetDocumentCount(Constants.Collections.PersonsCollectionName);
             Assert.AreEqual(1, numOfStoredDocuments);
         }
 
         [TestMethod]
         public void Insert_ManyDocuments_AllAreStored()
         {
-            using (var session = new SimoSession(CreateConnection()))
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
                 var documents = new[]
                                 {
@@ -44,7 +44,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
                 session[DbName][PersonsCollectionName].Insert(documents);
             }
 
-            var numOfStoredDocuments = GetDocumentCount(Constants.Collections.PersonsFullCollectionName);
+            var numOfStoredDocuments = TestHelper.GetDocumentCount(Constants.Collections.PersonsCollectionName);
             Assert.AreEqual(2, numOfStoredDocuments);
         }
 
@@ -53,12 +53,12 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
         {
             var document = new PersonWithId { _id = SimoId.NewId(), Name = "Daniel" };
 
-            using (var session = new SimoSession(CreateConnection()))
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
                 session[DbName][PersonsCollectionName].Insert(document);
             }
 
-            var numOfDocs = GetDocumentCount(new { document._id }, Constants.Collections.PersonsFullCollectionName);
+            var numOfDocs = TestHelper.GetDocumentCount(new { document._id }, Constants.Collections.PersonsCollectionName);
             Assert.AreEqual(1, numOfDocs);
         }
 
@@ -67,12 +67,12 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
         {
             var document = new PersonWithAutoId { Name = "Daniel" };
 
-            using (var session = new SimoSession(CreateConnection()))
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
                 session[DbName][PersonsCollectionName].Insert(document);
             }
 
-            var numOfDocs = GetDocumentCount(new { document._id }, Constants.Collections.PersonsFullCollectionName);
+            var numOfDocs = TestHelper.GetDocumentCount(new { document._id }, Constants.Collections.PersonsCollectionName);
             Assert.AreEqual(1, numOfDocs);
         }
     }
