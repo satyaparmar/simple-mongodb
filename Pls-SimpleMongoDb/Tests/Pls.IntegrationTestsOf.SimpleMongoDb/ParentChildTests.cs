@@ -14,10 +14,10 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
             var parent = new Parent { Name = "Daniel" };
             var fatherReference = new SimoReference { CollectionName = Constants.Collections.ParentsCollectionName, Id = parent._id };
             var child = new Child { Name = "Isabell", FatherReference = fatherReference };
-            InsertDocuments(Constants.Collections.ParentsFullCollectionName, parent);
-            InsertDocuments(Constants.Collections.ChildsFullCollectionName, child);
+            TestHelper.InsertDocuments(Constants.Collections.ParentsFullCollectionName, parent);
+            TestHelper.InsertDocuments(Constants.Collections.ChildsFullCollectionName, child);
 
-            var refetchedChild = GetDocument<Child>(new { child._id }, Constants.Collections.ChildsFullCollectionName);
+            var refetchedChild = TestHelper.GetDocument<Child>(new { child._id }, Constants.Collections.ChildsFullCollectionName);
 
             Assert.AreEqual(fatherReference.Id, refetchedChild.FatherReference.Id);
             Assert.AreEqual(fatherReference.CollectionName, refetchedChild.FatherReference.CollectionName);
@@ -34,10 +34,10 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
                                       Id = parent._id
                                   };
             var child = new { _id = SimoId.NewId(), Name = "Isabell", Father = fatherReference };
-            InsertDocuments(Constants.Collections.ParentsFullCollectionName, parent);
-            InsertDocuments(Constants.Collections.ChildsFullCollectionName, child);
+            TestHelper.InsertDocuments(Constants.Collections.ParentsFullCollectionName, parent);
+            TestHelper.InsertDocuments(Constants.Collections.ChildsFullCollectionName, child);
 
-            var refetchedChild = GetDocument(new { child._id }, child, Constants.Collections.ChildsFullCollectionName);
+            var refetchedChild = TestHelper.GetDocument(new { child._id }, child, Constants.Collections.ChildsFullCollectionName);
 
             Assert.AreEqual(fatherReference.Id, refetchedChild.Father.Id);
             Assert.AreEqual(fatherReference.CollectionName, refetchedChild.Father.CollectionName);
@@ -53,15 +53,13 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
                                       Id = parent._id
                                   };
             var child = new Child { Name = "Isabell", FatherReference = fatherReference };
-            InsertDocuments(Constants.Collections.ParentsFullCollectionName, parent);
-            InsertDocuments(Constants.Collections.ChildsFullCollectionName, child);
+            TestHelper.InsertDocuments(Constants.Collections.ParentsFullCollectionName, parent);
+            TestHelper.InsertDocuments(Constants.Collections.ChildsFullCollectionName, child);
 
-            var refetchedChild = GetDocument<Child>(new { child._id }, Constants.Collections.ChildsFullCollectionName);
+            var refetchedChild = TestHelper.GetDocument<Child>(new { child._id }, Constants.Collections.ChildsFullCollectionName);
 
             Assert.AreEqual(fatherReference.Id, refetchedChild.FatherReference.Id);
             Assert.AreEqual(fatherReference.CollectionName, refetchedChild.FatherReference.CollectionName);
         }
     }
 }
-
-

@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Pls.SimpleMongoDb.DataTypes;
 using Pls.SimpleMongoDb.Resources;
 using Pls.SimpleMongoDb.Serialization;
@@ -13,6 +12,7 @@ namespace Pls.SimpleMongoDb.Commands
         /// Defines the command to execute.
         /// <![CDATA[E.g.
         /// dropDatabase : 1.0
+        /// drop : CollectionName
         /// getlasterror : 1.0
         /// getpreverror : 1.0
         /// reseterror : 1.0]]>
@@ -69,7 +69,13 @@ namespace Pls.SimpleMongoDb.Commands
             var commandWasOk = document.GetDouble("ok") == 1.0;
 
             if (!commandWasOk)
-                throw new SimoCommandException(ExceptionMessages.DatabaseCommand_CommandWasNotOk);
+            {
+                var errMsg = "";
+                if (document.ContainsKey("errmsg"))
+                    errMsg = document.GetString("errmsg");
+
+                throw new SimoCommandException(ExceptionMessages.DatabaseCommand_CommandWasNotOk, errMsg);
+            }
         }
     }
 }

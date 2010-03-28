@@ -59,6 +59,7 @@
     <Compile Include="ISimoSessionFactory.cs" />
     <Compile Include="ISimoEngine.cs" />
     <Compile Include="DataTypes\SimoRegex.cs" />
+    <Compile Include="MongoSystem.cs" />
     <Compile Include="Serialization\Converters\SimoRegexJsonConverter.cs" />
     <Compile Include="Serialization\Converters\WhereOperatorConverter.cs" />
     <Compile Include="SimoEngine.cs" />

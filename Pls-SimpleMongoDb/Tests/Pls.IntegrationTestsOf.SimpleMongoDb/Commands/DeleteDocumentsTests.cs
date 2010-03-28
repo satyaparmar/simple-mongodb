@@ -17,9 +17,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                                 new { Name = "Daniel", Age = 29 }, 
                                 new { Name = "Daniel", Age = 30 }
                             };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, documents);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var deleteCommand = new DeleteDocumentsCommand(cn)
                                     {
@@ -29,7 +29,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 deleteCommand.Execute();
             }
 
-            Assert.AreEqual(0, GetDocumentCount(Constants.Collections.PersonsFullCollectionName));
+            Assert.AreEqual(0, TestHelper.GetDocumentCount(Constants.Collections.PersonsCollectionName));
         }
 
         [TestMethod]
@@ -40,9 +40,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                                 new { Name = "Daniel", Age = 29 },
                                 new { Name = "Daniel", Age = 30 }
                             };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, documents);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var deleteCommand = new DeleteDocumentsCommand(cn)
                                     {
@@ -51,7 +51,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 deleteCommand.Execute();
             }
 
-            Assert.AreEqual(0, GetDocumentCount(new { Name = "Daniel" }, Constants.Collections.PersonsFullCollectionName));
+            Assert.AreEqual(0, TestHelper.GetDocumentCount(new { Name = "Daniel" }, Constants.Collections.PersonsCollectionName));
         }
 
         [TestMethod]
@@ -63,9 +63,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                               new Person { Name = "Daniel2", Age = 29 },
                               new Person { Name = "Daniel3", Age = 30 }
                           };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, persons);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, persons);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var deleteCommand = new DeleteDocumentsCommand(cn)
                                     {
@@ -75,7 +75,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 deleteCommand.Execute();
             }
 
-            Assert.AreEqual(1, GetDocumentCount(Constants.Collections.PersonsFullCollectionName));
+            Assert.AreEqual(1, TestHelper.GetDocumentCount(Constants.Collections.PersonsCollectionName));
         }
 
         [TestMethod]
@@ -87,9 +87,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                               new Person { Name = "Daniel2", Age = 29 },
                               new Person { Name = "Daniel3", Age = 30 }
                           };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, persons);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, persons);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var deleteCommand = new DeleteDocumentsCommand(cn)
                                     {
@@ -99,7 +99,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 deleteCommand.Execute();
             }
 
-            Assert.AreEqual(1, GetDocumentCount(Constants.Collections.PersonsFullCollectionName));
+            Assert.AreEqual(1, TestHelper.GetDocumentCount(Constants.Collections.PersonsCollectionName));
         }
     }
 }

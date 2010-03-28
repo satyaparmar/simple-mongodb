@@ -5,6 +5,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
 {
     [TestClass]
     public class SimoConnectionInfoTests
+        : TestBase
     {
         [TestMethod]
         public void Ctor_WithAppConfig_UsingConnectionStringName()

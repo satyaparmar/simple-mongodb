@@ -23,9 +23,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
                                 new Person {Name = "Nobel Adam", Age = 65, WorkDays = new[] {1, 1, 1, 1, 1, 1, 1}},
                                 new Person {Name = "Sue", Age = 20, WorkDays = new[] {1, 1, 1, 1, 1, 0, 0}}
                             };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, documents);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
 
-            using (var session = new SimoSession(CreateConnection()))
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
                 var persons = session[DbName][PersonsCollectionName].Find<Person>(new { WorkDays = new[] { 1, 1, 1, 1, 1, 1, 1 } });
 
@@ -43,9 +43,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
                                 new Person {Name = "Nobel Adam", Age = 65},
                                 new Person {Name = "Sue", Age = 20}
                             };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, documents);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
 
-            using (var session = new SimoSession(CreateConnection()))
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
                 var persons = session[DbName][PersonsCollectionName].Find<Person>(new WhereOperator("this.Age > 20 && this.Age < 65"));
 
@@ -64,9 +64,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
                                 new Person {Name = "Daniel2", Age = 65},
                                 new Person {Name = "Sue", Age = 20}
                             };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, documents);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
 
-            using (var session = new SimoSession(CreateConnection()))
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
                 var persons = session[DbName][PersonsCollectionName].Find<Person>(new {Name = new SimoRegex("^Dan.*")});
                 

@@ -16,9 +16,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                               new Person {Name = "Daniel1", Age = 29},
                               new Person {Name = "Daniel2", Age = 29}
                           };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, persons);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, persons);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var updateCommand = new UpdateDocumentsCommand(cn)
                                     {
@@ -29,13 +29,13 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 updateCommand.Execute();
             }
 
-            Assert.AreEqual(1, GetDocumentCount(new { Name = "Daniel3" }, Constants.Collections.PersonsFullCollectionName));
+            Assert.AreEqual(1, TestHelper.GetDocumentCount(new { Name = "Daniel3" }, Constants.Collections.PersonsCollectionName));
         }
 
         [TestMethod]
         public void UpdateSinglePerson_EmptyDb_OneIsUpsert()
         {
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var updateCommand = new UpdateDocumentsCommand(cn)
                                     {
@@ -47,7 +47,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 updateCommand.Execute();
             }
 
-            Assert.AreEqual(1, GetDocumentCount(Constants.Collections.PersonsFullCollectionName));
+            Assert.AreEqual(1, TestHelper.GetDocumentCount(Constants.Collections.PersonsCollectionName));
         }
 
         [TestMethod]
@@ -58,9 +58,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                               new {Name = "Daniel1", Age = 29},
                               new {Name = "Daniel2", Age = 29}
                           };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, persons);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, persons);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var updateCommand = new UpdateDocumentsCommand(cn)
                                     {
@@ -72,7 +72,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 updateCommand.Execute();
             }
 
-            Assert.AreEqual(2, GetDocumentCount(new { Name = "The Daniel" }, Constants.Collections.PersonsFullCollectionName));
+            Assert.AreEqual(2, TestHelper.GetDocumentCount(new { Name = "The Daniel" }, Constants.Collections.PersonsCollectionName));
         }
 
         [TestMethod]
@@ -83,9 +83,9 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                               new {Name = "Daniel1", Age = 29},
                               new {Name = "Daniel2", Age = 29}
                           };
-            InsertDocuments(Constants.Collections.PersonsFullCollectionName, persons);
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, persons);
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var updateCommand = new UpdateDocumentsCommand(cn)
                                     {
@@ -97,7 +97,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 updateCommand.Execute();
             }
 
-            Assert.AreEqual(0, GetDocumentCount(new { Name = "The Daniel" }, Constants.Collections.PersonsFullCollectionName));
+            Assert.AreEqual(0, TestHelper.GetDocumentCount(new { Name = "The Daniel" }, Constants.Collections.PersonsCollectionName));
         }
     }
 }

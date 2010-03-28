@@ -12,8 +12,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
     {
         private ISimoConnection _connection;
 
-        [TestCleanup]
-        public void TestCleanup()
+        protected override void OnTestCleanup()
         {
             if (_connection != null && _connection.IsConnected)
             {
@@ -25,7 +24,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
         [TestMethod]
         public void Connect_ServerIsUp_CanConnect()
         {
-            _connection = CreateConnection();
+            _connection = TestHelper.CreateConnection();
 
             _connection.Connect();
 
@@ -47,7 +46,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
         [TestMethod, ExpectedException(typeof(SimoCommunicationException))]
         public void Connect_WhileConnected_ThrowsException()
         {
-            _connection = CreateConnection();
+            _connection = TestHelper.CreateConnection();
             _connection.Connect();
 
             _connection.Connect();
@@ -58,7 +57,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
         [TestMethod]
         public void Disconnect_WhenConnected_GetsDisconnected()
         {
-            _connection = CreateConnection();
+            _connection = TestHelper.CreateConnection();
             _connection.Connect();
 
             _connection.Disconnect();
@@ -69,7 +68,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
         [TestMethod]
         public void Dispose_WhenConnected_GetsDisconnected()
         {
-            _connection = CreateConnection();
+            _connection = TestHelper.CreateConnection();
             _connection.Connect();
 
             _connection.Dispose();
@@ -80,7 +79,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
         [TestMethod]
         public void GetPipeStream_WhenConnected_ReturnsStream()
         {
-            _connection = CreateConnection();
+            _connection = TestHelper.CreateConnection();
             _connection.Connect();
 
             using(var stream = _connection.GetPipeStream())
@@ -92,7 +91,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
         [TestMethod, ExpectedException(typeof(SimoCommunicationException))]
         public void GetPipeStream_WhileNotConnected_ThrowsException()
         {
-            _connection = CreateConnection();
+            _connection = TestHelper.CreateConnection();
 
             var stream = _connection.GetPipeStream();
 

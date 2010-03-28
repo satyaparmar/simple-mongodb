@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pls.IntegrationTestsOf.SimpleMongoDb.TestModel;
@@ -16,7 +15,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         {
             var document2Insert = new { Name = "Daniel", Age = 29 };
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
@@ -27,7 +26,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             }
 
             var inferedTemplate = new { _id = SimoId.Empty };
-            var refetched = GetDocument(document2Insert, inferedTemplate, Constants.Collections.PersonsFullCollectionName);
+            var refetched = TestHelper.GetDocument(document2Insert, inferedTemplate, Constants.Collections.PersonsCollectionName);
             Assert.AreNotEqual(SimoId.Empty, refetched._id);
         }
 
@@ -36,7 +35,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         {
             var document2Insert = new { Name = "Daniel", Age = 29, WorkDays = new[] { 1, 1, 1, 0, 1, 0, 0 } };
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
@@ -47,7 +46,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             }
 
             var inferedTemplate = new { _id = SimoId.Empty, WorkDays = new int[] { } };
-            var refetched = GetDocument(document2Insert, inferedTemplate, Constants.Collections.PersonsFullCollectionName);
+            var refetched = TestHelper.GetDocument(document2Insert, inferedTemplate, Constants.Collections.PersonsCollectionName);
             CollectionAssert.AreEqual(document2Insert.WorkDays, refetched.WorkDays);
         }
 
@@ -56,7 +55,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         {
             var document2Insert = @"{Name : ""Daniel"", Age : 29}";
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
@@ -67,7 +66,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             }
 
             var inferedTemplate = new { _id = SimoId.Empty };
-            var refetched = GetDocument(document2Insert, inferedTemplate, Constants.Collections.PersonsFullCollectionName);
+            var refetched = TestHelper.GetDocument(document2Insert, inferedTemplate, Constants.Collections.PersonsCollectionName);
             Assert.AreNotEqual(SimoId.Empty, refetched._id);
         }
 
@@ -76,7 +75,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         {
             var person2Insert = new Person { Name = "Daniel", Age = 29 };
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
@@ -87,7 +86,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             }
 
             var inferedTemplate = new { _id = SimoId.Empty };
-            var refetched = GetDocument(person2Insert, inferedTemplate, Constants.Collections.PersonsFullCollectionName);
+            var refetched = TestHelper.GetDocument(person2Insert, inferedTemplate, Constants.Collections.PersonsCollectionName);
             Assert.AreNotEqual(SimoId.Empty, refetched._id);
         }
 
@@ -96,7 +95,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         {
             var person2Insert = new PersonWithId { _id = SimoId.NewId(), Name = "Daniel", Age = 29 };
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
@@ -106,7 +105,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 insertCommand.Execute();
             }
 
-            var refetched = GetDocument<PersonWithId>(person2Insert, Constants.Collections.PersonsFullCollectionName);
+            var refetched = TestHelper.GetDocument<PersonWithId>(person2Insert, Constants.Collections.PersonsCollectionName);
             Assert.AreEqual(person2Insert._id, refetched._id);
         }
 
@@ -115,7 +114,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         {
             var person2Insert = new PersonWithId { _id = SimoId.Empty, Name = "Daniel", Age = 29 };
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
@@ -134,7 +133,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         {
             var person2Insert = new PersonWithAutoId {Name = "Daniel", Age = 29};
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
@@ -144,7 +143,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 insertCommand.Execute();
             }
 
-            var refetched = GetDocuments<PersonWithId>(new { person2Insert._id }, Constants.Collections.PersonsFullCollectionName);
+            var refetched = TestHelper.GetDocuments<PersonWithId>(new { person2Insert._id }, Constants.Collections.PersonsCollectionName);
             Assert.AreEqual(1, refetched.Count);
         }
 
@@ -157,7 +156,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                                  Owner = new Owner { Name = "Daniel" }
                              };
 
-            using (var cn = CreateConnection())
+            using (var cn = TestHelper.CreateConnection())
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
@@ -167,7 +166,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 insertCommand.Execute();
             }
 
-            var refetched = GetDocument<Car>(car2Insert, Constants.Collections.CarsFullCollectionName);
+            var refetched = TestHelper.GetDocument<Car>(car2Insert, Constants.Collections.CarsCollectionName);
             Assert.IsNotNull(refetched.Owner);
             Assert.IsNull(refetched.Owner._id);
         }
