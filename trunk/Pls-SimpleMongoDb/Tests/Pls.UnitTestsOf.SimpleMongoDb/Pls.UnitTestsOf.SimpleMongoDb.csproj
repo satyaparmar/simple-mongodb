@@ -45,6 +45,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\MongoDbErrorMessageTests.cs" />
     <Compile Include="DataTypes\SimoKeyValuesAssertExtensions.cs" />
     <Compile Include="DataTypes\SimoKeyValuesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="DataTypes\SimoJsonTests.cs" />
     <Compile Include="DataTypes\SimoObjectIdTests.cs" />
     <Compile Include="Globalization\SimoPluralizerTests.cs" />
+    <Compile Include="SimoHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Pls.SimpleMongoDb\Pls.SimpleMongoDb.csproj">

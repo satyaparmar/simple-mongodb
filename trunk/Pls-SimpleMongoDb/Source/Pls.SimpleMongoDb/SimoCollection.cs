@@ -37,7 +37,7 @@ namespace Pls.SimpleMongoDb
             var cmd = new InsertDocumentsCommand(Database.Session.Connection)
                           {
                               Documents = documents.ToList(),
-                              NodeName = FullCollectionName
+                              FullCollectionName = FullCollectionName
                           };
             cmd.Execute();
         }
@@ -47,7 +47,7 @@ namespace Pls.SimpleMongoDb
             var cmd = new UpdateDocumentsCommand(Database.Session.Connection)
                       {
                           Mode = UpdateModes.Upsert,
-                          NodeName = FullCollectionName,
+                          FullCollectionName = FullCollectionName,
                           QuerySelector = selector,
                           Document = document
                       };
@@ -59,7 +59,7 @@ namespace Pls.SimpleMongoDb
             var cmd = new UpdateDocumentsCommand(Database.Session.Connection)
             {
                 Mode = UpdateModes.MultiUpdate,
-                NodeName = FullCollectionName,
+                FullCollectionName = FullCollectionName,
                 QuerySelector = selector,
                 Document = document
             };
@@ -71,7 +71,7 @@ namespace Pls.SimpleMongoDb
             var cmd = new DeleteDocumentsCommand(Database.Session.Connection)
                           {
                               Selector = selector,
-                              NodeName = FullCollectionName
+                              FullCollectionName = FullCollectionName
                           };
             cmd.Execute();
         }
@@ -89,7 +89,7 @@ namespace Pls.SimpleMongoDb
         {
             var cmd = new QueryDocumentsCommand<T>(Database.Session.Connection)
                           {
-                              NodeName = FullCollectionName,
+                              FullCollectionName = FullCollectionName,
                               QuerySelector = selector,
                               DocumentSchema = documentSchema
                           };
@@ -109,7 +109,7 @@ namespace Pls.SimpleMongoDb
         {
             var cmd = new QueryDocumentsCommand<T>(Database.Session.Connection)
             {
-                NodeName = FullCollectionName,
+                FullCollectionName = FullCollectionName,
                 QuerySelector = selector
             };
             cmd.Execute();
@@ -120,7 +120,7 @@ namespace Pls.SimpleMongoDb
         public int Count(object selector = null)
         {
             var queryCommand = new InferedCommandFactory().CreateInfered(Database.Session.Connection, new { _id = "" });
-            queryCommand.NodeName = FullCollectionName;
+            queryCommand.FullCollectionName = FullCollectionName;
             queryCommand.QuerySelector = selector;
             queryCommand.Execute();
 

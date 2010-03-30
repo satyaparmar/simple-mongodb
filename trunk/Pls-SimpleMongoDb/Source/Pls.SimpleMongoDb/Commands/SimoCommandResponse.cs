@@ -14,6 +14,11 @@ namespace Pls.SimpleMongoDb.Commands
             get { return _documents; }
         }
 
+        public bool IsEmpty
+        {
+            get { return NumberOfDocuments < 1; }
+        }
+
         public int NumberOfDocuments
         {
             get { return Documents.Count; }

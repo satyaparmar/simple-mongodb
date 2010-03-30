@@ -6,12 +6,16 @@ namespace Pls.SimpleMongoDb.Commands
         : SimoCommand, ISimoResponseCommand
         where TDocument : class
     {
-        private SimoCommandResponse<TDocument> _response;
+        /// <summary>
+        /// Defines the NodeName that the command will be executed against.
+        /// E.g <![CDATA["dbname"]]>.
+        /// Protected since child classes should make it more clear
+        /// what type of NodeName, by instead define an own property
+        /// E.g <![CDATA["DataBaseName or FullCollectionName"]]> that consumes this NodeName.
+        /// </summary>
+        protected string NodeName { get; set; }
 
-        public SimoCommandResponse<TDocument> Response
-        {
-            get { return _response; }
-        }
+        public SimoCommandResponse<TDocument> Response { get; private set; }
 
         protected SimoResponseCommand(ISimoConnection connection)
             : base(connection)
@@ -26,12 +30,23 @@ namespace Pls.SimpleMongoDb.Commands
             base.OnExecute(connection);
         }
 
-        private void InitializeResponse()
+        protected override void OnRequestSent()
         {
-            _response = new SimoCommandResponse<TDocument>();
+            using (var responseStream = Connection.GetPipeStream())
+            {
+                using (var responseReader = new ResponseStreamReader(responseStream))
+                {
+                    OnReadResponse(responseReader);
+                }
+            }
         }
 
-        protected override void OnReadResponse(ResponseStreamReader responseStreamReader)
+        private void InitializeResponse()
+        {
+            Response = new SimoCommandResponse<TDocument>();
+        }
+
+        protected virtual void OnReadResponse(ResponseStreamReader responseStreamReader)
         {
             var requestResponse = responseStreamReader.Read<TDocument>();
 
@@ -39,10 +54,10 @@ namespace Pls.SimpleMongoDb.Commands
 
             GetMoreCommand<TDocument> getMoreCommand = null;
 
-            while (requestResponse.HasMoreResponse)
+            while (requestResponse.CursorExists)
             {
                 if(getMoreCommand == null)
-                    getMoreCommand = new GetMoreCommand<TDocument>(Connection, requestResponse.CursorId.Value, requestResponse.NumberOfReturnedDocuments.Value) { NodeName = NodeName };
+                    getMoreCommand = new GetMoreCommand<TDocument>(Connection, requestResponse.CursorId.Value, requestResponse.NumberOfReturnedDocuments.Value) { FullCollectionName = NodeName };
 
                 getMoreCommand.Execute();
 

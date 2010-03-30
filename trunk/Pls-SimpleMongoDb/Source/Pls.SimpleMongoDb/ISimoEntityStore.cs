@@ -9,6 +9,8 @@ namespace Pls.SimpleMongoDb
         ISimoDatabase Database { get; }
 
         void Drop();
+        void DropEntityCollection<T>() where T : class;
+        void DropEntityCollections();
 
         void Insert<T>(T entity) where T : class;
         void Insert(string entityName, object entity);
@@ -37,5 +39,7 @@ namespace Pls.SimpleMongoDb
         SimoReference Reference(string entityName, SimoId id);
         SimoReference<TId> Reference<T, TId>(TId id) where T : class;
         SimoReference<TId> Reference<TId>(string entityName, TId id);
+
+        string GetEntityCollectionName<T>() where T : class;
     }
 }

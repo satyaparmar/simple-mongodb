@@ -25,11 +25,7 @@ namespace Pls.SimpleMongoDb
 
         public void DropDatabase()
         {
-            var cmd = new DatabaseCommand(Session.Connection)
-            {
-                NodeName = Name,
-                Command = new { dropDatabase = 1 }
-            };
+            var cmd = new DropDatabaseCommand(Session.Connection) { DatabaseName = Name };
             cmd.Execute();
         }
 
@@ -46,7 +42,7 @@ namespace Pls.SimpleMongoDb
             var fullCollectionNamePrefix = Name + ".";
             var prefixLen = fullCollectionNamePrefix.Length;
 
-            var cmd = new DatabaseCommand(Session.Connection) { NodeName = Name };
+            var cmd = new DropCollectionCommand(Session.Connection) { DatabaseName = Name };
 
             foreach (var collectionName in collectionNamesToDrop)
             {
@@ -62,7 +58,7 @@ namespace Pls.SimpleMongoDb
                         continue;
                 }
 
-                cmd.Command = new { drop = dropName };
+                cmd.CollectionName = dropName;
                 cmd.Execute();
             }
         }
@@ -71,7 +67,7 @@ namespace Pls.SimpleMongoDb
         {
             var cmd = new QueryDocumentsCommand<SimoKeyValues>(Session.Connection)
             {
-                NodeName = Name + ".system.namespaces"
+                FullCollectionName = Name + ".system.namespaces"
             };
             cmd.Execute();
 

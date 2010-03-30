@@ -11,6 +11,12 @@ namespace Pls.SimpleMongoDb.Commands
         : SimoCommand
     {
         /// <summary>
+        /// Defines the collection that holds the documents being updated.
+        /// E.g <![CDATA["dbname.collectionname"]]>.
+        /// </summary>
+        public string FullCollectionName { get; set; }
+
+        /// <summary>
         /// Determines how the MongoDb-database will handle
         /// missing document and/or multiple matches. See
         /// <see cref="UpdateModes"/> for more info.
@@ -39,7 +45,7 @@ namespace Pls.SimpleMongoDb.Commands
 
         protected override void OnEnsureValidForExecution()
         {
-            if (string.IsNullOrEmpty(NodeName))
+            if (string.IsNullOrEmpty(FullCollectionName))
                 throw new SimoCommandException(ExceptionMessages.SimoCommand_IsMissingNodeName);
         }
 
@@ -48,7 +54,7 @@ namespace Pls.SimpleMongoDb.Commands
             return new Request(OpCodes.Update, GenerateBody());
         }
 
-        protected virtual byte[] GenerateBody()
+        protected byte[] GenerateBody()
         {
             //http://www.mongodb.org/display/DOCS/Mongo+Wire+Protocol#MongoWireProtocol-OPUPDATE
             //int32     ZERO;               // 0 - reserved for future use
@@ -62,7 +68,7 @@ namespace Pls.SimpleMongoDb.Commands
                 using (var writer = new BodyWriter(stream))
                 {
                     writer.Write(0);
-                    writer.Write(NodeName);
+                    writer.Write(FullCollectionName);
                     writer.WriteTerminator();
                     writer.Write((int)Mode);
                     writer.WriteSelector(QuerySelector ?? new object());

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using Pls.SimpleMongoDb.DataTypes;
 using Pls.SimpleMongoDb.Resources;
 using Pls.SimpleMongoDb.Serialization;
 
@@ -11,6 +12,12 @@ namespace Pls.SimpleMongoDb.Commands
     public class InsertDocumentsCommand
         : SimoCommand
     {
+        /// <summary>
+        /// Defines the collection to insert documents in.
+        /// E.g <![CDATA["dbname.collectionname"]]>.
+        /// </summary>
+        public string FullCollectionName { get; set; }
+
         /// <summary>
         /// The documents that will be inserted.
         /// </summary>
@@ -24,8 +31,24 @@ namespace Pls.SimpleMongoDb.Commands
 
         protected override void OnEnsureValidForExecution()
         {
-            if (string.IsNullOrEmpty(NodeName))
+            if (string.IsNullOrEmpty(FullCollectionName))
                 throw new SimoCommandException(ExceptionMessages.SimoCommand_IsMissingNodeName);
+        }
+
+        protected override void OnRequestSent()
+        {
+            var dbName = SimoHelper.GetDatabaseName(FullCollectionName);
+            var cmd = new GetLastErrorCommand(Connection) { DatabaseName = dbName };
+            cmd.Execute();
+
+            if (cmd.Response.IsEmpty)
+                return;
+
+            var errMsg = MongoDbErrorMessage.FromDocument(cmd.Response.Documents[0]);
+            if (errMsg == null)
+                return;
+
+            throw new SimoCommandException(ExceptionMessages.DatabaseCommand_CommandWasNotOk, errMsg);
         }
 
         protected override Request GenerateRequest()
@@ -33,7 +56,7 @@ namespace Pls.SimpleMongoDb.Commands
             return new Request(OpCodes.Insert, GenerateBody());
         }
 
-        protected virtual byte[] GenerateBody()
+        protected byte[] GenerateBody()
         {
             //http://www.mongodb.org/display/DOCS/Mongo+Wire+Protocol#MongoWireProtocol-OPINSERT
             //int32     ZERO;               // 0 - reserved for future use
@@ -45,7 +68,7 @@ namespace Pls.SimpleMongoDb.Commands
                 using (var writer = new BodyWriter(stream))
                 {
                     writer.Write(0);
-                    writer.Write(NodeName);
+                    writer.Write(FullCollectionName);
                     writer.WriteTerminator();
 
                     foreach (var document in Documents)

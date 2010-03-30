@@ -12,6 +12,16 @@ namespace Pls.SimpleMongoDb.Commands
         where TDocument : class
     {
         /// <summary>
+        /// Defines the collection that will be queried for documents.
+        /// E.g <![CDATA["dbname.collectionname"]]>.
+        /// </summary>
+        public string FullCollectionName
+        {
+            get { return NodeName; }
+            set { NodeName = value; }
+        }
+
+        /// <summary>
         /// Defines how the result will be returned.
         /// </summary>
         private QueryOptions QueryOption { get; set; }
@@ -52,7 +62,7 @@ namespace Pls.SimpleMongoDb.Commands
 
         protected override void OnEnsureValidForExecution()
         {
-            if (string.IsNullOrEmpty(NodeName))
+            if (string.IsNullOrEmpty(FullCollectionName))
                 throw new SimoCommandException(ExceptionMessages.SimoCommand_IsMissingNodeName);
         }
 
@@ -61,7 +71,7 @@ namespace Pls.SimpleMongoDb.Commands
             return new Request(OpCodes.Query, GenerateBody());
         }
 
-        protected virtual byte[] GenerateBody()
+        protected byte[] GenerateBody()
         {
             //http://www.mongodb.org/display/DOCS/Mongo+Wire+Protocol#MongoWireProtocol-OPQUERY
             //int32     opts;                   // query options
@@ -76,7 +86,7 @@ namespace Pls.SimpleMongoDb.Commands
                 using (var writer = new BodyWriter(stream))
                 {
                     writer.Write((int)QueryOption);
-                    writer.Write(NodeName);
+                    writer.Write(FullCollectionName);
                     writer.WriteTerminator();
                     writer.Write(NumberOfDocumentsToSkip);
                     writer.Write(NumberOfDocumentsToReturn);
