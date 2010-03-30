@@ -48,9 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\DropCollectionCommand.cs" />
+    <Compile Include="Commands\DropDatabaseCommand.cs" />
+    <Compile Include="Commands\GetLastErrorCommand.cs" />
     <Compile Include="Commands\GetMoreCommand.cs" />
     <Compile Include="Commands\ISimoResponseCommand.cs" />
     <Compile Include="Commands\SimoCommandResponse.cs" />
+    <Compile Include="DataTypes\MongoDbErrorMessage.cs" />
     <Compile Include="DataTypes\SimoKeyValues.cs" />
     <Compile Include="Commands\SimoResponseCommand.cs" />
     <Compile Include="EntityMetadata.cs" />
@@ -63,6 +67,7 @@
     <Compile Include="Serialization\Converters\SimoRegexJsonConverter.cs" />
     <Compile Include="Serialization\Converters\WhereOperatorConverter.cs" />
     <Compile Include="SimoEngine.cs" />
+    <Compile Include="SimoHelper.cs" />
     <Compile Include="SimoSessionFactory.cs" />
     <Compile Include="SimoEntityStore.cs" />
     <Compile Include="ISimoEntityStore.cs" />

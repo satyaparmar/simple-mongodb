@@ -19,7 +19,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                         Documents = new[] { document2Insert }
                                     };
                 insertCommand.Execute();
@@ -39,7 +39,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                         Documents = new[] { document2Insert }
                                     };
                 insertCommand.Execute();
@@ -59,7 +59,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                         Documents = new[] { document2Insert }
                                     };
                 insertCommand.Execute();
@@ -79,7 +79,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                         Documents = new[] { person2Insert }
                                     };
                 insertCommand.Execute();
@@ -99,7 +99,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                         Documents = new[] { person2Insert }
                                     };
                 insertCommand.Execute();
@@ -118,7 +118,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                         Documents = new[] { person2Insert }
                                     };
 
@@ -137,7 +137,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                         Documents = new [] {person2Insert}
                                     };
                 insertCommand.Execute();
@@ -160,7 +160,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.CarsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.CarsFullCollectionName,
                                         Documents = new[] { car2Insert }
                                     };
                 insertCommand.Execute();

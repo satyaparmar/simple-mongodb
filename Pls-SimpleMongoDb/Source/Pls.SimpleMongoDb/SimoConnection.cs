@@ -15,9 +15,10 @@ namespace Pls.SimpleMongoDb
     {
         private readonly object _lockSocket = new object();
 
-        private TcpClient Socket { get; set; }
+        private TcpClient _socket;
+
         public ISimoConnectionInfo SimoConnectionInfo { get; private set; }
-        public bool IsConnected { get { return Socket != null && Socket.Connected; } }
+        public bool IsConnected { get { return _socket != null && _socket.Connected; } }
 
         public SimoConnection(ISimoConnectionInfo simoConnectionInfo)
         {
@@ -65,8 +66,8 @@ namespace Pls.SimpleMongoDb
                 if (IsConnected)
                     throw new SimoCommunicationException(ExceptionMessages.MongoConnection_AllreadyEstablished);
 
-                Socket = new TcpClient();
-                Socket.Connect(SimoConnectionInfo.Host, SimoConnectionInfo.Port);
+                _socket = new TcpClient();
+                _socket.Connect(SimoConnectionInfo.Host, SimoConnectionInfo.Port);
             }
         }
 
@@ -74,12 +75,12 @@ namespace Pls.SimpleMongoDb
         {
             lock (_lockSocket)
             {
-                if (Socket != null)
+                if (_socket != null)
                 {
-                    if (Socket.Connected)
-                        Socket.Close();
+                    if (_socket.Connected)
+                        _socket.Close();
 
-                    Socket = null;
+                    _socket = null;
                 }
             }
         }
@@ -89,7 +90,7 @@ namespace Pls.SimpleMongoDb
             if (!IsConnected)
                 throw new SimoCommunicationException(ExceptionMessages.MongoConnection_NoPipestreamWhileDisconnected);
 
-            return Socket.GetStream();
+            return _socket.GetStream();
         }
     }
 }

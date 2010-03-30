@@ -23,7 +23,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var deleteCommand = new DeleteDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                         Selector = new { Name = "Daniel" }
                                     };
                 deleteCommand.Execute();
@@ -46,7 +46,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var deleteCommand = new DeleteDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName
                                     };
                 deleteCommand.Execute();
             }
@@ -69,7 +69,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var deleteCommand = new DeleteDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                         Selector = new WhereOperator("this.Name.indexOf('Daniel') > -1 && this.Age < 30")
                                     };
                 deleteCommand.Execute();
@@ -93,7 +93,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var deleteCommand = new DeleteDocumentsCommand(cn)
                                     {
-                                        NodeName = Constants.Collections.PersonsFullCollectionName,
+                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                         Selector = @"{$where : ""this.Name.indexOf('Daniel') > -1 && this.Age < 30""}"
                                     };
                 deleteCommand.Execute();

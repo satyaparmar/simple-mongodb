@@ -132,6 +132,9 @@
   <data name="MongoConnection_NoPipestreamWhileDisconnected" xml:space="preserve">
     <value>Pipestream can not be aquired while not connected to server.</value>
   </data>
+  <data name="MongoErrorMessage_Default" xml:space="preserve">
+    <value>No specific message from MongoDB.</value>
+  </data>
   <data name="MongoId_FromStringInvalidLen" xml:space="preserve">
     <value>MongoId-string should be 24chars without dashes.</value>
   </data>

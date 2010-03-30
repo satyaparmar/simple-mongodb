@@ -21,7 +21,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       NodeName = Constants.Collections.PersonsFullCollectionName,
+                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                        QuerySelector = new { Name = "Daniel" }
                                    };
                 queryCommand.Execute();
@@ -41,7 +41,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       NodeName = Constants.Collections.PersonsFullCollectionName,
+                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                        QuerySelector = new { TempDate = tempDate }
                                    };
                 queryCommand.Execute();
@@ -65,7 +65,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       NodeName = Constants.Collections.PersonsFullCollectionName
+                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName
                                    };
                 queryCommand.Execute();
 
@@ -88,7 +88,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       NodeName = Constants.Collections.PersonsFullCollectionName,
+                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                        QuerySelector = @"{$where : ""this.Name.indexOf('Daniel') > -1 && this.Age < 30""}"
                                    };
                 queryCommand.Execute();
@@ -112,7 +112,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       NodeName = Constants.Collections.PersonsFullCollectionName,
+                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                        QuerySelector = new SimoJson(@"{$where : ""this.Name.indexOf('Daniel') > -1 && this.Age < 30""}")
                                    };
                 queryCommand.Execute();
@@ -138,7 +138,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
-                                       NodeName = Constants.Collections.PersonsFullCollectionName,
+                                       FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                                        QuerySelector = new WhereOperator("this.Name.indexOf('Daniel') > -1 && this.Age <= 30")
                                    };
                 queryCommand.Execute();
@@ -164,7 +164,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
             {
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                 {
-                    NodeName = Constants.Collections.PersonsFullCollectionName,
+                    FullCollectionName = Constants.Collections.PersonsFullCollectionName,
                     NumberOfDocumentsToReturn = 2
                 };
                 queryCommand.Execute();

@@ -106,6 +106,15 @@ namespace Pls.SimpleMongoDb.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No specific message from MongoDB..
+        /// </summary>
+        public static string MongoErrorMessage_Default {
+            get {
+                return ResourceManager.GetString("MongoErrorMessage_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MongoId-string should be 24chars without dashes..
         /// </summary>
         public static string MongoId_FromStringInvalidLen {

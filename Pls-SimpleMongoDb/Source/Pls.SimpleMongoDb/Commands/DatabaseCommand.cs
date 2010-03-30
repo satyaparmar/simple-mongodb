@@ -5,7 +5,7 @@ using Pls.SimpleMongoDb.Serialization;
 
 namespace Pls.SimpleMongoDb.Commands
 {
-    public class DatabaseCommand
+    public abstract class DatabaseCommand
         : SimoResponseCommand<SimoKeyValues>
     {
         /// <summary>
@@ -17,11 +17,12 @@ namespace Pls.SimpleMongoDb.Commands
         /// getpreverror : 1.0
         /// reseterror : 1.0]]>
         /// </summary>
-        public object Command { get; set; }
+        protected object Command { get; set; }
 
-        public DatabaseCommand(ISimoConnection connection)
+        protected DatabaseCommand(ISimoConnection connection, object command)
             : base(connection)
         {
+            Command = command;
         }
 
         protected override void OnEnsureValidForExecution()
@@ -35,7 +36,7 @@ namespace Pls.SimpleMongoDb.Commands
             return new Request(OpCodes.Query, GenerateBody());
         }
 
-        protected virtual byte[] GenerateBody()
+        protected byte[] GenerateBody()
         {
             //http://www.mongodb.org/display/DOCS/Mongo+Wire+Protocol#MongoWireProtocol-OPQUERY
             //int32     opts;                   // query options.
@@ -62,20 +63,25 @@ namespace Pls.SimpleMongoDb.Commands
             }
         }
 
+        /// <summary>
+        /// Overrides, since there is no need to extract more documents
+        /// via cursor as a normal response command.
+        /// </summary>
+        /// <param name="responseStreamReader"></param>
         protected override void OnReadResponse(ResponseStreamReader responseStreamReader)
         {
             var response = responseStreamReader.Read<SimoKeyValues>();
             var document = response.ReturnedDocuments[0];
             var commandWasOk = document.GetDouble("ok") == 1.0;
 
-            if (!commandWasOk)
-            {
-                var errMsg = "";
-                if (document.ContainsKey("errmsg"))
-                    errMsg = document.GetString("errmsg");
+            if(commandWasOk)
+                return;
 
-                throw new SimoCommandException(ExceptionMessages.DatabaseCommand_CommandWasNotOk, errMsg);
-            }
+            var errMsg = MongoDbErrorMessage.FromDocument(document);
+            if (errMsg == null)
+                return;
+
+            throw new SimoCommandException(ExceptionMessages.DatabaseCommand_CommandWasNotOk, errMsg);
         }
     }
 }

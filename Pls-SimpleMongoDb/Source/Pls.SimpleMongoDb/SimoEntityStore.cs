@@ -29,6 +29,18 @@ namespace Pls.SimpleMongoDb
             Database.DropDatabase();
         }
 
+        public void DropEntityCollection<T>()
+            where T : class 
+        {
+            var collectionName = GetEntityCollectionName<T>();
+            Database.DropCollections(collectionName);
+        }
+
+        public void DropEntityCollections()
+        {
+            Database.DropCollections();
+        }
+
         public void Insert<T>(T entity)
              where T : class
         {
@@ -151,6 +163,12 @@ namespace Pls.SimpleMongoDb
         private ISimoCollection GetEntityCollection(string entityName)
         {
             return Database[entityName];
+        }
+
+        public string GetEntityCollectionName<T>()
+            where T : class
+        {
+            return EntityMetadata<T>.EntityName;
         }
     }
 }

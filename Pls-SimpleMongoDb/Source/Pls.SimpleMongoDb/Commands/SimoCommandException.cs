@@ -1,4 +1,5 @@
 ﻿using System;
+using Pls.SimpleMongoDb.DataTypes;
 using Pls.SimpleMongoDb.Exceptions;
 
 namespace Pls.SimpleMongoDb.Commands
@@ -7,11 +8,12 @@ namespace Pls.SimpleMongoDb.Commands
     public class SimoCommandException
         : SimoException
     {
-        public string MongoDbMessage { get; private set; }
+        public MongoDbErrorMessage MongoDbDbMessage { get; private set; }
 
-        public SimoCommandException(string message, string mongoDbMessage = null) : base(message)
+        public SimoCommandException(string message, MongoDbErrorMessage mongoDbDbMessage = null)
+            : base(message)
         {
-            MongoDbMessage = mongoDbMessage ?? string.Empty;
+            MongoDbDbMessage = mongoDbDbMessage ?? MongoDbErrorMessage.Blank;
         }
     }
 }

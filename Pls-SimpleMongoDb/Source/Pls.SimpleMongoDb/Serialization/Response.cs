@@ -43,7 +43,7 @@ namespace Pls.SimpleMongoDb.Serialization
 
         public int? NumberOfReturnedDocuments { get; set; }
 
-        public bool HasMoreResponse
+        public bool CursorExists
         {
             get { return CursorId.HasValue && CursorId.Value > 0; }
         }

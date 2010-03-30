@@ -11,6 +11,16 @@ namespace Pls.SimpleMongoDb.Commands
         private long _initialCursorId;
 
         /// <summary>
+        /// Defines the Full-collectionname to be queried for
+        /// more result.
+        /// </summary>
+        public string FullCollectionName
+        {
+            get { return NodeName; }
+            set { NodeName = value; }
+        }
+
+        /// <summary>
         /// The initial ID-value of the the Cursor that this command is getting more response from.
         /// </summary>
         public long InitialCursorId
@@ -44,7 +54,7 @@ namespace Pls.SimpleMongoDb.Commands
         /// database will return that number and close the cursor.
         /// No futher results for that query can be fetched.
         /// </summary>
-        public virtual int NumberOfDocumentsToReturn { get; private set; }
+        public int NumberOfDocumentsToReturn { get; private set; }
 
         public GetMoreCommand(ISimoConnection connection, long cursorId, int numberOfDocumentsToReturn)
             : base(connection)
