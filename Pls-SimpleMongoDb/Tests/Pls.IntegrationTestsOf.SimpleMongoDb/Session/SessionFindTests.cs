@@ -14,7 +14,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
         private const string PersonsCollectionName = Constants.Collections.PersonsCollectionName;
 
         [TestMethod]
-        public void Find_MatchingValueInArray_ReturnsMatchingPost()
+        public void Find_UsingMatchingValueInArray_ReturnsMatchingPost()
         {
             var collectionName = "BlogEntries";
             var documents = new[]
@@ -29,6 +29,46 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
                 var tutorial = session[DbName][collectionName].FindOneInfered(new {Title = ""}, @"{Tags : 'Tutorial'}");
 
                 Assert.AreEqual("MongoDb tutorial", tutorial.Title);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingAllOperator_ReturnsTwoMatchingPosts()
+        {
+            var collectionName = "BlogEntries";
+            var documents = new[]
+            {
+                new { Title = "MongoDb other", Tags = new[] { "MongoDb", "Misc" } }, 
+                new { Title = "MongoDb and testing tutorial", Tags = new[] { "MongoDb", "Testing", "Tutorial" } }, 
+                new { Title = "MongoDb tutorial", Tags = new[] { "MongoDb", "Tutorial" } }
+            };
+            TestHelper.InsertDocuments(collectionName, documents);
+
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
+            {
+                var tutorials = session[DbName][collectionName].FindInfered(new { Title = "" }, @"{Tags : {$all :['Tutorial']}}");
+
+                Assert.AreEqual(2, tutorials.Count);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingMatchingValueInArray_ReturnsTwoMatchingPosts()
+        {
+            var collectionName = "BlogEntries";
+            var documents = new[]
+            {
+                new { Title = "MongoDb other", Tags = new[] { "MongoDb", "Misc" } }, 
+                new { Title = "MongoDb and testing tutorial", Tags = new[] { "MongoDb", "Testing", "Tutorial" } }, 
+                new { Title = "MongoDb tutorial", Tags = new[] { "MongoDb", "Tutorial" } }
+            };
+            TestHelper.InsertDocuments(collectionName, documents);
+
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
+            {
+                var tutorials = session[DbName][collectionName].FindInfered(new { Title = "" }, @"{Tags : 'Tutorial'}");
+
+                Assert.AreEqual(2, tutorials.Count);
             }
         }
 
