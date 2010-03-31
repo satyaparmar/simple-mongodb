@@ -14,6 +14,25 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
         private const string PersonsCollectionName = Constants.Collections.PersonsCollectionName;
 
         [TestMethod]
+        public void Find_MatchingValueInArray_ReturnsMatchingPost()
+        {
+            var collectionName = "BlogEntries";
+            var documents = new[]
+            {
+                new { Title = "MongoDb and testing", Tags = new[] { "MongoDb", "Testing" } }, 
+                new { Title = "MongoDb tutorial", Tags = new[] { "MongoDb", "Tutorial" } }
+            };
+            TestHelper.InsertDocuments(collectionName, documents);
+
+            using(var session = new SimoSession(TestHelper.CreateConnection()))
+            {
+                var tutorial = session[DbName][collectionName].FindOneInfered(new {Title = ""}, @"{Tags : 'Tutorial'}");
+
+                Assert.AreEqual("MongoDb tutorial", tutorial.Title);
+            }
+        }
+
+        [TestMethod]
         public void Find_UsingDocumentSelector_SingleItemReturned()
         {
             var documents = new[]
@@ -68,8 +87,8 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
 
             using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
-                var persons = session[DbName][PersonsCollectionName].Find<Person>(new {Name = new SimoRegex("^Dan.*")});
-                
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(new { Name = new SimoRegex("^Dan.*") });
+
                 Assert.AreEqual(3, persons.Count, "Wrong number of persons returned.");
                 Assert.AreEqual("Daniel", persons[0].Name);
                 Assert.AreEqual("Daniel1", persons[1].Name);
