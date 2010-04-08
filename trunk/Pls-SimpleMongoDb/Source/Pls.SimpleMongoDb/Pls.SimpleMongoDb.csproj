@@ -34,7 +34,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
+    <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libs\NewtonsoftJson\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -64,8 +65,8 @@
     <Compile Include="ISimoEngine.cs" />
     <Compile Include="DataTypes\SimoRegex.cs" />
     <Compile Include="MongoSystem.cs" />
+    <Compile Include="Operators\InOperator.cs" />
     <Compile Include="Serialization\Converters\SimoRegexJsonConverter.cs" />
-    <Compile Include="Serialization\Converters\WhereOperatorConverter.cs" />
     <Compile Include="SimoEngine.cs" />
     <Compile Include="SimoHelper.cs" />
     <Compile Include="SimoSessionFactory.cs" />

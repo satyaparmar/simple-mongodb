@@ -2,7 +2,5 @@
 {
     public interface ISimoOperator
     {
-        string Key { get; }
-        string Expression { get; set; }
     }
 }

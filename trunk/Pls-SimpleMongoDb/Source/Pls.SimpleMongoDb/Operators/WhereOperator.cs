@@ -1,17 +1,19 @@
 ﻿using System;
-using Newtonsoft.Json;
-using Pls.SimpleMongoDb.Serialization.Converters;
 
 namespace Pls.SimpleMongoDb.Operators
 {
-    [Serializable, JsonConverter(typeof(WhereOperatorConverter))]
+    [Serializable]
     public class WhereOperator
         : SimoOperator
     {
         public WhereOperator(string expression)
-            : base("$where")
         {
-            Expression = expression;
+            Expression = string.Format("{{$where : \"{0}\"}}", expression);
+        }
+
+        public static implicit operator WhereOperator(string whereStatement)
+        {
+            return new WhereOperator(whereStatement);
         }
     }
 }
