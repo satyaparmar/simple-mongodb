@@ -74,7 +74,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
         }
 
         [TestMethod]
-        public void Find_UsingInOperator_TwoOfThreeItemsReturned()
+        public void Find_UsingSimoInOperator_TwoOfThreeItemsReturned()
         {
             var documents = new[]
                             {
@@ -86,9 +86,72 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
 
             using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
-                var persons = session[DbName][PersonsCollectionName].Find<Person>(new InOperator("Name", "Daniel", "Sue"));
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(new InOp("Name", "Daniel", "Sue"));
 
                 var danielAndSueFound = persons.Where(p => new[] {"Daniel", "Sue"}.Contains(p.Name)).Count() == 2;
+                Assert.AreEqual(2, persons.Count);
+                Assert.IsTrue(danielAndSueFound);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingJsonInOperator_TwoOfThreeItemsReturned()
+        {
+            var documents = new[]
+                            {
+                                new Person {Name = "Daniel", Age = 29},
+                                new Person {Name = "Adam", Age = 55},
+                                new Person {Name = "Sue", Age = 55},
+                            };
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
+
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
+            {
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(@"{Name : { $in : [""Daniel"", ""Sue""] } }");
+
+                var danielAndSueFound = persons.Where(p => new[] { "Daniel", "Sue" }.Contains(p.Name)).Count() == 2;
+                Assert.AreEqual(2, persons.Count);
+                Assert.IsTrue(danielAndSueFound);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingSimoWhereOperator_TwoOfThreeItemsReturned()
+        {
+            var documents = new[]
+                            {
+                                new Person {Name = "Daniel", Age = 29},
+                                new Person {Name = "Adam", Age = 55},
+                                new Person {Name = "Sue", Age = 55},
+                            };
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
+
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
+            {
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(new WhereOp(@"this.Name == 'Daniel' || this.Name == 'Sue'"));
+
+                var danielAndSueFound = persons.Where(p => new[] { "Daniel", "Sue" }.Contains(p.Name)).Count() == 2;
+                Assert.AreEqual(2, persons.Count);
+                Assert.IsTrue(danielAndSueFound);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingJsonWhereOperator_TwoOfThreeItemsReturned()
+        {
+            var documents = new[]
+                            {
+                                new Person {Name = "Daniel", Age = 29},
+                                new Person {Name = "Adam", Age = 55},
+                                new Person {Name = "Sue", Age = 55},
+                            };
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
+
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
+            {
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(@"{$where : ""this.Name == 'Daniel' || this.Name == 'Sue'""}");
+
+                var danielAndSueFound = persons.Where(p => new[] { "Daniel", "Sue" }.Contains(p.Name)).Count() == 2;
                 Assert.AreEqual(2, persons.Count);
                 Assert.IsTrue(danielAndSueFound);
             }
@@ -128,7 +191,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
 
             using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
-                var persons = session[DbName][PersonsCollectionName].Find<Person>(new WhereOperator("this.Age > 20 && this.Age < 65"));
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(new WhereOp("this.Age > 20 && this.Age < 65"));
 
                 Assert.AreEqual("Daniel", persons[0].Name);
                 Assert.AreEqual("Lazy John", persons[1].Name);

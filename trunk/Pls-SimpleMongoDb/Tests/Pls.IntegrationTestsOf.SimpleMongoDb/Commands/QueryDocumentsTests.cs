@@ -139,7 +139,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
-                                       QuerySelector = new WhereOperator("this.Name.indexOf('Daniel') > -1 && this.Age <= 30")
+                                       QuerySelector = new WhereOp("this.Name.indexOf('Daniel') > -1 && this.Age <= 30")
                                    };
                 queryCommand.Execute();
 

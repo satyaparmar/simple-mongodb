@@ -3,17 +3,17 @@
 namespace Pls.SimpleMongoDb.Operators
 {
     [Serializable]
-    public class WhereOperator
+    public class WhereOp
         : SimoOperator
     {
-        public WhereOperator(string expression)
+        public WhereOp(string expression)
         {
             Expression = string.Format("{{$where : \"{0}\"}}", expression);
         }
 
-        public static implicit operator WhereOperator(string whereStatement)
+        public static implicit operator WhereOp(string whereStatement)
         {
-            return new WhereOperator(whereStatement);
+            return new WhereOp(whereStatement);
         }
     }
 }

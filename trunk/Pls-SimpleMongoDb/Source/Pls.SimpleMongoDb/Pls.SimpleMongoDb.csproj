@@ -65,7 +65,7 @@
     <Compile Include="ISimoEngine.cs" />
     <Compile Include="DataTypes\SimoRegex.cs" />
     <Compile Include="MongoSystem.cs" />
-    <Compile Include="Operators\InOperator.cs" />
+    <Compile Include="Operators\InOp.cs" />
     <Compile Include="Serialization\Converters\SimoRegexJsonConverter.cs" />
     <Compile Include="SimoEngine.cs" />
     <Compile Include="SimoHelper.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="SimoSession.cs" />
     <Compile Include="Operators\ISimoOperator.cs" />
     <Compile Include="Operators\SimoOperator.cs" />
-    <Compile Include="Operators\WhereOperator.cs" />
+    <Compile Include="Operators\WhereOp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ExceptionMessages.Designer.cs">
       <AutoGen>True</AutoGen>

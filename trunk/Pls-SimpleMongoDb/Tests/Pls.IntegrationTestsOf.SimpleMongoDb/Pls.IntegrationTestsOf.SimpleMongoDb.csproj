@@ -52,6 +52,7 @@
     <Compile Include="Commands\QueryDocumentsTests.cs" />
     <Compile Include="Commands\UpdateDocumentsTests.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="EntityStore\EntityStoreFindTests.cs" />
     <Compile Include="InitializeAssembly.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="ParentChildTests.cs" />
