@@ -3,21 +3,19 @@
 namespace Pls.SimpleMongoDb.Operators
 {
     [Serializable]
-    public class SimoOperator : ISimoOperator
+    public abstract class SimoOperator 
+        : ISimoOperator
     {
-        private string _expression;
+        protected string Expression { get; set; }
 
-        public string Key { get; private set; }
-
-        public string Expression
+        public static implicit operator string(SimoOperator orOperator)
         {
-            get { return _expression; }
-            set { _expression = value ?? ""; }
+            return orOperator.Expression;
         }
 
-        public SimoOperator(string key)
+        public override string ToString()
         {
-            Key = key;
+            return Expression;
         }
     }
 }

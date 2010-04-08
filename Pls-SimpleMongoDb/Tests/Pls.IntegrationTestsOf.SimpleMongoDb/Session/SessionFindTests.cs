@@ -1,3 +1,4 @@
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pls.IntegrationTestsOf.SimpleMongoDb.TestModel;
 using Pls.SimpleMongoDb;
@@ -69,6 +70,27 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
                 var tutorials = session[DbName][collectionName].FindInfered(new { Title = "" }, @"{Tags : 'Tutorial'}");
 
                 Assert.AreEqual(2, tutorials.Count);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingInOperator_TwoOfThreeItemsReturned()
+        {
+            var documents = new[]
+                            {
+                                new Person {Name = "Daniel", Age = 29},
+                                new Person {Name = "Adam", Age = 55},
+                                new Person {Name = "Sue", Age = 55},
+                            };
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
+
+            using (var session = new SimoSession(TestHelper.CreateConnection()))
+            {
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(new InOperator("Name", "Daniel", "Sue"));
+
+                var danielAndSueFound = persons.Where(p => new[] {"Daniel", "Sue"}.Contains(p.Name)).Count() == 2;
+                Assert.AreEqual(2, persons.Count);
+                Assert.IsTrue(danielAndSueFound);
             }
         }
 
