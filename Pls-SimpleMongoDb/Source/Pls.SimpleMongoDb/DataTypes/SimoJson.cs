@@ -36,7 +36,6 @@ namespace Pls.SimpleMongoDb.DataTypes
 
         public static implicit operator SimoJson(Dictionary<string, object> keyValueJson)
         {
-            var s = new JsonSerializer();
             return JsonConvert.SerializeObject(keyValueJson, Formatting.None);
         }
     }
