@@ -4,9 +4,9 @@ using System.Linq;
 namespace Pls.SimpleMongoDb.Operators
 {
     [Serializable]
-    public class InOperator : SimoOperator
+    public class InOp : SimoOperator
     {
-        public InOperator(string propertyName, params string[] operands)
+        public InOp(string propertyName, params string[] operands)
         {
             var combinedOperands = string.Join(",", operands.Select(o => string.Format("\"{0}\"", o)));
 

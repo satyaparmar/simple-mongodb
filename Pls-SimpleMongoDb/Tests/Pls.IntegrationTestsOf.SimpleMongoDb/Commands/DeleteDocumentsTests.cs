@@ -70,7 +70,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 var deleteCommand = new DeleteDocumentsCommand(cn)
                                     {
                                         FullCollectionName = Constants.Collections.PersonsFullCollectionName,
-                                        Selector = new WhereOperator("this.Name.indexOf('Daniel') > -1 && this.Age < 30")
+                                        Selector = new WhereOp("this.Name.indexOf('Daniel') > -1 && this.Age < 30")
                                     };
                 deleteCommand.Execute();
             }
