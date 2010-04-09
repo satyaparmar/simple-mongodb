@@ -11,7 +11,7 @@ namespace Pls.SimpleMongoDb.Serialization
 
         public DocumentWriter(Stream documentStream)
         {
-            _jsonSerializer = new JsonSerializerFactory().Create();
+            _jsonSerializer = JsonSerializerFactory.Create();
             _bsonWriter = new BsonWriter(documentStream) { Formatting = Formatting.None };
         }
 
