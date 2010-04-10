@@ -107,5 +107,36 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.EntityStore
                 Assert.IsTrue(danielAndSueFound);
             }
         }
+
+        [TestMethod]
+        public void Find_UsingChainedQuery_ReturnsTwoOfThree()
+        {
+            var documents = new[]
+                            {
+                                new Person {Name = "Daniel", Age = 21},
+                                new Person {Name = "Daniel", Age = 23},
+                                new Person {Name = "Daniel", Age = 29},
+                                new Person {Name = "Adam", Age = 21},
+                                new Person {Name = "Adam", Age = 23},
+                                new Person {Name = "Adam", Age = 29},
+                                new Person {Name = "Sue", Age = 21},
+                                new Person {Name = "Sue", Age = 23},
+                                new Person {Name = "Sue", Age = 29}
+                            };
+            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
+
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var q = new Query()["Name"].In("Daniel", "Sue").And("Age").Gt(21).And().Lt(29);
+                var persons = entityStore.Find<Person>(q.ToString());
+
+                Assert.AreEqual(2, persons.Count);
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Sue").Count());
+            }
+        }
     }
 }

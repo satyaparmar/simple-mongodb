@@ -66,6 +66,7 @@
     <Compile Include="DataTypes\SimoRegex.cs" />
     <Compile Include="MongoSystem.cs" />
     <Compile Include="Operators\InOp.cs" />
+    <Compile Include="Query.cs" />
     <Compile Include="Serialization\Converters\SimoRegexJsonConverter.cs" />
     <Compile Include="SimoEngine.cs" />
     <Compile Include="SimoHelper.cs" />
