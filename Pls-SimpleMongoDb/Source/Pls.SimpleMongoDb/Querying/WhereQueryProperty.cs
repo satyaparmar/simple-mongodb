@@ -11,12 +11,9 @@ namespace Pls.SimpleMongoDb.Querying
         {
         }
 
-        public override string GenerateExpression()
+        public override string ToString()
         {
-            var expressions = GetExpressionPartsString();
-
-            return string.Format("{0} : \" {1} \"",
-                                 Name, expressions);
+            return GetOperatorsString();
         }
     }
 }

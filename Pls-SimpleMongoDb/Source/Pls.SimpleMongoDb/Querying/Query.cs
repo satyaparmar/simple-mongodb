@@ -18,17 +18,19 @@ namespace Pls.SimpleMongoDb.Querying
             }
         }
 
-        private Query(Action<Query> initialize)
+        private Query()
         {
             _propertiesLock = new object();
             _properties = new Dictionary<string, QueryProperty>();
-
-            initialize(this);
         }
 
         public static Query New(Action<Query> initialize)
         {
-            return new Query(initialize);
+            var q = new Query();
+            
+            initialize(q);
+
+            return q;
         }
 
         private QueryProperty GetProperty(string name)
@@ -42,7 +44,7 @@ namespace Pls.SimpleMongoDb.Querying
             return _properties[name];
         }
 
-        internal void InsertProperty(QueryProperty property)
+        internal void AddProperty(QueryProperty property)
         {
             lock (_propertiesLock)
             {
@@ -50,9 +52,14 @@ namespace Pls.SimpleMongoDb.Querying
             }
         }
 
+        public static implicit operator string(Query query)
+        {
+            return query.ToString();
+        }
+
         public override string ToString()
         {
-            var propertiesString = string.Join(", ", _properties.Values.Select(v => v.GenerateExpression()));
+            var propertiesString = string.Join(", ", _properties.Values.Select(v => v.ToString()));
 
             return string.Format("{{ {0} }}", propertiesString);
         }

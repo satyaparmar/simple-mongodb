@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using Pls.SimpleMongoDb.DataTypes;
-using Pls.SimpleMongoDb.Operators;
+using Pls.SimpleMongoDb.Querying;
 
 namespace Pls.SimpleMongoDb.Serialization
 {
@@ -93,7 +93,7 @@ namespace Pls.SimpleMongoDb.Serialization
 
         public void WriteSelector(object value)
         {
-            if (value is string || value is ISimoOperator)
+            if (value is string || value is Query)
                 WriteJson(value.ToString());
             else if (value is SimoJson)
                 WriteJson(value as SimoJson);

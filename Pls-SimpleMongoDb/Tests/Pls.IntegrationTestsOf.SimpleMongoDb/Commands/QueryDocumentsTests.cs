@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pls.IntegrationTestsOf.SimpleMongoDb.TestModel;
 using Pls.SimpleMongoDb.Commands;
 using Pls.SimpleMongoDb.DataTypes;
-using Pls.SimpleMongoDb.Operators;
+using Pls.SimpleMongoDb.Querying;
 
 namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
 {
@@ -139,7 +139,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 var queryCommand = new QueryDocumentsCommand<Person>(cn)
                                    {
                                        FullCollectionName = Constants.Collections.PersonsFullCollectionName,
-                                       QuerySelector = new WhereOp("this.Name.indexOf('Daniel') > -1 && this.Age <= 30")
+                                       QuerySelector = Query.New(q => q.Where("this.Name.indexOf('Daniel') > -1 && this.Age <= 30"))
                                    };
                 queryCommand.Execute();
 
