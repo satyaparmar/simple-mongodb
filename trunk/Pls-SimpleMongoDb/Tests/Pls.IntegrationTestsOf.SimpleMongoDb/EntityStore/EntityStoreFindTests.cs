@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pls.IntegrationTestsOf.SimpleMongoDb.TestModel;
 using Pls.SimpleMongoDb;
 using Pls.SimpleMongoDb.Operators;
+using Pls.SimpleMongoDb.Querying;
 
 namespace Pls.IntegrationTestsOf.SimpleMongoDb.EntityStore
 {
@@ -130,8 +131,8 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.EntityStore
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
-                var q = new Query()["Name"].In("Daniel", "Sue").And("Age").Gt(21).And().Lt(29);
-                var persons = entityStore.Find<Person>(q.ToString());
+                var query = Query.New(q => q["Name"].In("Daniel", "Sue").And("Age").Gt(21).And().Lt(29));
+                var persons = entityStore.Find<Person>(query.ToString());
 
                 Assert.AreEqual(2, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
