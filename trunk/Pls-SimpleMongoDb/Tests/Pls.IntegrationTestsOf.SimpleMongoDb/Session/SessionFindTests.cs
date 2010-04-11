@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pls.IntegrationTestsOf.SimpleMongoDb.TestModel;
 using Pls.SimpleMongoDb;
 using Pls.SimpleMongoDb.DataTypes;
-using Pls.SimpleMongoDb.Operators;
+using Pls.SimpleMongoDb.Querying;
 
 namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
 {
@@ -86,7 +86,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
 
             using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
-                var persons = session[DbName][PersonsCollectionName].Find<Person>(new InOp("Name", "Daniel", "Sue"));
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(Query.New(q => q["Name"].In("Daniel", "Sue")));
 
                 var danielAndSueFound = persons.Where(p => new[] {"Daniel", "Sue"}.Contains(p.Name)).Count() == 2;
                 Assert.AreEqual(2, persons.Count);
@@ -128,7 +128,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
 
             using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
-                var persons = session[DbName][PersonsCollectionName].Find<Person>(new WhereOp(@"this.Name == 'Daniel' || this.Name == 'Sue'"));
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(Query.New(q => q.Where("this.Name == 'Daniel' || this.Name == 'Sue'")));
 
                 var danielAndSueFound = persons.Where(p => new[] { "Daniel", "Sue" }.Contains(p.Name)).Count() == 2;
                 Assert.AreEqual(2, persons.Count);
@@ -191,7 +191,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Session
 
             using (var session = new SimoSession(TestHelper.CreateConnection()))
             {
-                var persons = session[DbName][PersonsCollectionName].Find<Person>(new WhereOp("this.Age > 20 && this.Age < 65"));
+                var persons = session[DbName][PersonsCollectionName].Find<Person>(Query.New(q => q.Where("this.Age > 20 && this.Age < 65")));
 
                 Assert.AreEqual("Daniel", persons[0].Name);
                 Assert.AreEqual("Lazy John", persons[1].Name);

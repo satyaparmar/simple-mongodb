@@ -11,16 +11,15 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
         {
             var query = Query.New(q => q["Name"].In("Daniel", "Sue"));
             
-            Assert.AreEqual("{ Name : { $in : ['Daniel','Sue'] } }", query.ToString());
+            Assert.AreEqual(@"{ Name : { $in : [""Daniel"",""Sue""] } }", query.ToString());
         }
 
         [TestMethod]
-        public void In_ChainedOnSameProperty_BuildsCorrectFormat()
+        public void NotIn_SeveralStringOperands_BuildsCorrectFormat()
         {
-            Assert.Inconclusive("TBD");
-            //var query = Query.Create()["Name"].In("Daniel").In("Sue");
+            var query = Query.New(q => q["Name"].NotIn("Daniel", "Sue"));
 
-            //Assert.AreEqual("{ Name : { $in : ['Daniel','Sue'] } }", query.ToString());
+            Assert.AreEqual(@"{ Name : { $nin : [""Daniel"",""Sue""] } }", query.ToString());
         }
 
         [TestMethod]
@@ -28,7 +27,7 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
         {
             var query = Query.New(q => q["Name"].In(21, 22));
 
-            Assert.AreEqual("{ Name : { $in : [21,22] } }", query.ToString());
+            Assert.AreEqual(@"{ Name : { $in : [21,22] } }", query.ToString());
         }
 
         [TestMethod]
@@ -36,7 +35,7 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
         {
             var query = Query.New(q => q["Name"].In("Daniel", "Sue").And("Age").In(21, 22));
 
-            Assert.AreEqual("{ Name : { $in : ['Daniel','Sue'] }, Age : { $in : [21,22] } }", query.ToString());
+            Assert.AreEqual(@"{ Name : { $in : [""Daniel"",""Sue""] }, Age : { $in : [21,22] } }", query.ToString());
         }
 
         [TestMethod]
@@ -52,7 +51,7 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
         {
             var query = Query.New(q => q["Name"].In("Daniel", "Sue").And().Where(@"this.Age == 21 || this.Age == 22"));
 
-            Assert.AreEqual(@"{ Name : { $in : ['Daniel','Sue'] }, $where : "" this.Age == 21 || this.Age == 22 "" }", query.ToString());
+            Assert.AreEqual(@"{ Name : { $in : [""Daniel"",""Sue""] }, $where : "" this.Age == 21 || this.Age == 22 "" }", query.ToString());
         }
 
         [TestMethod]
@@ -60,7 +59,7 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
         {
             var query = Query.New(q => q.Where(@"this.Age == 21 || this.Age == 22").And("Name").In("Daniel", "Sue"));
 
-            Assert.AreEqual(@"{ $where : "" this.Age == 21 || this.Age == 22 "", Name : { $in : ['Daniel','Sue'] } }", query.ToString());
+            Assert.AreEqual(@"{ $where : "" this.Age == 21 || this.Age == 22 "", Name : { $in : [""Daniel"",""Sue""] } }", query.ToString());
         }
 
         [TestMethod]
@@ -74,7 +73,7 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void LtE_WhitInt_BuildsCorrectFormat()
         {
-            var query = Query.New(q => q["Age"].LtE(50));
+            var query = Query.New(q => q["Age"].LtEq(50));
 
             Assert.AreEqual(@"{ Age : { $lte : 50 } }", query.ToString());
         }
@@ -90,7 +89,7 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void GtE_WhitInt_BuildsCorrectFormat()
         {
-            var query = Query.New(q => q["Age"].GtE(50));
+            var query = Query.New(q => q["Age"].GtEq(50));
 
             Assert.AreEqual(@"{ Age : { $gte : 50 } }", query.ToString());
         }
@@ -101,6 +100,30 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
             var query = Query.New(q => q["Age"].In(21, 22, 23).Lt(23));
             
             Assert.AreEqual(@"{ Age : { $in : [21,22,23], $lt : 23 } }", query.ToString());
+        }
+
+        [TestMethod]
+        public void Between_Ints_BuildsCorrectFormat()
+        {
+            var query = Query.New(q => q["Age"].Between(21, 29));
+
+            Assert.AreEqual(@"{ Age : { $gte : 21, $lte : 29 } }", query.ToString());
+        }
+
+        [TestMethod]
+        public void NotEqual_Ints_BuildsCorrectFormat()
+        {
+            var query = Query.New(q => q["Age"].NotEq(21));
+
+            Assert.AreEqual(@"{ Age : { $ne : 21 } }", query.ToString());
+        }
+
+        [TestMethod]
+        public void NotEqual_Strings_BuildsCorrectFormat()
+        {
+            var query = Query.New(q => q["Name"].NotEq("Daniel"));
+
+            Assert.AreEqual(@"{ Name : { $ne : ""Daniel"" } }", query.ToString());
         }
     }
 }

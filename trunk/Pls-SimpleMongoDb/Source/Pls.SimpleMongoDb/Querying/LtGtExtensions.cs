@@ -9,7 +9,7 @@ namespace Pls.SimpleMongoDb.Querying
             return property;
         }
 
-        public static QueryProperty GtE<T>(this QueryProperty property, T operand)
+        public static QueryProperty GtEq<T>(this QueryProperty property, T operand)
         {
             AddExpression(property, "$gte", operand.ToString());
 
@@ -23,19 +23,26 @@ namespace Pls.SimpleMongoDb.Querying
             return property;
         }
 
-        public static QueryProperty LtE<T>(this QueryProperty property, T operand)
+        public static QueryProperty LtEq<T>(this QueryProperty property, T operand)
         {
             AddExpression(property, "$lte", operand.ToString());
 
             return property;
         }
 
+        public static QueryProperty Between<T>(this QueryProperty property, T min, T max)
+        {
+            AddExpression(property, "$gte", min.ToString());
+            AddExpression(property, "$lte", max.ToString());
+
+            return property;
+        }
+
         private static void AddExpression(QueryProperty property, string operatorName, string value)
         {
-            var expression = string.Format("{0} : {1}",
-                                           operatorName, value);
+            var expression = value;
 
-            property.AddExpression(expression);
+            property.AddOperator(new QueryOperator(operatorName, expression));
         }
     }
 }
