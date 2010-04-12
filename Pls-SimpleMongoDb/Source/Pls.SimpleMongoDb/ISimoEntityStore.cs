@@ -33,6 +33,7 @@ namespace Pls.SimpleMongoDb
         IList<T> Find<T>(object selector, object entitySchema = null) where T : class;
         IList<T> Find<T>(T infered, string entityName, object selector, object entitySchema = null) where T : class;
 
+        T FindOne<T>(Action<Query> queryInitializer, object entitySchema = null) where T : class;
         T FindOne<T>(object selector, object entitySchema = null) where T : class;
         T FindOne<T>(T infered, string entityName, object selector, object entitySchema = null) where T : class;
 

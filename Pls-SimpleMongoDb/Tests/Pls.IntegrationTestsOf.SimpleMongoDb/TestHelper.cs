@@ -6,11 +6,6 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
 {
     internal static class TestHelper
     {
-        private static ISimoSession CreateSession()
-        {
-            return new SimoSession(CreateConnection());
-        }
-
         internal static void DropTestDatabase()
         {
             using(var session = CreateSession())
@@ -79,6 +74,13 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
             {
                 return session[Constants.TestDbName][fullCollectionName].Find<TDocument>(selector);
             }
+        }
+
+        internal static ISimoSession CreateSession()
+        {
+            var cn = CreateConnection();
+
+            return new SimoSession(cn);
         }
 
         internal static ISimoConnection CreateConnection()

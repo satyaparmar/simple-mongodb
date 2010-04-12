@@ -32,5 +32,32 @@ namespace Pls.UnitTestsOf.SimpleMongoDb
             Assert.AreEqual(SimoConnectionInfo.DefaultPort, connectionInfo.Port);
             Assert.AreEqual(SimoConnectionInfo.DefaultHost, connectionInfo.Host);
         }
+
+        [TestMethod]
+        public void Equals_TwoDifferentInstancesWithSameHostAndPort_EqualsEachOther()
+        {
+            var cnInfo1 = new SimoConnectionInfo("host1", 1);
+            var cnInfo2 = new SimoConnectionInfo("host1", 1);
+
+            Assert.AreEqual(cnInfo1, cnInfo2);
+        }
+
+        [TestMethod]
+        public void Equals_TwoDifferentInstancesWithDifferentHosts_NotEqualEachOther()
+        {
+            var cnInfo1 = new SimoConnectionInfo("host1", 1);
+            var cnInfo2 = new SimoConnectionInfo("host2", 1);
+
+            Assert.AreNotEqual(cnInfo1, cnInfo2);
+        }
+
+        [TestMethod]
+        public void Equals_TwoDifferentInstancesWithDifferentPorts_NotEqualEachOther()
+        {
+            var cnInfo1 = new SimoConnectionInfo("host1", 1);
+            var cnInfo2 = new SimoConnectionInfo("host1", 2);
+
+            Assert.AreNotEqual(cnInfo1, cnInfo2);
+        }
     }
 }

@@ -118,6 +118,14 @@ namespace Pls.SimpleMongoDb
             return GetEntityCollection(entityName).Find<T>(selector, entitySchema);
         }
 
+        public T FindOne<T>(Action<Query> queryInitializer, object entitySchema = null)
+            where T : class
+        {
+            var query = Query.New(queryInitializer);
+
+            return FindOne<T>(query, entitySchema);
+        }
+
         public T FindOne<T>(object selector, object entitySchema = null)
             where T : class
         {
