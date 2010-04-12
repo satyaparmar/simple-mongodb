@@ -14,18 +14,17 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
 
         protected override void OnTestInitialize()
         {
-            var documents = new[]
-                            {
-                                new Person {Name = "Daniel", Age = 21},
-                                new Person {Name = "Daniel", Age = 23},
-                                new Person {Name = "Daniel", Age = 29},
-                                new Person {Name = "Adam", Age = 21},
-                                new Person {Name = "Adam", Age = 23},
-                                new Person {Name = "Adam", Age = 29},
-                                new Person {Name = "Sue", Age = 21},
-                                new Person {Name = "Sue", Age = 23},
-                                new Person {Name = "Sue", Age = 29}
-                            };
+            var documents = new[] {
+                new Person { Name = "Daniel", Age = 21, TimeCodes = new[] { 100, 200, 300 }, Tags = new [] {"T1"} },
+                new Person { Name = "Daniel", Age = 23, TimeCodes = new[] { 100 }, Tags = new [] {"T1", "T2"} },
+                new Person { Name = "Daniel", Age = 29 },
+                new Person { Name = "Adam", Age = 21, TimeCodes = new[] { 100, 200, 300 }, Tags = new [] {"T1"} },
+                new Person { Name = "Adam", Age = 23, TimeCodes = new[] { 100 }, Tags = new [] {"T1", "T2"} },
+                new Person { Name = "Adam", Age = 29 },
+                new Person { Name = "Sue", Age = 21, TimeCodes = new[] { 100, 200, 300 }, Tags = new [] {"T1"} },
+                new Person { Name = "Sue", Age = 23, TimeCodes = new[] { 100 }, Tags = new [] {"T1", "T2"} },
+                new Person { Name = "Sue", Age = 29} };
+
             TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, documents);
         }
 
@@ -214,6 +213,108 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var query = Query.New(q => q["Age"].Mod(21, 0));
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(3, persons.Count);
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Adam").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Sue").Count());
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingAllQueryWithInts_ReturnsThreePersons()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["TimeCodes"].All(100, 200));
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(3, persons.Count);
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Adam").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Sue").Count());
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingAllQueryWithStrings_ReturnsThreePersons()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["Tags"].All("T1", "T2"));
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(3, persons.Count);
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Adam").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Sue").Count());
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingSizeQueryOnArrayWithNoStrings_ReturnsNothing()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["Tags"].Size(0));
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(0, persons.Count);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingSizeQueryOnArrayWithStrings_ReturnsThreePersons()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["Tags"].Size(2));
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(3, persons.Count);
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Adam").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Sue").Count());
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingSizeQueryOnArrayWithNoInts_ReturnsNothing()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["TimeCodes"].Size(0));
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(0, persons.Count);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingSizeQueryOnArrayWithInts_ReturnsThreePersons()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["TimeCodes"].Size(1));
                 var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(3, persons.Count);

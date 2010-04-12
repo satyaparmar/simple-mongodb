@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pls.IntegrationTestsOf.SimpleMongoDb.TestModel;
 using Pls.SimpleMongoDb;
 using Pls.SimpleMongoDb.DataTypes;
+using Pls.SimpleMongoDb.Querying;
 
 namespace Pls.IntegrationTestsOf.SimpleMongoDb
 {

@@ -6,15 +6,15 @@ namespace Pls.SimpleMongoDb.Querying
     {
         public static QueryProperty In<T>(this QueryProperty property, params T[] operands)
         {
-            return Do(property, "$in", operands);
+            return Add(property, "$in", operands);
         }
 
         public static QueryProperty NotIn<T>(this QueryProperty property, params T[] operands)
         {
-            return Do(property, "$nin", operands);
+            return Add(property, "$nin", operands);
         }
 
-        private static QueryProperty Do<T>(QueryProperty property, string operatorName, params T[] operands)
+        private static QueryProperty Add<T>(QueryProperty property, string operatorName, params T[] operands)
         {
             var expression = string.Format("[{0}]",
                                           string.Join(",", operands.Select(QueryOperator.ConvertOperandToJson)));

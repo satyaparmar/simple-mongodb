@@ -63,8 +63,9 @@
     <Compile Include="IoC\SimoIoC.cs" />
     <Compile Include="ISimoSessionFactory.cs" />
     <Compile Include="ISimoEngine.cs" />
-    <Compile Include="DataTypes\SimoRegex.cs" />
+    <Compile Include="Querying\SimoRegex.cs" />
     <Compile Include="MongoSystem.cs" />
+    <Compile Include="Querying\AllExtensions.cs" />
     <Compile Include="Querying\InExtensions.cs" />
     <Compile Include="Querying\LtGtExtensions.cs" />
     <Compile Include="Querying\ModExtensions.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Querying\Query.cs" />
     <Compile Include="Querying\QueryOperator.cs" />
     <Compile Include="Querying\QueryProperty.cs" />
+    <Compile Include="Querying\SizeExtensions.cs" />
     <Compile Include="Querying\WhereExtensions.cs" />
     <Compile Include="Querying\WhereQueryProperty.cs" />
     <Compile Include="Serialization\Converters\SimoRegexJsonConverter.cs" />
