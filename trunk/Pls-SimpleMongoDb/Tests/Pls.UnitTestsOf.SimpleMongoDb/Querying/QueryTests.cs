@@ -137,7 +137,7 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void All_WithInts_BuildsCorrectFormat()
         {
-            var query = Query.New(q => q["Workdays"].All(1, 2, 3, 4, 5));
+            var query = Query.New(q => q["Workdays"].HasAll(1, 2, 3, 4, 5));
 
             Assert.AreEqual(@"{ Workdays: { $all: [1,2,3,4,5] } }", query);
         }
@@ -145,7 +145,7 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void All_WithStrings_BuildsCorrectFormat()
         {
-            var query = Query.New(q => q["Workdays"].All("Mon", "Tue", "Wed", "Thu", "Fri"));
+            var query = Query.New(q => q["Workdays"].HasAll("Mon", "Tue", "Wed", "Thu", "Fri"));
 
             Assert.AreEqual(@"{ Workdays: { $all: [""Mon"",""Tue"",""Wed"",""Thu"",""Fri""] } }", query);
         }

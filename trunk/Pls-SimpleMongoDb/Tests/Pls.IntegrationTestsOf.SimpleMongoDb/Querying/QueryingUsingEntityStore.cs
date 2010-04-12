@@ -31,8 +31,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingChainedQuery_ReturnsTwoOfThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -48,8 +47,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingLtQuery_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -65,8 +63,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingGtQuery_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -82,8 +79,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingLtEQuery_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -99,8 +95,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingGtEQuery_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -116,8 +111,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingBetweenQuery_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -133,8 +127,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_IntervalUsingQueryLtAndGt_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -150,8 +143,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingInQuery_ReturnsFourPersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -166,8 +158,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingNotInQuery_ReturnsOnePerson()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -181,8 +172,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingNotEqualQuery_ReturnsFourPersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -197,8 +187,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingModQuery_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -214,12 +203,11 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingAllQueryWithInts_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
-                var persons = entityStore.Find<Person>(q => q["TimeCodes"].All(100, 200));
+                var persons = entityStore.Find<Person>(q => q["TimeCodes"].HasAll(100, 200));
 
                 Assert.AreEqual(3, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
@@ -231,12 +219,11 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingAllQueryWithStrings_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
-                var persons = entityStore.Find<Person>(q => q["Tags"].All("T1", "T2"));
+                var persons = entityStore.Find<Person>(q => q["Tags"].HasAll("T1", "T2"));
 
                 Assert.AreEqual(3, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
@@ -248,8 +235,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingSizeQueryOnArrayWithNoStrings_ReturnsNoPersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -262,8 +248,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingSizeQueryOnArrayWithStrings_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -279,8 +264,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingSizeQueryOnArrayWithNoInts_ReturnsNoPersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -293,8 +277,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingSizeQueryOnArrayWithInts_ReturnsThreePersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -310,8 +293,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingExistsQueryWhereMemberDoesNotExist_ReturnsNoPersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -324,8 +306,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingNotExistsQueryWhereMemberDoesNotExist_ReturnsAllPersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -338,8 +319,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingExistsQueryWhereMemberExists_ReturnsAllPersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
@@ -352,14 +332,26 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         [TestMethod]
         public void Find_UsingNotExistsQueryWhereMemberExists_ReturnsNoPersons()
         {
-            var cn = TestHelper.CreateConnection();
-            using (var session = new SimoSession(cn))
+            using (var session = TestHelper.CreateSession())
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var persons = entityStore.Find<Person>(q => q["Tags"].NotExists());
 
                 Assert.AreEqual(0, persons.Count);
+            }
+        }
+
+        [TestMethod]
+        public void FindOne_UsingQuery_ReturnsOnePerson()
+        {
+            using (var session = TestHelper.CreateSession())
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var persons = entityStore.Find<Person>(q => q["Name"].In("Daniel").And("Age").In(21));
+
+                Assert.AreEqual(1, persons.Count);
             }
         }
     }

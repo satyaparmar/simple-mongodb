@@ -19,7 +19,7 @@ namespace Pls.SimpleMongoDb
     /// </example>
     [Serializable]
     public class SimoConnectionInfo
-        : ISimoConnectionInfo
+        : ISimoConnectionInfo, IEquatable<SimoConnectionInfo>
     {
         public const string DefaultHost = "localhost";
         public const int DefaultPort = 27017;
@@ -73,6 +73,29 @@ namespace Pls.SimpleMongoDb
             }
 
             return parts;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as SimoConnectionInfo);
+        }
+
+        public bool Equals(SimoConnectionInfo other)
+        {
+            if (other == null)
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
+            
+            return Equals(other.Host, Host) && other.Port == Port;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Host != null ? Host.GetHashCode() : 0)*397) ^ Port;
+            }
         }
     }
 }
