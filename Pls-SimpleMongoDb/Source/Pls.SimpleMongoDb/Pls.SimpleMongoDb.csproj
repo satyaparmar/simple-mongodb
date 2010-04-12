@@ -67,6 +67,7 @@
     <Compile Include="MongoSystem.cs" />
     <Compile Include="Querying\InExtensions.cs" />
     <Compile Include="Querying\LtGtExtensions.cs" />
+    <Compile Include="Querying\ModExtensions.cs" />
     <Compile Include="Querying\NotEqualExtensions.cs" />
     <Compile Include="Querying\Query.cs" />
     <Compile Include="Querying\QueryOperator.cs" />

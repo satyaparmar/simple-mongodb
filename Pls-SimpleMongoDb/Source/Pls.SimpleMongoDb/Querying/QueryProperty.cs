@@ -46,7 +46,7 @@ namespace Pls.SimpleMongoDb.Querying
         {
             var operatorsString = GetOperatorsString();
 
-            return string.Format("{0} : {{ {1} }}", Name, operatorsString);
+            return string.Format("{0}: {{ {1} }}", Name, operatorsString);
         }
 
         protected string GetOperatorsString()

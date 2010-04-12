@@ -17,7 +17,7 @@ namespace Pls.SimpleMongoDb.Querying
 
         public override string ToString()
         {
-            return string.Format("{0} : {1}", Name, Expression);
+            return string.Format("{0}: {1}", Name, Expression);
         }
 
         internal static string ConvertOperandToJson<T>(T operand)

@@ -39,7 +39,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
 
                 var query = Query.New(
                     q => q["Name"].In("Daniel", "Sue").And("Age").Between(22, 28));
-                var persons = entityStore.Find<Person>(query.ToString());
+                var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(2, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
@@ -56,7 +56,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var query = Query.New(q => q["Age"].Lt(23));
-                var persons = entityStore.Find<Person>(query.ToString());
+                var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(3, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
@@ -74,7 +74,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var query = Query.New(q => q["Age"].Gt(23));
-                var persons = entityStore.Find<Person>(query.ToString());
+                var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(3, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
@@ -92,7 +92,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var query = Query.New(q => q["Age"].LtEq(21));
-                var persons = entityStore.Find<Person>(query.ToString());
+                var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(3, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
@@ -110,7 +110,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var query = Query.New(q => q["Age"].GtEq(29));
-                var persons = entityStore.Find<Person>(query.ToString());
+                var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(3, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
@@ -128,7 +128,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var query = Query.New(q => q["Age"].Between(22, 28));
-                var persons = entityStore.Find<Person>(query.ToString());
+                var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(3, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
@@ -146,7 +146,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var query = Query.New(q => q["Age"].Gt(21).Lt(29));
-                var persons = entityStore.Find<Person>(query.ToString());
+                var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(3, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
@@ -164,7 +164,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var query = Query.New(q => q["Name"].In("Daniel", "Sue").And("Age").In(21, 23));
-                var persons = entityStore.Find<Person>(query.ToString());
+                var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(4, persons.Count);
                 Assert.AreEqual(2, persons.Where(p => p.Name == "Daniel").Count());
@@ -181,7 +181,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var query = Query.New(q => q["Name"].NotIn("Daniel", "Sue").And("Age").NotIn(21, 23));
-                var persons = entityStore.Find<Person>(query.ToString());
+                var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(1, persons.Count);
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Adam").Count());
@@ -197,11 +197,29 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var entityStore = new SimoEntityStore(session, DbName);
 
                 var query = Query.New(q => q["Name"].NotEq("Adam").And("Age").NotEq(23));
-                var persons = entityStore.Find<Person>(query.ToString());
+                var persons = entityStore.Find<Person>(query);
 
                 Assert.AreEqual(4, persons.Count);
                 Assert.AreEqual(2, persons.Where(p => p.Name == "Daniel").Count());
                 Assert.AreEqual(2, persons.Where(p => p.Name == "Sue").Count());
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingModQuery_ReturnsThreePersons()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["Age"].Mod(21, 0));
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(3, persons.Count);
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Adam").Count());
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Sue").Count());
             }
         }
     }
