@@ -63,6 +63,7 @@
     <Compile Include="IoC\SimoIoC.cs" />
     <Compile Include="ISimoSessionFactory.cs" />
     <Compile Include="ISimoEngine.cs" />
+    <Compile Include="Querying\ExistsExtensions.cs" />
     <Compile Include="Querying\SimoRegex.cs" />
     <Compile Include="MongoSystem.cs" />
     <Compile Include="Querying\AllExtensions.cs" />
