@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Pls.SimpleMongoDb.DataTypes;
+using Pls.SimpleMongoDb.Querying;
 
 namespace Pls.SimpleMongoDb
 {
@@ -94,6 +96,14 @@ namespace Pls.SimpleMongoDb
         public void Delete(string entityName, object selector)
         {
             GetEntityCollection(entityName).Delete(selector);
+        }
+
+        public IList<T> Find<T>(Action<Query> queryInitializer, object entitySchema = null)
+            where T : class
+        {
+            var query = Query.New(queryInitializer);
+
+            return Find<T>(query, entitySchema);
         }
 
         public IList<T> Find<T>(object selector, object entitySchema = null)
