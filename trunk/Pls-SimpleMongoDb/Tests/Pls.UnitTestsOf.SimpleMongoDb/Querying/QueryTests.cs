@@ -157,5 +157,21 @@ namespace Pls.UnitTestsOf.SimpleMongoDb.Querying
 
             Assert.AreEqual(@"{ Workdays: { $size: 5 } }", query);
         }
+
+        [TestMethod]
+        public void Exists_BuildsCorrectFormat()
+        {
+            var query = Query.New(q => q["Age"].Exists());
+
+            Assert.AreEqual(@"{ Age: { $exists: true } }", query);
+        }
+
+        [TestMethod]
+        public void NotExists_BuildsCorrectFormat()
+        {
+            var query = Query.New(q => q["Age"].NotExists());
+
+            Assert.AreEqual(@"{ Age: { $exists: false } }", query);
+        }
     }
 }

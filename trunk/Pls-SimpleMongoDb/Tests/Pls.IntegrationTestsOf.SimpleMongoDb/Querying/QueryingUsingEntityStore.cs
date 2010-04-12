@@ -259,7 +259,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingSizeQueryOnArrayWithNoStrings_ReturnsNothing()
+        public void Find_UsingSizeQueryOnArrayWithNoStrings_ReturnsNoPersons()
         {
             var cn = TestHelper.CreateConnection();
             using (var session = new SimoSession(cn))
@@ -292,7 +292,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingSizeQueryOnArrayWithNoInts_ReturnsNothing()
+        public void Find_UsingSizeQueryOnArrayWithNoInts_ReturnsNoPersons()
         {
             var cn = TestHelper.CreateConnection();
             using (var session = new SimoSession(cn))
@@ -321,6 +321,66 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Adam").Count());
                 Assert.AreEqual(1, persons.Where(p => p.Name == "Sue").Count());
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingExistsQueryWhereMemberDoesNotExist_ReturnsNoPersons()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["FakeMember"].Exists());
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(0, persons.Count);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingNotExistsQueryWhereMemberDoesNotExist_ReturnsAllPersons()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["FakeMember"].NotExists());
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(9, persons.Count);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingExistsQueryWhereMemberExists_ReturnsAllPersons()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["Tags"].Exists());
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(9, persons.Count);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingNotExistsQueryWhereMemberExists_ReturnsNoPersons()
+        {
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var query = Query.New(q => q["Tags"].NotExists());
+                var persons = entityStore.Find<Person>(query);
+
+                Assert.AreEqual(0, persons.Count);
             }
         }
     }
