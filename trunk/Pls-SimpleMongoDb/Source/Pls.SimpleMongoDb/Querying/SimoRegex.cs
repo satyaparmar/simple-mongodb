@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Pls.SimpleMongoDb.Serialization.Converters;
 
-namespace Pls.SimpleMongoDb.DataTypes
+namespace Pls.SimpleMongoDb.Querying
 {
     [Serializable, JsonConverter(typeof(SimoRegexJsonConverter))]
     public class SimoRegex

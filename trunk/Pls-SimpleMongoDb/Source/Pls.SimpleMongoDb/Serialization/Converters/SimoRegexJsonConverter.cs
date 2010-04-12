@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using Pls.SimpleMongoDb.DataTypes;
+using Pls.SimpleMongoDb.Querying;
 using Pls.SimpleMongoDb.Resources;
 
 namespace Pls.SimpleMongoDb.Serialization.Converters
