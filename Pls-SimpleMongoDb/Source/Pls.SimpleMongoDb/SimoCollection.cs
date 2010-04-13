@@ -76,45 +76,61 @@ namespace Pls.SimpleMongoDb
             cmd.Execute();
         }
 
-        public T FindOne<T>(object selector, object documentSchema)
+        public IList<T> FindAll<T>(object schema = null, int? limit = null, int? skip = null)
             where T : class
         {
-            var result = Find<T>(selector, documentSchema);
-
-            return result.SingleOrDefault();
+            return Find<T>(null, schema, limit, skip);
         }
 
-        public IList<T> Find<T>(object selector, object documentSchema = null)
+        public IList<T> FindAllInfered<T>(T infered, object schema = null, int? limit = null, int? skip = null)
+            where T : class
+        {
+            return FindInfered<T>(infered, null, limit, skip);
+        }
+
+        public IList<T> Find<T>(object selector = null, object schema = null, int? limit = null, int? skip = null)
             where T : class
         {
             var cmd = new QueryDocumentsCommand<T>(Database.Session.Connection)
                           {
                               FullCollectionName = FullCollectionName,
                               QuerySelector = selector,
-                              DocumentSchema = documentSchema
+                              DocumentSchema = schema,
+                              NumberOfDocumentsToSkip = skip,
+                              NumberOfDocumentsToReturn =  limit
                           };
             cmd.Execute();
 
             return cmd.Response.Documents;
         }
 
-        public T FindOneInfered<T>(T inferedTemplate, object selector)
-            where T : class
-        {
-            return FindInfered(inferedTemplate, selector).SingleOrDefault();
-        }
-
-        public IList<T> FindInfered<T>(T inferedTemplate, object selector)
+        public IList<T> FindInfered<T>(T inferedTemplate, object selector = null, int? limit = null, int? skip = null)
             where T : class
         {
             var cmd = new QueryDocumentsCommand<T>(Database.Session.Connection)
             {
                 FullCollectionName = FullCollectionName,
-                QuerySelector = selector
+                QuerySelector = selector,
+                NumberOfDocumentsToSkip = skip,
+                NumberOfDocumentsToReturn = limit
             };
             cmd.Execute();
 
             return cmd.Response.Documents;
+        }
+
+        public T FindOne<T>(object selector, object schema = null)
+            where T : class
+        {
+            var result = Find<T>(selector, schema: schema);
+
+            return result.SingleOrDefault();
+        }
+
+        public T FindOneInfered<T>(T inferedTemplate, object selector)
+            where T : class
+        {
+            return FindInfered(inferedTemplate, selector).SingleOrDefault();
         }
 
         public int Count(object selector = null)

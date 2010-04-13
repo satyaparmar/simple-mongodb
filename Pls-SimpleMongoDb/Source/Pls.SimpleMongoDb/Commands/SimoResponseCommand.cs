@@ -52,6 +52,20 @@ namespace Pls.SimpleMongoDb.Commands
 
             Response.SetDocuments(requestResponse.ReturnedDocuments);
 
+            if(!requestResponse.CursorExists)
+                return;
+
+            var queryCmd = this as QueryDocumentsCommand<TDocument>;
+            if (queryCmd != null)
+            {
+                var numOfDocsToReturn = queryCmd.NumberOfDocumentsToReturn;
+                if(numOfDocsToReturn > 1 && numOfDocsToReturn == requestResponse.NumberOfReturnedDocuments)
+                {
+                    //TODO: Kill cursor
+                    return;
+                }
+            }
+
             GetMoreCommand<TDocument> getMoreCommand = null;
 
             while (requestResponse.CursorExists)

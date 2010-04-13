@@ -138,7 +138,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
                 entityStore.Insert("Parent", parent);
                 entityStore.Insert("Child", child);
 
-                var refetchedChild = entityStore.FindOne(infered: child, entityName: "Child", selector: new { child._id });
+                var refetchedChild = entityStore.FindOneInfered(child, entityName: "Child", selector: new { child._id });
 
                 Assert.AreEqual(fatherReference.Id, refetchedChild.FatherReference.Id);
                 Assert.AreEqual(fatherReference.CollectionName, refetchedChild.FatherReference.CollectionName);

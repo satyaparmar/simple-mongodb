@@ -15,7 +15,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         public void QuerySinglePerson_AnonymousTypeQueryWithString_ItemReturned()
         {
             var person = new Person { Name = "Daniel", Age = 29 };
-            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, person);
+            TestHelper.InsertDocument(Constants.Collections.PersonsCollectionName, person);
 
             using (var cn = TestHelper.CreateConnection())
             {
@@ -35,7 +35,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         {
             var tempDate = new DateTime(2010, 1, 1, 10, 02, 03, 04);
             var person = new Person { Name = "Daniel", Age = 29, TempDate = tempDate };
-            TestHelper.InsertDocuments(Constants.Collections.PersonsCollectionName, person);
+            TestHelper.InsertDocument(Constants.Collections.PersonsCollectionName, person);
 
             using (var cn = TestHelper.CreateConnection())
             {
@@ -148,7 +148,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         }
 
         [TestMethod]
-        public void QueryManyPersonsUsingCursor_SpecificNumberOfDocumentsToReturnGivesCursor_AllPersonsAreReturned()
+        public void QueryManyPersonsUsingCursor_SpecificNumberOfDocumentsToReturnGivesNoCursor_SpecifiedNumberOfPersonsAreReturned()
         {
             var person = new[]
                          {
@@ -169,7 +169,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 };
                 queryCommand.Execute();
 
-                Assert.AreEqual(5, queryCommand.Response.NumberOfDocuments);
+                Assert.AreEqual(2, queryCommand.Response.NumberOfDocuments);
             }
         }
     }
