@@ -29,13 +29,17 @@ namespace Pls.SimpleMongoDb
         void Delete<T>(object selector) where T : class;
         void Delete(string entityName, object selector);
 
-        IList<T> Find<T>(Action<Query> queryInitializer, object entitySchema = null) where T : class;
-        IList<T> Find<T>(object selector, object entitySchema = null) where T : class;
-        IList<T> Find<T>(T infered, string entityName, object selector, object entitySchema = null) where T : class;
+        IList<T> FindAll<T>(object entitySchema = null, int? limit = null, int? skip = null) where T : class;
+        IList<T> FindAllInfered<T>(T infered, int? limit = null, int? skip = null) where T : class;
 
-        T FindOne<T>(Action<Query> queryInitializer, object entitySchema = null) where T : class;
+        IList<T> QueryFor<T>(Action<Query> queryInitializer, object entitySchema = null, int? limit = null, int? skip = null) where T : class;
+        IList<T> Find<T>(object selector, object entitySchema = null, int? limit = null, int? skip = null) where T : class;
+        IList<T> FindInfered<T>(T infered, string entityName, object selector, object entitySchema = null, int? limit = null, int? skip = null) where T : class;
+
+        T QueryForOne<T>(Action<Query> queryInitializer, object entitySchema = null) where T : class;
         T FindOne<T>(object selector, object entitySchema = null) where T : class;
-        T FindOne<T>(T infered, string entityName, object selector, object entitySchema = null) where T : class;
+        T FindOneInfered<T>(T infered, string entityName, object selector, object entitySchema = null) where T : class;
+
 
         int Count<T>(object selector = null) where T : class;
 

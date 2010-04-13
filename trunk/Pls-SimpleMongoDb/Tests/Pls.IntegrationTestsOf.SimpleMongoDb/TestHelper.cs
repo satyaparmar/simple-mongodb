@@ -8,7 +8,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
     {
         internal static void DropTestDatabase()
         {
-            using(var session = CreateSession())
+            using (var session = CreateSession())
             {
                 var db = session[Constants.TestDbName];
                 db.DropDatabase();
@@ -24,7 +24,13 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
             }
         }
 
-        internal static void InsertDocuments<TDocument>(string fullCollectionName, params TDocument[] documents)
+        internal static void InsertDocument<TDocument>(string fullCollectionName, TDocument document)
+            where TDocument : class
+        {
+            InsertDocuments(fullCollectionName, new[] { document });
+        }
+
+        internal static void InsertDocuments<TDocument>(string fullCollectionName, IEnumerable<TDocument> documents)
             where TDocument : class
         {
             using (var session = CreateSession())

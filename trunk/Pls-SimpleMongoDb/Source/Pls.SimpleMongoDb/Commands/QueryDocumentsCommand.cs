@@ -31,7 +31,7 @@ namespace Pls.SimpleMongoDb.Commands
         /// the first document in the resulting dataset - when
         /// returning the result of the query.
         /// </summary>
-        public virtual int NumberOfDocumentsToSkip { get; set; }
+        public int? NumberOfDocumentsToSkip { get; set; }
 
         /// <summary>
         /// Number of documents to return in the first reply.
@@ -39,8 +39,9 @@ namespace Pls.SimpleMongoDb.Commands
         /// return size. If the number is negative, then the
         /// database will return that number and close the cursor.
         /// No futher results for that query can be fetched.
+        /// If the number is 1 it is treated as -1.
         /// </summary>
-        public virtual int NumberOfDocumentsToReturn { get; set; }
+        public int? NumberOfDocumentsToReturn { get; set; }
 
         /// <summary>
         /// QuerySelector - defines the query criterias.
@@ -56,8 +57,8 @@ namespace Pls.SimpleMongoDb.Commands
             : base(connection)
         {
             QueryOption = QueryOptions.None;
-            NumberOfDocumentsToSkip = 0;
-            NumberOfDocumentsToReturn = 0;
+            NumberOfDocumentsToSkip = null;
+            NumberOfDocumentsToReturn = null;
         }
 
         protected override void OnEnsureValidForExecution()
@@ -85,12 +86,21 @@ namespace Pls.SimpleMongoDb.Commands
             {
                 using (var writer = new BodyWriter(stream))
                 {
+                    //Number of docs to return:
+                    //  0 => the server will use the default return size;
+                    // -x => If the number is negative, then the database will return that number and close the cursor.
+                    //  1 => the server will treat it as -1 (closing the cursor automatically)
+
+                    var numOfDocsToReturn = NumberOfDocumentsToReturn ?? 0;
+                    if (numOfDocsToReturn > 0)
+                        numOfDocsToReturn = numOfDocsToReturn*-1;
+
                     writer.Write((int)QueryOption);
                     writer.Write(FullCollectionName);
                     writer.WriteTerminator();
-                    writer.Write(NumberOfDocumentsToSkip);
-                    writer.Write(NumberOfDocumentsToReturn);
-
+                    writer.Write(NumberOfDocumentsToSkip ?? 0);
+                    writer.Write(numOfDocsToReturn);
+                    
                     writer.WriteSelector(QuerySelector ?? new object());
                     
                     if(DocumentSchema != null)

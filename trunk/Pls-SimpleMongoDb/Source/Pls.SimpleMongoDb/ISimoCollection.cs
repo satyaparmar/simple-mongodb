@@ -17,14 +17,20 @@ namespace Pls.SimpleMongoDb
         void UpdateMany(object selector, object document);
 
         void Delete(object selector);
-        
-        IList<T> Find<T>(object selector, object documentSchema = null)
+
+        IList<T> FindAll<T>(object schema = null, int? limit = null, int? skip = null)
             where T : class;
 
-        T FindOne<T>(object selector, object documentSchema = null)
+        IList<T> FindAllInfered<T>(T infered, object schema = null, int? limit = null, int? skip = null)
             where T : class;
 
-        IList<T> FindInfered<T>(T inferedTemplate, object selector)
+        IList<T> Find<T>(object selector, object schema = null, int? limit = null, int? skip = null)
+            where T : class;
+
+        IList<T> FindInfered<T>(T inferedTemplate, object selector, int? limit = null, int? skip = null)
+            where T : class;
+
+        T FindOne<T>(object selector, object schema = null)
             where T : class;
 
         T FindOneInfered<T>(T inferedTemplate, object selector)

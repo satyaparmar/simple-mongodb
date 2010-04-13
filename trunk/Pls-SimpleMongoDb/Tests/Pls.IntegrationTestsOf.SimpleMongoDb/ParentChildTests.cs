@@ -14,8 +14,8 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
             var parent = new Parent { Name = "Daniel" };
             var fatherReference = new SimoReference { CollectionName = Constants.Collections.ParentsCollectionName, Id = parent._id };
             var child = new Child { Name = "Isabell", FatherReference = fatherReference };
-            TestHelper.InsertDocuments(Constants.Collections.ParentsFullCollectionName, parent);
-            TestHelper.InsertDocuments(Constants.Collections.ChildsFullCollectionName, child);
+            TestHelper.InsertDocument(Constants.Collections.ParentsFullCollectionName, parent);
+            TestHelper.InsertDocument(Constants.Collections.ChildsFullCollectionName, child);
 
             var refetchedChild = TestHelper.GetDocument<Child>(new { child._id }, Constants.Collections.ChildsFullCollectionName);
 
@@ -34,8 +34,8 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
                                       Id = parent._id
                                   };
             var child = new { _id = SimoId.NewId(), Name = "Isabell", Father = fatherReference };
-            TestHelper.InsertDocuments(Constants.Collections.ParentsFullCollectionName, parent);
-            TestHelper.InsertDocuments(Constants.Collections.ChildsFullCollectionName, child);
+            TestHelper.InsertDocument(Constants.Collections.ParentsFullCollectionName, parent);
+            TestHelper.InsertDocument(Constants.Collections.ChildsFullCollectionName, child);
 
             var refetchedChild = TestHelper.GetDocument(new { child._id }, child, Constants.Collections.ChildsFullCollectionName);
 
@@ -53,8 +53,8 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
                                       Id = parent._id
                                   };
             var child = new Child { Name = "Isabell", FatherReference = fatherReference };
-            TestHelper.InsertDocuments(Constants.Collections.ParentsFullCollectionName, parent);
-            TestHelper.InsertDocuments(Constants.Collections.ChildsFullCollectionName, child);
+            TestHelper.InsertDocument(Constants.Collections.ParentsFullCollectionName, parent);
+            TestHelper.InsertDocument(Constants.Collections.ChildsFullCollectionName, child);
 
             var refetchedChild = TestHelper.GetDocument<Child>(new { child._id }, Constants.Collections.ChildsFullCollectionName);
 

@@ -55,6 +55,7 @@
     <Compile Include="EntityStore\EntityStoreFindTests.cs" />
     <Compile Include="InitializeAssembly.cs" />
     <Compile Include="Querying\QueryingUsingEntityStore.cs" />
+    <Compile Include="Querying\SkipAndLimitTests.cs" />
     <Compile Include="SimoSessionFactoryTests.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="ParentChildTests.cs" />
