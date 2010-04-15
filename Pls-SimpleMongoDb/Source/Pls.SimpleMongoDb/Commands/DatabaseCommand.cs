@@ -50,7 +50,7 @@ namespace Pls.SimpleMongoDb.Commands
             {
                 using (var writer = new BodyWriter(stream))
                 {
-                    writer.Write((int)QueryOptions.None);
+                    writer.Write((int)QueryCommandOptions.None);
                     writer.Write(NodeName + ".$cmd");
                     writer.WriteTerminator();
                     writer.Write(0);

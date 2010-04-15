@@ -24,7 +24,7 @@ namespace Pls.SimpleMongoDb.Commands
         /// <summary>
         /// Defines how the result will be returned.
         /// </summary>
-        private QueryOptions QueryOption { get; set; }
+        private QueryCommandOptions Options { get; set; }
 
         /// <summary>
         /// Sets the number of documents to omit - starting from
@@ -56,7 +56,7 @@ namespace Pls.SimpleMongoDb.Commands
         public QueryDocumentsCommand(ISimoConnection connection)
             : base(connection)
         {
-            QueryOption = QueryOptions.None;
+            Options = QueryCommandOptions.None;
             NumberOfDocumentsToSkip = null;
             NumberOfDocumentsToReturn = null;
         }
@@ -95,7 +95,7 @@ namespace Pls.SimpleMongoDb.Commands
                     if (numOfDocsToReturn > 0)
                         numOfDocsToReturn = numOfDocsToReturn*-1;
 
-                    writer.Write((int)QueryOption);
+                    writer.Write((int)Options);
                     writer.Write(FullCollectionName);
                     writer.WriteTerminator();
                     writer.Write(NumberOfDocumentsToSkip ?? 0);

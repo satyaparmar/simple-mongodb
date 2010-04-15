@@ -29,7 +29,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
-                var persons = entityStore.FindAll<Person>(skip: 2);
+                var persons = entityStore.FindAll<Person>(opts => opts.Skip(2));
 
                 Assert.AreEqual(98, persons.Count);
                 Assert.AreEqual(3, persons[0].Age);
@@ -45,7 +45,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
-                var persons = entityStore.FindAll<Person>(skip: 3);
+                var persons = entityStore.FindAll<Person>(opts => opts.Skip(3));
 
                 Assert.AreEqual(0, persons.Count);
             }
@@ -60,7 +60,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
-                var persons = entityStore.FindAll<Person>(limit: 20);
+                var persons = entityStore.FindAll<Person>(opts => opts.Limit(20));
 
                 Assert.AreEqual(20, persons.Count);
                 Assert.AreEqual(1, persons[0].Age);
@@ -76,7 +76,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
-                var persons = entityStore.FindAll<Person>(limit: 20);
+                var persons = entityStore.FindAll<Person>(opts => opts.Limit(20));
 
                 Assert.AreEqual(15, persons.Count);
             }
@@ -91,7 +91,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
             {
                 var entityStore = new SimoEntityStore(session, DbName);
 
-                var persons = entityStore.FindAll<Person>(10, 10);
+                var persons = entityStore.FindAll<Person>(opts => opts.Skip(10).Limit(10));
 
                 Assert.AreEqual(10, persons.Count);
                 Assert.AreEqual(11, persons[0].Age);

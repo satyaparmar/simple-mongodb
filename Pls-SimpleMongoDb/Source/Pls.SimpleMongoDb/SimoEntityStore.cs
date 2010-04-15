@@ -98,36 +98,73 @@ namespace Pls.SimpleMongoDb
             GetEntityCollection(entityName).Delete(selector);
         }
 
-        public IList<T> FindAll<T>(object entitySchema = null, int? limit = null, int? skip = null) 
+        public IList<T> FindAll<T>(Action<IQueryOptions> optionsInitializer = null) 
             where T : class
         {
-            return Find<T>(null, entitySchema, limit, skip);
+            return Find<T>(null, optionsInitializer);
         }
 
-        public IList<T> FindAllInfered<T>(T infered, int? limit = null, int? skip = null) 
+        public IList<T> FindAllInfered<T>(T infered, Action<IQueryOptions> optionsInitializer = null)
             where T : class
         {
-            return FindInfered<T>(infered, null, limit, skip);
+            var options = new QueryOptions();
+
+            if (optionsInitializer != null)
+                optionsInitializer.Invoke(options);
+
+            return FindInfered(infered, options);
         }
 
-        public IList<T> QueryFor<T>(Action<Query> queryInitializer, object entitySchema = null, int? limit = null, int? skip = null)
+        public IList<T> FindAllInfered<T>(T infered, string entityName, Action<IQueryOptions> optionsInitializer = null)
+            where T : class
+        {
+            var options = new QueryOptions();
+
+            if (optionsInitializer != null)
+                optionsInitializer.Invoke(options);
+
+            return FindInfered(infered, entityName, options);
+        }
+
+        public IList<T> QueryFor<T>(Action<Query> queryInitializer, Action<IQueryOptions> optionsInitializer = null)
             where T : class
         {
             var query = Query.New(queryInitializer);
 
-            return Find<T>(query, entitySchema, limit, skip);
+            return Find<T>(query, optionsInitializer);
         }
 
-        public IList<T> Find<T>(object selector, object entitySchema = null, int? limit = null, int? skip = null)
+        public IList<T> Find<T>(object selector, Action<IQueryOptions> optionsInitializer = null)
             where T : class
         {
-            return GetEntityCollection<T>().Find<T>(selector, entitySchema, limit, skip);
+            var options = new QueryOptions();
+
+            if (optionsInitializer != null)
+                optionsInitializer.Invoke(options);
+
+            return GetEntityCollection<T>().Find<T>(selector, options.GetSchema(), options.GetLimit(), options.GetSkip());
         }
 
-        public IList<T> FindInfered<T>(T infered, string entityName, object selector, object entitySchema = null, int? limit = null, int? skip = null)
+        public IList<T> FindInfered<T>(T infered, object selector, Action<IQueryOptions> optionsInitializer = null)
             where T : class
         {
-            return GetEntityCollection(entityName).Find<T>(selector, entitySchema, limit, skip);
+            var options = new QueryOptions();
+
+            if (optionsInitializer != null)
+                optionsInitializer.Invoke(options);
+
+            return GetEntityCollection<T>().Find<T>(selector, options.GetSchema(), options.GetLimit(), options.GetSkip());
+        }
+
+        public IList<T> FindInfered<T>(T infered, string entityName, object selector, Action<IQueryOptions> optionsInitializer = null)
+            where T : class
+        {
+            var options = new QueryOptions();
+
+            if (optionsInitializer != null)
+                optionsInitializer.Invoke(options);
+
+            return GetEntityCollection(entityName).Find<T>(selector, options.GetSchema(), options.GetLimit(), options.GetSkip());
         }
 
         public T QueryForOne<T>(Action<Query> queryInitializer, object entitySchema = null)
@@ -139,6 +176,12 @@ namespace Pls.SimpleMongoDb
         }
 
         public T FindOne<T>(object selector, object entitySchema = null)
+            where T : class
+        {
+            return GetEntityCollection<T>().FindOne<T>(selector, entitySchema);
+        }
+
+        public T FindOneInfered<T>(T infered, object selector, object entitySchema = null)
             where T : class
         {
             return GetEntityCollection<T>().FindOne<T>(selector, entitySchema);

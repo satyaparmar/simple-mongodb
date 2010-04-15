@@ -65,6 +65,9 @@
     <Compile Include="ISimoEngine.cs" />
     <Compile Include="Querying\EqualsExtensions.cs" />
     <Compile Include="Querying\ExistsExtensions.cs" />
+    <Compile Include="Querying\ILimitingQueryOptions.cs" />
+    <Compile Include="Querying\IQueryOptions.cs" />
+    <Compile Include="Querying\ISchemaQueryOptions.cs" />
     <Compile Include="Querying\SimoRegex.cs" />
     <Compile Include="MongoSystem.cs" />
     <Compile Include="Querying\AllExtensions.cs" />
@@ -78,6 +81,7 @@
     <Compile Include="Querying\SizeExtensions.cs" />
     <Compile Include="Querying\WhereExtensions.cs" />
     <Compile Include="Querying\WhereQueryProperty.cs" />
+    <Compile Include="Querying\QueryOptions.cs" />
     <Compile Include="Serialization\Converters\SimoRegexJsonConverter.cs" />
     <Compile Include="SimoEngine.cs" />
     <Compile Include="SimoHelper.cs" />
@@ -92,7 +96,7 @@
     <Compile Include="Commands\SimoCommandException.cs" />
     <Compile Include="Commands\OpCodes.cs" />
     <Compile Include="Commands\QueryDocumentsCommand.cs" />
-    <Compile Include="Commands\QueryOptions.cs" />
+    <Compile Include="Commands\QueryCommandOptions.cs" />
     <Compile Include="Commands\DatabaseCommand.cs" />
     <Compile Include="Commands\UpdateDocumentsCommand.cs" />
     <Compile Include="Commands\UpdateModes.cs" />
