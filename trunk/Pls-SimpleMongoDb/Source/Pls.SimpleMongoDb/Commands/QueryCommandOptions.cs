@@ -3,7 +3,7 @@ using System;
 namespace Pls.SimpleMongoDb.Commands
 {
     [Serializable]
-    public enum QueryOptions : int
+    public enum QueryCommandOptions : int
     {
         None = 0,
         TailableCursor = 2,

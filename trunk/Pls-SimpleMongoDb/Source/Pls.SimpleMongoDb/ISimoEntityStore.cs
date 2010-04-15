@@ -29,17 +29,19 @@ namespace Pls.SimpleMongoDb
         void Delete<T>(object selector) where T : class;
         void Delete(string entityName, object selector);
 
-        IList<T> FindAll<T>(object entitySchema = null, int? limit = null, int? skip = null) where T : class;
-        IList<T> FindAllInfered<T>(T infered, int? limit = null, int? skip = null) where T : class;
+        IList<T> FindAll<T>(Action<IQueryOptions> optionsInitializer = null) where T : class;
+        IList<T> FindAllInfered<T>(T infered, Action<IQueryOptions> optionsInitializer = null) where T : class;
+        IList<T> FindAllInfered<T>(T infered, string entityName, Action<IQueryOptions> optionsInitializer = null) where T : class;
 
-        IList<T> QueryFor<T>(Action<Query> queryInitializer, object entitySchema = null, int? limit = null, int? skip = null) where T : class;
-        IList<T> Find<T>(object selector, object entitySchema = null, int? limit = null, int? skip = null) where T : class;
-        IList<T> FindInfered<T>(T infered, string entityName, object selector, object entitySchema = null, int? limit = null, int? skip = null) where T : class;
+        IList<T> QueryFor<T>(Action<Query> queryInitializer, Action<IQueryOptions> optionsInitializer = null) where T : class;
+        IList<T> Find<T>(object selector, Action<IQueryOptions> optionsInitializer = null) where T : class;
+        IList<T> FindInfered<T>(T infered, object selector, Action<IQueryOptions> optionsInitializer = null) where T : class;
+        IList<T> FindInfered<T>(T infered, string entityName, object selector, Action<IQueryOptions> optionsInitializer = null) where T : class;
 
         T QueryForOne<T>(Action<Query> queryInitializer, object entitySchema = null) where T : class;
         T FindOne<T>(object selector, object entitySchema = null) where T : class;
+        T FindOneInfered<T>(T infered, object selector, object entitySchema = null) where T : class;
         T FindOneInfered<T>(T infered, string entityName, object selector, object entitySchema = null) where T : class;
-
 
         int Count<T>(object selector = null) where T : class;
 
