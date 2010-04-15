@@ -7,7 +7,7 @@ using Pls.SimpleMongoDb.Querying;
 namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
 {
     [TestClass]
-    public class QueryingUsingEntityStore
+    public class EntityStoreQueryForTests
         : TestBase
     {
         private const string DbName = Constants.TestDbName;
@@ -29,7 +29,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingChainedQuery_ReturnsTwoOfThreePersons()
+        public void QueryFor_UsingChainedQuery_ReturnsTwoOfThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -45,7 +45,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingLtQuery_ReturnsThreePersons()
+        public void QueryFor_UsingLtQuery_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -61,7 +61,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingGtQuery_ReturnsThreePersons()
+        public void QueryFor_UsingGtQuery_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -77,7 +77,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingLtEQuery_ReturnsThreePersons()
+        public void QueryFor_UsingLtEQuery_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -93,7 +93,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingGtEQuery_ReturnsThreePersons()
+        public void QueryFor_UsingGtEQuery_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -109,7 +109,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingBetweenQuery_ReturnsThreePersons()
+        public void QueryFor_UsingBetweenQuery_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -125,7 +125,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_IntervalUsingQueryLtAndGt_ReturnsThreePersons()
+        public void QueryFor_IntervalUsingQueryLtAndGt_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -141,7 +141,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingInQuery_ReturnsFourPersons()
+        public void QueryFor_UsingInQuery_ReturnsFourPersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -156,7 +156,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingNotInQuery_ReturnsOnePerson()
+        public void QueryFor_UsingNotInQuery_ReturnsOnePerson()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -170,7 +170,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingNotEqualQuery_ReturnsFourPersons()
+        public void QueryFor_UsingNotEqualQuery_ReturnsFourPersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -185,7 +185,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingModQuery_ReturnsThreePersons()
+        public void QueryFor_UsingModQuery_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -201,7 +201,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingAllQueryWithInts_ReturnsThreePersons()
+        public void QueryFor_UsingAllQueryWithInts_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -217,7 +217,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingAllQueryWithStrings_ReturnsThreePersons()
+        public void QueryFor_UsingAllQueryWithStrings_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -233,7 +233,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingSizeQueryOnArrayWithNoStrings_ReturnsNoPersons()
+        public void QueryFor_UsingSizeQueryOnArrayWithNoStrings_ReturnsNoPersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -246,7 +246,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingSizeQueryOnArrayWithStrings_ReturnsThreePersons()
+        public void QueryFor_UsingSizeQueryOnArrayWithStrings_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -262,7 +262,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingSizeQueryOnArrayWithNoInts_ReturnsNoPersons()
+        public void QueryFor_UsingSizeQueryOnArrayWithNoInts_ReturnsNoPersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -275,7 +275,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingSizeQueryOnArrayWithInts_ReturnsThreePersons()
+        public void QueryFor_UsingSizeQueryOnArrayWithInts_ReturnsThreePersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -291,7 +291,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingExistsQueryWhereMemberDoesNotExist_ReturnsNoPersons()
+        public void QueryFor_UsingExistsQueryWhereMemberDoesNotExist_ReturnsNoPersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -304,7 +304,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingNotExistsQueryWhereMemberDoesNotExist_ReturnsAllPersons()
+        public void QueryFor_UsingNotExistsQueryWhereMemberDoesNotExist_ReturnsAllPersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -317,7 +317,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingExistsQueryWhereMemberExists_ReturnsAllPersons()
+        public void QueryFor_UsingExistsQueryWhereMemberExists_ReturnsAllPersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -330,7 +330,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void Find_UsingNotExistsQueryWhereMemberExists_ReturnsNoPersons()
+        public void QueryFor_UsingNotExistsQueryWhereMemberExists_ReturnsNoPersons()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -343,7 +343,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
         }
 
         [TestMethod]
-        public void FindOne_UsingQuery_ReturnsOnePerson()
+        public void QueryFor_UsingMultipleInOnDifferentProps_ReturnsOnePerson()
         {
             using (var session = TestHelper.CreateSession())
             {
@@ -352,6 +352,35 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
                 var persons = entityStore.QueryFor<Person>(q => q["Name"].In("Daniel").And("Age").In(21));
 
                 Assert.AreEqual(1, persons.Count);
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingWhereWithOr_ReturnsThreePersons()
+        {
+            using (var session = TestHelper.CreateSession())
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var persons = entityStore.QueryFor<Person>(q => q.Where(@"this.Name == 'Daniel' || this.Name == 'Sue'"));
+
+                Assert.AreEqual(6, persons.Count);
+                Assert.AreEqual(3, persons.Where(p => p.Name == "Daniel").Count());
+                Assert.AreEqual(3, persons.Where(p => p.Name == "Sue").Count());
+            }
+        }
+
+        [TestMethod]
+        public void Find_UsingWhereWithAnd_ReturnsOnePerson()
+        {
+            using (var session = TestHelper.CreateSession())
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var persons = entityStore.QueryFor<Person>(q => q.Where(@"this.Name == 'Daniel' && this.Age == 21"));
+
+                Assert.AreEqual(1, persons.Count);
+                Assert.AreEqual(1, persons.Where(p => p.Name == "Daniel").Count());
             }
         }
     }
