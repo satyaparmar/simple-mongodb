@@ -54,7 +54,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Querying\EntityStoreFindUsingJsonTests.cs" />
     <Compile Include="InitializeAssembly.cs" />
-    <Compile Include="Querying\EntityStoreQueryForTests.cs" />
+    <Compile Include="Querying\EntityStoreQueryApiTests.cs" />
     <Compile Include="Querying\EntityStoreSkipAndLimitTests.cs" />
     <Compile Include="SimoSessionFactoryTests.cs" />
     <Compile Include="TestBase.cs" />
@@ -84,9 +84,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EntityStore\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

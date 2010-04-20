@@ -18,7 +18,7 @@ namespace Pls.SimpleMongoDb
         public SimoSession(ISimoConnection connection)
         {
             Connection = connection;
-            Pluralizer = SimoEngine.Instance.IoC.GetPluralizer();
+            Pluralizer = SimoEngine.Instance.IoC.Resolve<ISimoPluralizer>();
         }
 
         #region Object lifetime, Disposing

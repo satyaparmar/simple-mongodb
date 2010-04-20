@@ -59,7 +59,11 @@
     <Compile Include="DataTypes\SimoKeyValues.cs" />
     <Compile Include="Commands\SimoResponseCommand.cs" />
     <Compile Include="EntityMetadata.cs" />
+    <Compile Include="IoC\ArgsExtensions.cs" />
+    <Compile Include="IoC\IoCInitializer.cs" />
+    <Compile Include="IoC\IoCRegistration.cs" />
     <Compile Include="IoC\ISimoIoC.cs" />
+    <Compile Include="IoC\ResolverKey.cs" />
     <Compile Include="IoC\SimoIoC.cs" />
     <Compile Include="ISimoSessionFactory.cs" />
     <Compile Include="ISimoEngine.cs" />
@@ -83,6 +87,10 @@
     <Compile Include="Querying\WhereQueryProperty.cs" />
     <Compile Include="Querying\QueryOptions.cs" />
     <Compile Include="Serialization\Converters\SimoRegexJsonConverter.cs" />
+    <Compile Include="Serialization\IDocumentWriter.cs" />
+    <Compile Include="Serialization\ISelectorWriter.cs" />
+    <Compile Include="Serialization\ISimoBsonWriter.cs" />
+    <Compile Include="Serialization\SelectorWriter.cs" />
     <Compile Include="SimoEngine.cs" />
     <Compile Include="SimoHelper.cs" />
     <Compile Include="SimoSessionFactory.cs" />
@@ -131,7 +139,6 @@
     <Compile Include="Serialization\BodyWriter.cs" />
     <Compile Include="Serialization\DocumentReader.cs" />
     <Compile Include="Serialization\DocumentWriter.cs" />
-    <Compile Include="Serialization\JsonSerializerFactory.cs" />
     <Compile Include="Serialization\Request.cs" />
     <Compile Include="Serialization\RequestWriter.cs" />
     <Compile Include="Serialization\Response.cs" />

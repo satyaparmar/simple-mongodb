@@ -13,7 +13,8 @@ namespace Pls.SimpleMongoDb.Serialization
         : IDisposable
     {
         private BinaryWriter _binaryWriter;
-        private DocumentWriter _documentWriter;
+        private readonly IDocumentWriter _documentWriter;
+        private readonly ISelectorWriter _selectorWriter;
 
         public Encoding Encoding
         {
@@ -24,6 +25,7 @@ namespace Pls.SimpleMongoDb.Serialization
         {
             _binaryWriter = new BinaryWriter(bodyStream, Encoding);
             _documentWriter = new DocumentWriter(bodyStream);
+            _selectorWriter = new SelectorWriter(bodyStream);
         }
 
         #region Object lifetime, Disposing
@@ -84,31 +86,31 @@ namespace Pls.SimpleMongoDb.Serialization
         public void WriteDocument(object value)
         {
             if (value is string)
-                WriteJson(value.ToString());
+                WriteJson(value.ToString(), _documentWriter);
             else if (value is SimoJson)
-                WriteJson(value as SimoJson);
+                WriteJson(value as SimoJson, _documentWriter);
             else
-                WriteAsBson(value);
+                WriteAsBson(value, _documentWriter);
         }
 
         public void WriteSelector(object value)
         {
             if (value is string || value is Query)
-                WriteJson(value.ToString());
+                WriteJson(value.ToString(), _selectorWriter);
             else if (value is SimoJson)
-                WriteJson(value as SimoJson);
+                WriteJson(value as SimoJson, _selectorWriter);
             else
-                WriteAsBson(value);
+                WriteAsBson(value, _selectorWriter);
         }
 
-        private void WriteJson(SimoJson json)
+        private void WriteJson(SimoJson json, ISimoBsonWriter writer)
         {
-            WriteAsBson(json.ToKeyValue());
+            WriteAsBson(json.ToKeyValue(), writer);
         }
 
-        private void WriteAsBson(object value)
+        private void WriteAsBson(object value, ISimoBsonWriter writer)
         {
-            _documentWriter.WriteDocument(value);
+            writer.Write(value);
         }
     }
 }

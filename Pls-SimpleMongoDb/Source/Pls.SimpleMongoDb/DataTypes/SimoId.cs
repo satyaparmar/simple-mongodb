@@ -24,7 +24,7 @@ namespace Pls.SimpleMongoDb.DataTypes
         {
             get
             {
-                return new SimoId(new byte[12], emptyBytesAreValid: true);
+                return new SimoId(new byte[12], true);
             }
         }
 
