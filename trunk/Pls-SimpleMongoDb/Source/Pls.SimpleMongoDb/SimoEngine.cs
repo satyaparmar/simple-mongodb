@@ -1,4 +1,7 @@
-﻿using Pls.SimpleMongoDb.IoC;
+﻿using System.IO;
+using Pls.SimpleMongoDb.Globalization;
+using Pls.SimpleMongoDb.IoC;
+using Pls.SimpleMongoDb.Serialization;
 
 namespace Pls.SimpleMongoDb
 {
@@ -7,7 +10,7 @@ namespace Pls.SimpleMongoDb
         public static SimoEngine Instance { get; private set; }
 
         public ISimoIoC IoC { get; private set; }
-        
+
         static SimoEngine()
         {
             Instance = new SimoEngine();
@@ -15,7 +18,10 @@ namespace Pls.SimpleMongoDb
 
         private SimoEngine()
         {
-            IoC = new SimoIoC();
+            var container = new SimoIoC();
+            IoCInitializer.InitializeIoC(container);
+
+            IoC = container;
         }
     }
 }

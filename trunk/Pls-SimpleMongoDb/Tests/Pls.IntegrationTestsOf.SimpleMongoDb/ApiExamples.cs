@@ -41,7 +41,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
                 //If you don't want pluralization, call
                 //session.SimoPluralizer.Disable(), or
                 //replace the implementation of the 
-                //SimoIoC.Instance.PluralizerFactory
+                //SimoIoC.Instance.PluralizerResolver
                 var person = new Person { Name = "Daniel", Age = 29 };
                 entityStore.Insert(person);
 

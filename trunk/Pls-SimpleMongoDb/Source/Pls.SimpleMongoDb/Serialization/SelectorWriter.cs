@@ -1,24 +1,24 @@
-using System.IO;
+﻿using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 
 namespace Pls.SimpleMongoDb.Serialization
 {
-    public class DocumentWriter 
-        : IDocumentWriter
+    public class SelectorWriter
+        : ISelectorWriter
     {
         private readonly JsonSerializer _jsonSerializer;
         private readonly BsonWriter _bsonWriter;
 
-        public DocumentWriter(Stream targetStream)
+        public SelectorWriter(Stream targetStream)
         {
-            _jsonSerializer = SimoEngine.Instance.IoC.Resolve<JsonSerializer>();
+            _jsonSerializer = SimoEngine.Instance.IoC.Resolve<JsonSerializer, ISelectorWriter>();
             _bsonWriter = new BsonWriter(targetStream) { Formatting = Formatting.None };
         }
 
-        public void Write(object document)
+        public void Write(object selector)
         {
-            _jsonSerializer.Serialize(_bsonWriter, document);
+            _jsonSerializer.Serialize(_bsonWriter, selector);
             _bsonWriter.Flush();
         }
     }

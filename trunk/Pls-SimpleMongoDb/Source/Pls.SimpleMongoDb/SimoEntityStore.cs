@@ -98,7 +98,23 @@ namespace Pls.SimpleMongoDb
             GetEntityCollection(entityName).Delete(selector);
         }
 
-        public IList<T> FindAll<T>(Action<IQueryOptions> optionsInitializer = null) 
+        public IList<T> Query<T>(Action<Query> queryInitializer, Action<IQueryOptions> optionsInitializer = null)
+            where T : class
+        {
+            var query = Querying.Query.New(queryInitializer);
+
+            return Find<T>(query, optionsInitializer);
+        }
+
+        public T QueryOne<T>(Action<Query> queryInitializer, Action<ISchemaQueryOptions> optionsInitializer = null)
+            where T : class
+        {
+            var query = Querying.Query.New(queryInitializer);
+
+            return FindOne<T>(query, optionsInitializer);
+        }
+
+        public IList<T> FindAll<T>(Action<IQueryOptions> optionsInitializer = null)
             where T : class
         {
             return Find<T>(null, optionsInitializer);
@@ -124,14 +140,6 @@ namespace Pls.SimpleMongoDb
                 optionsInitializer.Invoke(options);
 
             return FindInfered(infered, entityName, options);
-        }
-
-        public IList<T> QueryFor<T>(Action<Query> queryInitializer, Action<IQueryOptions> optionsInitializer = null)
-            where T : class
-        {
-            var query = Query.New(queryInitializer);
-
-            return Find<T>(query, optionsInitializer);
         }
 
         public IList<T> Find<T>(object selector, Action<IQueryOptions> optionsInitializer = null)
@@ -167,30 +175,37 @@ namespace Pls.SimpleMongoDb
             return GetEntityCollection(entityName).Find<T>(selector, options.GetSchema(), options.GetLimit(), options.GetSkip());
         }
 
-        public T QueryForOne<T>(Action<Query> queryInitializer, object entitySchema = null)
+        public T FindOne<T>(object selector = null, Action<ISchemaQueryOptions> optionsInitializer = null)
             where T : class
         {
-            var query = Query.New(queryInitializer);
+            var options = new QueryOptions();
 
-            return FindOne<T>(query, entitySchema);
+            if(optionsInitializer != null)
+                optionsInitializer.Invoke(options);
+
+            return GetEntityCollection<T>().FindOne<T>(selector, options.GetSchema());
         }
 
-        public T FindOne<T>(object selector, object entitySchema = null)
+        public T FindOneInfered<T>(T infered, object selector = null, Action<ISchemaQueryOptions> optionsInitializer = null)
             where T : class
         {
-            return GetEntityCollection<T>().FindOne<T>(selector, entitySchema);
+            var options = new QueryOptions();
+
+            if (optionsInitializer != null)
+                optionsInitializer.Invoke(options);
+
+            return GetEntityCollection<T>().FindOne<T>(selector, options.GetSchema());
         }
 
-        public T FindOneInfered<T>(T infered, object selector, object entitySchema = null)
+        public T FindOneInfered<T>(T infered, string entityName, object selector = null, Action<ISchemaQueryOptions> optionsInitializer = null)
             where T : class
         {
-            return GetEntityCollection<T>().FindOne<T>(selector, entitySchema);
-        }
+            var options = new QueryOptions();
 
-        public T FindOneInfered<T>(T infered, string entityName, object selector, object entitySchema = null)
-            where T : class
-        {
-            return GetEntityCollection(entityName).FindOne<T>(selector, entitySchema);
+            if (optionsInitializer != null)
+                optionsInitializer.Invoke(options);
+
+            return GetEntityCollection(entityName).FindOne<T>(selector, options.GetSchema());
         }
 
         public int Count<T>(object selector = null)

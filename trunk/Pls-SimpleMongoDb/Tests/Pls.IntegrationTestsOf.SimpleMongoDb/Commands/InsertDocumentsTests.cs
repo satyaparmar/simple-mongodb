@@ -131,14 +131,14 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
         [TestMethod]
         public void InsertSingle_TypedDocumentWithAutoId_IsStoredAndAssignedId()
         {
-            var person2Insert = new PersonWithAutoId {Name = "Daniel", Age = 29};
+            var person2Insert = new PersonWithAutoId { Name = "Daniel", Age = 29 };
 
             using (var cn = TestHelper.CreateConnection())
             {
                 var insertCommand = new InsertDocumentsCommand(cn)
                                     {
                                         FullCollectionName = Constants.Collections.PersonsFullCollectionName,
-                                        Documents = new [] {person2Insert}
+                                        Documents = new[] { person2Insert }
                                     };
                 insertCommand.Execute();
             }
@@ -166,7 +166,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Commands
                 insertCommand.Execute();
             }
 
-            var refetched = TestHelper.GetDocument<Car>(car2Insert, Constants.Collections.CarsCollectionName);
+            var refetched = TestHelper.GetDocument<Car>(new Car { RegNo = car2Insert.RegNo }, Constants.Collections.CarsCollectionName);
             Assert.IsNotNull(refetched.Owner);
             Assert.IsNull(refetched.Owner._id);
         }

@@ -76,17 +76,17 @@ namespace Pls.SimpleMongoDb
             cmd.Execute();
         }
 
-        public IList<T> FindAll<T>(object schema = null, int? limit = null, int? skip = null)
-            where T : class
-        {
-            return Find<T>(null, schema, limit, skip);
-        }
+        //public IList<T> FindAll<T>(object schema = null, int? limit = null, int? skip = null)
+        //    where T : class
+        //{
+        //    return Find<T>(null, schema, limit, skip);
+        //}
 
-        public IList<T> FindAllInfered<T>(T infered, object schema = null, int? limit = null, int? skip = null)
-            where T : class
-        {
-            return FindInfered<T>(infered, null, limit, skip);
-        }
+        //public IList<T> FindAllInfered<T>(T infered, object schema = null, int? limit = null, int? skip = null)
+        //    where T : class
+        //{
+        //    return FindInfered<T>(infered, null, limit, skip);
+        //}
 
         public IList<T> Find<T>(object selector = null, object schema = null, int? limit = null, int? skip = null)
             where T : class

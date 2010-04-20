@@ -12,7 +12,7 @@ namespace Pls.SimpleMongoDb.Serialization
         public DocumentReader(Stream documentStream)
         {
             _documentStream = documentStream;
-            _jsonSerializer = new JsonSerializerFactory().Create();
+            _jsonSerializer = SimoEngine.Instance.IoC.Resolve<JsonSerializer>();
         }
 
         public T ReadDocument<T>()
