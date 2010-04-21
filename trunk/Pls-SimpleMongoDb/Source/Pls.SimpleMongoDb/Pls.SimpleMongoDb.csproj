@@ -87,6 +87,7 @@
     <Compile Include="Querying\WhereQueryProperty.cs" />
     <Compile Include="Querying\QueryOptions.cs" />
     <Compile Include="Serialization\Converters\SimoRegexJsonConverter.cs" />
+    <Compile Include="Serialization\IDocumentReader.cs" />
     <Compile Include="Serialization\IDocumentWriter.cs" />
     <Compile Include="Serialization\ISelectorWriter.cs" />
     <Compile Include="Serialization\ISimoBsonWriter.cs" />

@@ -23,7 +23,14 @@ namespace Pls.SimpleMongoDb.IoC
                 return new SelectorWriter(stream);
             });
 
-            container.RegisterNoArgs(() =>
+            container.RegisterNoArgs<JsonSerializer, IDocumentWriter>(() =>
+                new JsonSerializer
+                {
+                    MissingMemberHandling = MissingMemberHandling.Ignore,
+                    NullValueHandling = NullValueHandling.Ignore
+                });
+
+            container.RegisterNoArgs<JsonSerializer, IDocumentReader>(() =>
                 new JsonSerializer
                 {
                     MissingMemberHandling = MissingMemberHandling.Ignore

@@ -325,7 +325,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
 
                 var persons = entityStore.Query<Person>(q => q["Tags"].Exists());
 
-                Assert.AreEqual(9, persons.Count);
+                Assert.AreEqual(6, persons.Count);
             }
         }
 
@@ -338,7 +338,7 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb.Querying
 
                 var persons = entityStore.Query<Person>(q => q["Tags"].NotExists());
 
-                Assert.AreEqual(0, persons.Count);
+                Assert.AreEqual(3, persons.Count);
             }
         }
 
