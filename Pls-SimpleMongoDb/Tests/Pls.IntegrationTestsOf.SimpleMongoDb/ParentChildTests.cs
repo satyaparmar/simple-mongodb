@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pls.IntegrationTestsOf.SimpleMongoDb.TestModel;
+using Pls.SimpleMongoDb;
 using Pls.SimpleMongoDb.DataTypes;
 
 namespace Pls.IntegrationTestsOf.SimpleMongoDb
@@ -8,6 +9,8 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
     public class ParentChildTests
         : TestBase
     {
+        private const string DbName = Constants.TestDbName;
+
         [TestMethod]
         public void NewRelation_UsingStaticTypes_ReferenceCreated()
         {
@@ -60,6 +63,24 @@ namespace Pls.IntegrationTestsOf.SimpleMongoDb
 
             Assert.AreEqual(fatherReference.Id, refetchedChild.FatherReference.Id);
             Assert.AreEqual(fatherReference.CollectionName, refetchedChild.FatherReference.CollectionName);
+        }
+
+        [TestMethod]
+        public void FindOne_ChildHasNullReferenceToParent_ReturnsChildWithNullReferenceParent()
+        {
+            var child = new Child { Name = "Isabell" };
+            TestHelper.InsertDocument(Constants.Collections.ChildsCollectionName, child);
+
+            var cn = TestHelper.CreateConnection();
+            using (var session = new SimoSession(cn))
+            {
+                var entityStore = new SimoEntityStore(session, DbName);
+
+                var refetchedChild = entityStore.FindOne<Child>(new { _id = child._id });
+
+                Assert.IsNotNull(refetchedChild, "Couldn't refetch child.");
+                Assert.IsNull(refetchedChild.FatherReference, "Fatherreference should be null.");
+            }
         }
     }
 }

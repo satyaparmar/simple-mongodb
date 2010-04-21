@@ -4,7 +4,7 @@ using Newtonsoft.Json.Bson;
 
 namespace Pls.SimpleMongoDb.Serialization
 {
-    public class DocumentReader
+    public class DocumentReader : IDocumentReader
     {
         private readonly Stream _documentStream;
         private readonly JsonSerializer _jsonSerializer;
@@ -12,7 +12,7 @@ namespace Pls.SimpleMongoDb.Serialization
         public DocumentReader(Stream documentStream)
         {
             _documentStream = documentStream;
-            _jsonSerializer = SimoEngine.Instance.IoC.Resolve<JsonSerializer>();
+            _jsonSerializer = SimoEngine.Instance.IoC.Resolve<JsonSerializer, IDocumentReader>();
         }
 
         public T ReadDocument<T>()

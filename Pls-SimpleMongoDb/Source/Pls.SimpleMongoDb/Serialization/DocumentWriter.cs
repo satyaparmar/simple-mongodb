@@ -12,7 +12,7 @@ namespace Pls.SimpleMongoDb.Serialization
 
         public DocumentWriter(Stream targetStream)
         {
-            _jsonSerializer = SimoEngine.Instance.IoC.Resolve<JsonSerializer>();
+            _jsonSerializer = SimoEngine.Instance.IoC.Resolve<JsonSerializer, IDocumentWriter>();
             _bsonWriter = new BsonWriter(targetStream) { Formatting = Formatting.None };
         }
 
